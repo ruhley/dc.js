@@ -790,7 +790,7 @@ dc.baseMixin = function (_chart) {
     var _renderLabel = false;
 
     var _title = function (d) {
-        return _chart.keyAccessor()(d) + ': ' + _chart.valueAccessor()(d);
+        return '<b>' + _chart.keyAccessor()(d) + ':</b> ' + _chart.valueAccessor()(d);
     };
     var _renderTitle = true;
     var _controlsUseVisibility = false;
@@ -2034,6 +2034,74 @@ dc.baseMixin = function (_chart) {
         return _chart;
     };
 
+    _chart._attachTitle = function(items, arc) {
+        items.on('mouseover', function(d, i) {
+                _chart._renderTitle(d, i, this, arc)
+            })
+            .on('mouseleave', _chart._removeTitle);
+    }
+
+    _chart._renderTitle = function(d, i, element, arc) {
+        var data = d;
+        if (d.data) {
+            data = d.data;
+        }
+
+        // get the tooltip
+        var tooltip = d3.select('.dc-title');
+
+        // the tooltip doesn't exist, so create it
+        if (tooltip.empty()) {
+            tooltip = d3.select('body')
+                .append('div')
+                .attr('class', 'dc-title')
+                .style('opacity', 0);
+        }
+
+        // cancel any transitions
+        tooltip.interrupt();
+
+        // set the content of the tooltip
+        tooltip.html(_title(data));
+
+        // set the standard styles
+        tooltip.style('border-color', _chart.getColor(d.layer ? d : data, i));
+
+        // calculate the position of the tooltip
+        var tooltipBounding = tooltip.node().getBoundingClientRect();
+        var style = {
+            opacity: 1,
+        };
+
+        // if a pie chart
+        if (arc) {
+            var gBounding = _chart.g().node().getBoundingClientRect();
+            var centroid = arc.centroid(d);
+
+            style.left = gBounding.left + (gBounding.width / 2) - (tooltipBounding.width / 2) + centroid[0] + window.scrollX;
+            style.top = gBounding.top + (gBounding.height / 2) - tooltipBounding.height - 10 + centroid[1] + window.scrollY;
+        // all other charts
+        } else {
+            var elBounding = element.getBoundingClientRect();
+
+            style.left = elBounding.left + (elBounding.width / 2) - (tooltipBounding.width / 2) + window.scrollX;
+            style.top = elBounding.top - tooltipBounding.height - 10 + window.scrollY;
+        }
+
+        style.top += 'px';
+        style.left += 'px';
+
+        // move the tooltip into position
+        dc.transition(tooltip, _chart.transitionDuration() / 1.5)
+            .style(style);
+    };
+
+    _chart._removeTitle = function() {
+        dc.transition(d3.select('.dc-title'), _chart.transitionDuration() / 1.5)
+            .style('opacity', 0)
+            .remove();
+    };
+
     /**
      * Turn on/off the click filter.
      * @name clickOn
@@ -2171,7 +2239,7 @@ dc.baseMixin = function (_chart) {
                         var t = line.length === 1 ? line[0] : word;
                         tspan.text(t);
 
-                        while(tspan.node().getComputedTextLength() > width) {
+                        while (tspan.node().getComputedTextLength() > width && t.length > 0) {
                             tspan.text(t + '...');
                             t = t.substring(0, t.length - 1);
                         }
@@ -4816,7 +4884,7 @@ dc.pieChart = function (parent, chartGroup) {
     _chart.colorAccessor(_chart.cappedKeyAccessor);
 
     _chart.title(function (d) {
-        return _chart.cappedKeyAccessor(d) + ': ' + _chart.cappedValueAccessor(d);
+        return '<b>' + _chart.cappedKeyAccessor(d) + ':</b> ' + _chart.cappedValueAccessor(d);
     });
 
     /**
@@ -4893,7 +4961,7 @@ dc.pieChart = function (parent, chartGroup) {
 
         createSlicePath(slicesEnter, arc);
 
-        createTitles(slicesEnter);
+        _chart._attachTitle(slicesEnter, arc);
 
         createLabels(pieData, arc);
     }
@@ -4919,14 +4987,6 @@ dc.pieChart = function (parent, chartGroup) {
         dc.transition(slicePath, _chart.transitionDuration(), function (s) {
             s.attrTween('d', tweenPie);
         });
-    }
-
-    function createTitles (slicesEnter) {
-        if (_chart.renderTitle()) {
-            slicesEnter.append('title').text(function (d) {
-                return _chart.title()(d.data);
-            });
-        }
     }
 
     function positionLabels (labelsEnter, arc) {
@@ -5474,9 +5534,7 @@ dc.barChart = function (parent, chartGroup) {
             .attr('y', _chart.yAxisHeight())
             .attr('height', 0);
 
-        if (_chart.renderTitle()) {
-            enter.append('title').text(dc.pluck('data', _chart.title(d.name)));
-        }
+        _chart._attachTitle(bars);
 
         if (_chart.isOrdinal()) {
             bars.on('click', _chart.onClick);
@@ -6014,8 +6072,9 @@ dc.lineChart = function (parent, chartGroup) {
                     .attr('cy', function (d) {
                         return dc.utils.safeNumber(_chart.y()(d.y + d.y0));
                     })
-                    .attr('fill', _chart.getColor)
-                    .call(renderTitle, d);
+                    .attr('fill', _chart.getColor);
+
+                _chart._attachTitle(dots);
 
                 dots.exit().remove();
             });
@@ -6062,13 +6121,6 @@ dc.lineChart = function (parent, chartGroup) {
     function hideRefLines (g) {
         g.select('path.' + Y_AXIS_REF_LINE_CLASS).style('display', 'none');
         g.select('path.' + X_AXIS_REF_LINE_CLASS).style('display', 'none');
-    }
-
-    function renderTitle (dot, d) {
-        if (_chart.renderTitle()) {
-            dot.selectAll('title').remove();
-            dot.append('title').text(dc.pluck('data', _chart.title(d.name)));
-        }
     }
 
     /**
@@ -8505,7 +8557,7 @@ dc.rowChart = function (parent, chartGroup) {
     };
 
     _chart.title(function (d) {
-        return _chart.cappedKeyAccessor(d) + ': ' + _chart.cappedValueAccessor(d);
+        return '<b>' + _chart.cappedKeyAccessor(d) + ':</b> ' + _chart.cappedValueAccessor(d);
     });
 
     _chart.label(_chart.cappedKeyAccessor);
@@ -8617,15 +8669,8 @@ dc.rowChart = function (parent, chartGroup) {
             })
             .attr('transform', translateX);
 
-        createTitles(rows);
+        _chart._attachTitle(rows);
         updateLabels(rows);
-    }
-
-    function createTitles (rows) {
-        if (_chart.renderTitle()) {
-            rows.selectAll('title').remove();
-            rows.append('title').text(_chart.title());
-        }
     }
 
     function createLabels (rowEnter) {
@@ -8925,8 +8970,8 @@ var chart2 = dc.pairedRowChart('#chart-container2', 'chartGroupA');
 dc.pairedRowChart = function (parent, chartGroup) {
     var _chart = dc.capMixin(dc.marginMixin(dc.colorMixin(dc.baseMixin({}))));
 
-    var _leftChartWrapper = d3.select(parent).append('div');
-    var _rightChartWrapper = d3.select(parent).append('div');
+    var _leftChartWrapper = d3.select(parent).append('div').style('width', '50%').style('display', 'inline-block');
+    var _rightChartWrapper = d3.select(parent).append('div').style('width', '50%').style('display', 'inline-block');
 
     var _leftChart = dc.rowChart(_leftChartWrapper[0][0], chartGroup);
     var _rightChart = dc.rowChart(_rightChartWrapper[0][0], chartGroup);
@@ -9028,76 +9073,21 @@ dc.pairedRowChart = function (parent, chartGroup) {
         });
     };
 
-    // width and margins
+    // margins
+    var left_margins = _leftChart.margins;
+    var right_margins = _rightChart.margins;
 
-    // the margins between the charts need to be set to 0 so that they sit together
-    var _margins = _chart.margins(); // get the default margins
-    _margins.right = _margins.left;
-
-    _chart.margins = function (_) {
-        if (!arguments.length) {
-            return _margins;
-        }
-        _margins = _;
-
-        // set left chart margins
-        _leftChart.margins({
-            top: _.top,
-            right: 0,
-            bottom: _.bottom,
-            left: _.left,
-        });
-
-        // set right chart margins
-        _rightChart.margins({
-            top: _.top,
-            right: _.right,
-            bottom: _.bottom,
-            left: 0,
-        });
-
-        return _chart;
+    _leftChart.margins = function() {
+        var margins = left_margins();
+        margins.right = 0;
+        return margins;
     };
 
-    _chart.margins(_margins); // set the new margins
-
-    // the width needs to be halved
-    var _width = 0; // get the default width
-
-    _chart.width = function (_) {
-        if (!arguments.length) {
-            return _width;
-        }
-        _width = _;
-
-        // set left chart width
-        _leftChart.width(dc.utils.isNumber(_) ? _ / 2 : _);
-
-        // set right chart width
-        _rightChart.width(dc.utils.isNumber(_) ? _ / 2 : _);
-
-        return _chart;
+    _rightChart.margins = function() {
+        var margins = right_margins();
+        margins.left = 0;
+        return margins;
     };
-
-    // the minWidth needs to be halved
-    var _minWidth = _chart.minWidth(); // get the default minWidth
-
-    _chart.minWidth = function (_) {
-        if (!arguments.length) {
-            return _minWidth;
-        }
-        _minWidth = _;
-
-        // set left chart minWidth
-        _leftChart.minWidth(dc.utils.isNumber(_) ? _ / 2 : _);
-
-        // set right chart minWidth
-        _rightChart.minWidth(dc.utils.isNumber(_) ? _ / 2 : _);
-
-        return _chart;
-    };
-
-    _chart.minWidth(_minWidth); // set the new minWidth
 
     // svg
     // return an array of both the sub chart svgs
