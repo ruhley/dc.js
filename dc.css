@@ -1,5 +1,6 @@
 div.dc-chart {
     float: left;
+    position: relative;
 }
 
 .dc-chart rect.bar {
@@ -288,4 +289,43 @@ g.dc-legend-item.fadeout {
 
 .dc-chart .deselected {
     opacity: 0.3 !important;
+}
+
+/* title */
+
+.dc-title {
+    position: absolute;
+    background: #FFFFFF;
+    z-index: 9999;
+    padding: 5px;
+    border: 2px solid #000000;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.8;
+}
+
+.dc-title:before,
+.dc-title:after {
+	top: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.dc-title:before {
+	border-color: rgba(240, 240, 240, 0);
+	border-top-color: inherit;
+	border-width: 13px;
+	margin-left: -13px;
+}
+
+.dc-title:after {
+	border-color: rgba(0, 0, 0, 0);
+	border-top-color: #FFFFFF;
+	border-width: 10px;
+	margin-left: -10px;
 }

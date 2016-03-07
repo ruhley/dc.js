@@ -1063,6 +1063,80 @@ dc.baseMixin = function (_chart) {
         d3.select(e).classed(dc.constants.DESELECTED_CLASS, false);
     };
 
+    _chart._attachTitle = function(items, arc) {
+        items.on('mouseover', function(d, i) {
+                _chart._renderTitle(d, i, this, arc)
+            })
+            .on('mouseleave', _chart._removeTitle);
+    }
+
+    _chart._renderTitle = function(d, i, element, arc) {
+        var data = d;
+        if (d.data) {
+            data = d.data;
+        }
+
+        // get the tooltip
+        var tooltip = d3.select('.dc-title');
+
+        var existed = !tooltip.empty();
+
+        // the tooltip doesn't exist, so create it
+        if (!existed) {
+            tooltip = d3.select('body')
+                .append('div')
+                .attr('class', 'dc-title')
+                .style('opacity', 0);
+        }
+
+        // cancel any transitions
+        tooltip.interrupt();
+
+        // set the content of the tooltip
+        tooltip.html(_title(data));
+
+        // set the standard styles
+        tooltip.style('border-color', _chart.getColor(d.layer ? d : data, i));
+
+        // calculate the position of the tooltip
+        var tooltipBounding = tooltip.node().getBoundingClientRect();
+        var style = {};
+
+        // if a pie chart
+        if (arc) {
+            var gBounding = _chart.g().node().getBoundingClientRect();
+            var centroid = arc.centroid(d);
+
+            style.left = gBounding.left + (gBounding.width / 2) - (tooltipBounding.width / 2) + centroid[0] + (window.scrollX || document.documentElement.scrollLeft);
+            style.top = gBounding.top + (gBounding.height / 2) - tooltipBounding.height - 10 + centroid[1] + (window.scrollY || document.documentElement.scrollTop);
+        // all other charts
+        } else {
+            var elBounding = element.getBoundingClientRect();
+
+            style.left = elBounding.left + (elBounding.width / 2) - (tooltipBounding.width / 2) + (window.scrollX || document.documentElement.scrollLeft);
+            style.top = elBounding.top - tooltipBounding.height - 10 + (window.scrollY || document.documentElement.scrollTop);
+        }
+
+        style.top += 'px';
+        style.left += 'px';
+
+        // move the tooltip into position
+        if (!existed) {
+            tooltip.style(style);
+        }
+
+        style.opacity = 1;
+
+        dc.transition(tooltip, _chart.transitionDuration() / 1.5)
+            .style(style);
+    };
+
+    _chart._removeTitle = function() {
+        dc.transition(d3.select('.dc-title'), _chart.transitionDuration() / 1.5)
+            .style('opacity', 0)
+            .remove();
+    };
+
     /**
      * This function is passed to d3 as the onClick handler for each chart. The default behavior is to
      * filter on the clicked datum (passed to the callback) and redraw the chart group.

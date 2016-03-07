@@ -243,15 +243,8 @@ dc.rowChart = function (parent, chartGroup) {
             })
             .attr('transform', translateX);
 
-        createTitles(rows);
+        _chart._attachTitle(rows);
         updateLabels(rows);
-    }
-
-    function createTitles (rows) {
-        if (_chart.renderTitle()) {
-            rows.selectAll('title').remove();
-            rows.append('title').text(_chart.title());
-        }
     }
 
     function createLabels (rowEnter) {

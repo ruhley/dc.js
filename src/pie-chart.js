@@ -120,7 +120,7 @@ dc.pieChart = function (parent, chartGroup) {
 
         createSlicePath(slicesEnter, arc);
 
-        createTitles(slicesEnter);
+        _chart._attachTitle(slicesEnter, arc);
 
         createLabels(pieData, arc);
     }
@@ -146,14 +146,6 @@ dc.pieChart = function (parent, chartGroup) {
         dc.transition(slicePath, _chart.transitionDuration(), function (s) {
             s.attrTween('d', tweenPie);
         });
-    }
-
-    function createTitles (slicesEnter) {
-        if (_chart.renderTitle()) {
-            slicesEnter.append('title').text(function (d) {
-                return _chart.title()(d.data);
-            });
-        }
     }
 
     _chart._applyLabelText = function (labels) {
@@ -235,7 +227,6 @@ dc.pieChart = function (parent, chartGroup) {
     function updateElements (pieData, arc) {
         updateSlicePaths(pieData, arc);
         updateLabels(pieData, arc);
-        updateTitles(pieData);
     }
 
     function updateSlicePaths (pieData, arc) {
@@ -262,17 +253,6 @@ dc.pieChart = function (parent, chartGroup) {
         }
     }
 
-    function updateTitles (pieData) {
-        if (_chart.renderTitle()) {
-            _g.selectAll('g.' + _sliceCssClass)
-                .data(pieData)
-                .select('title')
-                .text(function (d) {
-                    return _chart.title()(d.data);
-                });
-        }
-    }
-
     function removeElements (slices) {
         slices.exit().remove();
     }
@@ -292,6 +272,25 @@ dc.pieChart = function (parent, chartGroup) {
             });
         }
     }
+
+    /**
+     * Get or set the root g element. This method is usually used to retrieve the g element in order to
+     * overlay custom svg drawing programatically. **Caution**: The root g element is usually generated
+     * by dc.js internals, and resetting it might produce unpredictable result.
+     * @method g
+     * @memberof dc.coordinateGridMixin
+     * @instance
+     * @param {SVGElement} [gElement]
+     * @return {SVGElement}
+     * @return {dc.coordinateGridMixin}
+     */
+    _chart.g = function (gElement) {
+        if (!arguments.length) {
+            return _g;
+        }
+        _g = gElement;
+        return _chart;
+    };
 
     /**
      * Get or set the external radius padding of the pie chart. This will force the radius of the
