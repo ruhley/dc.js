@@ -1,3 +1,17 @@
+## Ruhley changes
+
+ * xAxisTickLabelRotate, yAxisTickLabelRotate, and yAxisTickIntegersOnly (fd55ef6d5f02d4a4535b70c3c1f1bf0e15b99eb1)
+ * Row chart useRightYAxis (bafe9df7da1e0cd870171fb157f21ec5bfb34d7d)
+ * row chart xAxisLabel (e6c7ba8730ee919bab1f3e02d9f4f5bc48aed3d8)
+ * Fixing up pie chart mouse events on labels (4a99e657afe5452db2770984c9041cb2f98b2cea)
+ * Fixing composite chart resetting all filters - Bugs #390, #677 and #706 (2512ba8c29494ad3cac50fddefcb5fa6b51c7a3a)
+ * New clickOn option to disable all clicking events (4f3ab2f4feb168c1fe5282b4f4c560676d42cb4a)
+ * Fixing line charts ordering potentially creating skewed lines (a66be962d5908981d1cef05fabb1390496675aa7)
+ * Changing deselected to a low opacity rather than changing to grey (d7d556c570b9d15bac9cac89718851419751fd93)
+ * Tooltip redesign (a610159de2c7a3c062dfbadf9291238c6e699be2)
+ * Implementing paired row chart (7dbb473b26b2b1906c945b6025eb93dbf33a30e4/f7c70b835fcce742d5d3d7ac11a119bf599336b6)
+
+
 ## 2.1.0
  * Heatmap allows customizing the ordering separately from the values, by Matt Traynham ([#869](https://github.com/dc-js/dc.js/pull/869) - thanks also to Quinn Lee for [#837](https://github.com/dc-js/dc.js/pull/837))
  * Front page stable version automatically read from GitHub, by Enrico Spinielli ([#865](https://github.com/dc-js/dc.js/pull/865))

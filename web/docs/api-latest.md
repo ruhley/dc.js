@@ -20,7 +20,321 @@ chart.width(300)
 ```
 
 * [dc](#dc) : <code>object</code>
-  * [.pieChart](#dc.pieChart)
+    * [.pieChart](#dc.pieChart)
+        * [new pieChart(parent, [chartGroup])](#new_dc.pieChart_new)
+        * [.slicesCap([cap])](#dc.pieChart+slicesCap) ⇒ <code>Number</code> &#124; <code>[pieChart](#dc.pieChart)</code>
+        * [.externalRadiusPadding([externalRadiusPadding])](#dc.pieChart+externalRadiusPadding) ⇒ <code>Number</code> &#124; <code>[pieChart](#dc.pieChart)</code>
+        * [.innerRadius([innerRadius])](#dc.pieChart+innerRadius) ⇒ <code>Number</code> &#124; <code>[pieChart](#dc.pieChart)</code>
+        * [.radius([radius])](#dc.pieChart+radius) ⇒ <code>Number</code> &#124; <code>[pieChart](#dc.pieChart)</code>
+        * [.cx([cx])](#dc.pieChart+cx) ⇒ <code>Number</code> &#124; <code>[pieChart](#dc.pieChart)</code>
+        * [.cy([cy])](#dc.pieChart+cy) ⇒ <code>Number</code> &#124; <code>[pieChart](#dc.pieChart)</code>
+        * [.minAngleForLabel([minAngleForLabel])](#dc.pieChart+minAngleForLabel) ⇒ <code>Number</code> &#124; <code>[pieChart](#dc.pieChart)</code>
+        * [.emptyTitle([title])](#dc.pieChart+emptyTitle) ⇒ <code>String</code> &#124; <code>[pieChart](#dc.pieChart)</code>
+        * [.externalLabels([externalLabelRadius])](#dc.pieChart+externalLabels) ⇒ <code>Number</code> &#124; <code>[pieChart](#dc.pieChart)</code>
+        * [.drawPaths([drawPaths])](#dc.pieChart+drawPaths) ⇒ <code>Boolean</code> &#124; <code>[pieChart](#dc.pieChart)</code>
+    * [.barChart](#dc.barChart)
+        * [new barChart(parent, [chartGroup])](#new_dc.barChart_new)
+        * [.centerBar([centerBar])](#dc.barChart+centerBar) ⇒ <code>Boolean</code> &#124; <code>[barChart](#dc.barChart)</code>
+        * [.barPadding([barPadding])](#dc.barChart+barPadding) ⇒ <code>Number</code> &#124; <code>[barChart](#dc.barChart)</code>
+        * [.outerPadding([padding])](#dc.barChart+outerPadding) ⇒ <code>Number</code> &#124; <code>[barChart](#dc.barChart)</code>
+        * [.gap([gap])](#dc.barChart+gap) ⇒ <code>Number</code> &#124; <code>[barChart](#dc.barChart)</code>
+        * [.alwaysUseRounding([alwaysUseRounding])](#dc.barChart+alwaysUseRounding) ⇒ <code>Boolean</code> &#124; <code>[barChart](#dc.barChart)</code>
+    * [.lineChart](#dc.lineChart)
+        * [new lineChart(parent, [chartGroup])](#new_dc.lineChart_new)
+        * [.interpolate([interpolate])](#dc.lineChart+interpolate) ⇒ <code>String</code> &#124; <code>[lineChart](#dc.lineChart)</code>
+        * [.tension([tension])](#dc.lineChart+tension) ⇒ <code>Number</code> &#124; <code>[lineChart](#dc.lineChart)</code>
+        * [.defined([defined])](#dc.lineChart+defined) ⇒ <code>function</code> &#124; <code>[lineChart](#dc.lineChart)</code>
+        * [.dashStyle([dashStyle])](#dc.lineChart+dashStyle) ⇒ <code>Array.&lt;Number&gt;</code> &#124; <code>[lineChart](#dc.lineChart)</code>
+        * [.renderArea([renderArea])](#dc.lineChart+renderArea) ⇒ <code>Boolean</code> &#124; <code>[lineChart](#dc.lineChart)</code>
+        * [.xyTipsOn([xyTipsOn])](#dc.lineChart+xyTipsOn) ⇒ <code>Boolean</code> &#124; <code>[lineChart](#dc.lineChart)</code>
+        * [.dotRadius([dotRadius])](#dc.lineChart+dotRadius) ⇒ <code>Number</code> &#124; <code>[lineChart](#dc.lineChart)</code>
+        * [.renderDataPoints([options])](#dc.lineChart+renderDataPoints) ⇒ <code>Object</code> &#124; <code>[lineChart](#dc.lineChart)</code>
+    * [.dataCount](#dc.dataCount)
+        * [new dataCount(parent, [chartGroup])](#new_dc.dataCount_new)
+        * [.html([options])](#dc.dataCount+html) ⇒ <code>Object</code> &#124; <code>[dataCount](#dc.dataCount)</code>
+        * [.formatNumber([formatter])](#dc.dataCount+formatNumber) ⇒ <code>function</code> &#124; <code>[dataCount](#dc.dataCount)</code>
+    * [.dataTable](#dc.dataTable)
+        * [new dataTable(parent, [chartGroup])](#new_dc.dataTable_new)
+        * [.size([size])](#dc.dataTable+size) ⇒ <code>Number</code> &#124; <code>[dataTable](#dc.dataTable)</code>
+        * [.beginSlice([beginSlice])](#dc.dataTable+beginSlice) ⇒ <code>Number</code> &#124; <code>[dataTable](#dc.dataTable)</code>
+        * [.endSlice([endSlice])](#dc.dataTable+endSlice) ⇒ <code>Number</code> &#124; <code>[dataTable](#dc.dataTable)</code>
+        * [.columns([columns])](#dc.dataTable+columns) ⇒ <code>Array.&lt;function()&gt;</code> &#124; <code>[dataTable](#dc.dataTable)</code>
+        * [.sortBy([sortBy])](#dc.dataTable+sortBy) ⇒ <code>function</code> &#124; <code>[dataTable](#dc.dataTable)</code>
+        * [.order([order])](#dc.dataTable+order) ⇒ <code>function</code> &#124; <code>[dataTable](#dc.dataTable)</code>
+        * [.showGroups([showGroups])](#dc.dataTable+showGroups) ⇒ <code>Boolean</code> &#124; <code>[dataTable](#dc.dataTable)</code>
+    * [.dataGrid](#dc.dataGrid)
+        * [new dataGrid(parent, [chartGroup])](#new_dc.dataGrid_new)
+        * [.beginSlice([beginSlice])](#dc.dataGrid+beginSlice) ⇒ <code>Number</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
+        * [.endSlice([endSlice])](#dc.dataGrid+endSlice) ⇒ <code>Number</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
+        * [.size([size])](#dc.dataGrid+size) ⇒ <code>Number</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
+        * [.html([html])](#dc.dataGrid+html) ⇒ <code>function</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
+        * [.htmlGroup([htmlGroup])](#dc.dataGrid+htmlGroup) ⇒ <code>function</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
+        * [.sortBy([sortByFunction])](#dc.dataGrid+sortBy) ⇒ <code>function</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
+        * [.order([order])](#dc.dataGrid+order) ⇒ <code>function</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
+    * [.bubbleChart](#dc.bubbleChart)
+        * [new bubbleChart(parent, [chartGroup])](#new_dc.bubbleChart_new)
+        * [.elasticRadius([elasticRadius])](#dc.bubbleChart+elasticRadius) ⇒ <code>Boolean</code> &#124; <code>[bubbleChart](#dc.bubbleChart)</code>
+        * [.sortBubbleSize([sortBubbleSize])](#dc.bubbleChart+sortBubbleSize) ⇒ <code>Boolean</code> &#124; <code>[bubbleChart](#dc.bubbleChart)</code>
+    * [.compositeChart](#dc.compositeChart)
+        * [new compositeChart(parent, [chartGroup])](#new_dc.compositeChart_new)
+        * [.useRightAxisGridLines([useRightAxisGridLines])](#dc.compositeChart+useRightAxisGridLines) ⇒ <code>Boolean</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
+        * [.childOptions([childOptions])](#dc.compositeChart+childOptions) ⇒ <code>Object</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
+        * [.rightYAxisLabel([rightYAxisLabel], [padding])](#dc.compositeChart+rightYAxisLabel) ⇒ <code>String</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
+        * [.compose([subChartArray])](#dc.compositeChart+compose) ⇒ <code>[compositeChart](#dc.compositeChart)</code>
+        * [.children()](#dc.compositeChart+children) ⇒ <code>[Array.&lt;baseMixin&gt;](#dc.baseMixin)</code>
+        * [.shareColors([shareColors])](#dc.compositeChart+shareColors) ⇒ <code>Boolean</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
+        * [.shareTitle([shareTitle])](#dc.compositeChart+shareTitle) ⇒ <code>Boolean</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
+        * [.rightY([yScale])](#dc.compositeChart+rightY) ⇒ <code>d3.scale</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
+        * [.alignYAxes([alignYAxes])](#dc.compositeChart+alignYAxes) ⇒ <code>Chart</code>
+        * [.rightYAxis([rightYAxis])](#dc.compositeChart+rightYAxis) ⇒ <code>d3.svg.axis</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
+    * [.seriesChart](#dc.seriesChart)
+        * [new seriesChart(parent, [chartGroup])](#new_dc.seriesChart_new)
+        * [.chart([chartFunction])](#dc.seriesChart+chart) ⇒ <code>function</code> &#124; <code>[seriesChart](#dc.seriesChart)</code>
+        * [.seriesAccessor([accessor])](#dc.seriesChart+seriesAccessor) ⇒ <code>function</code> &#124; <code>[seriesChart](#dc.seriesChart)</code>
+        * [.seriesSort([sortFunction])](#dc.seriesChart+seriesSort) ⇒ <code>function</code> &#124; <code>[seriesChart](#dc.seriesChart)</code>
+        * [.valueSort([sortFunction])](#dc.seriesChart+valueSort) ⇒ <code>function</code> &#124; <code>[seriesChart](#dc.seriesChart)</code>
+    * [.geoChoroplethChart](#dc.geoChoroplethChart)
+        * [new geoChoroplethChart(parent, [chartGroup])](#new_dc.geoChoroplethChart_new)
+        * [.overlayGeoJson(json, name, keyAccessor)](#dc.geoChoroplethChart+overlayGeoJson) ⇒ <code>[geoChoroplethChart](#dc.geoChoroplethChart)</code>
+        * [.projection([projection])](#dc.geoChoroplethChart+projection) ⇒ <code>[geoChoroplethChart](#dc.geoChoroplethChart)</code>
+        * [.geoJsons()](#dc.geoChoroplethChart+geoJsons) ⇒ <code>Array.&lt;{name:String, data: Object, accessor: function()}&gt;</code>
+        * [.geoPath()](#dc.geoChoroplethChart+geoPath) ⇒ <code>d3.geo.path</code>
+        * [.removeGeoJson(name)](#dc.geoChoroplethChart+removeGeoJson) ⇒ <code>[geoChoroplethChart](#dc.geoChoroplethChart)</code>
+    * [.bubbleOverlay](#dc.bubbleOverlay)
+        * [new bubbleOverlay(parent, [chartGroup])](#new_dc.bubbleOverlay_new)
+        * [.svg([imageElement])](#dc.bubbleOverlay+svg) ⇒ <code>[bubbleOverlay](#dc.bubbleOverlay)</code>
+        * [.point(name, x, y)](#dc.bubbleOverlay+point) ⇒ <code>[bubbleOverlay](#dc.bubbleOverlay)</code>
+    * [.rowChart](#dc.rowChart)
+        * [new rowChart(parent, [chartGroup])](#new_dc.rowChart_new)
+        * [.x([scale])](#dc.rowChart+x) ⇒ <code>d3.scale</code> &#124; <code>[rowChart](#dc.rowChart)</code>
+        * [.renderTitleLabel([renderTitleLabel])](#dc.rowChart+renderTitleLabel) ⇒ <code>Boolean</code> &#124; <code>[rowChart](#dc.rowChart)</code>
+        * [.xAxis()](#dc.rowChart+xAxis) ⇒ <code>d3.svg.axis</code>
+        * [.fixedBarHeight([fixedBarHeight])](#dc.rowChart+fixedBarHeight) ⇒ <code>Boolean</code> &#124; <code>Number</code> &#124; <code>[rowChart](#dc.rowChart)</code>
+        * [.gap([gap])](#dc.rowChart+gap) ⇒ <code>Number</code> &#124; <code>[rowChart](#dc.rowChart)</code>
+        * [.elasticX([elasticX])](#dc.rowChart+elasticX) ⇒ <code>Boolean</code> &#124; <code>[rowChart](#dc.rowChart)</code>
+        * [.labelOffsetX([labelOffsetX])](#dc.rowChart+labelOffsetX) ⇒ <code>Number</code> &#124; <code>[rowChart](#dc.rowChart)</code>
+        * [.labelOffsetY([labelOffsety])](#dc.rowChart+labelOffsetY) ⇒ <code>Number</code> &#124; <code>[rowChart](#dc.rowChart)</code>
+        * [.titleLabelOffsetX([titleLabelOffsetX])](#dc.rowChart+titleLabelOffsetX) ⇒ <code>Number</code> &#124; <code>[rowChart](#dc.rowChart)</code>
+    * [.pairedRowChart](#dc.pairedRowChart)
+        * [new pairedRowChart(parent, [chartGroup])](#new_dc.pairedRowChart_new)
+    * [.legend](#dc.legend)
+        * [new legend()](#new_dc.legend_new)
+        * [.x([x])](#dc.legend+x) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
+        * [.y([y])](#dc.legend+y) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
+        * [.gap([gap])](#dc.legend+gap) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
+        * [.itemHeight([itemHeight])](#dc.legend+itemHeight) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
+        * [.horizontal([horizontal])](#dc.legend+horizontal) ⇒ <code>Boolean</code> &#124; <code>[legend](#dc.legend)</code>
+        * [.legendWidth([legendWidth])](#dc.legend+legendWidth) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
+        * [.itemWidth([itemWidth])](#dc.legend+itemWidth) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
+        * [.autoItemWidth([autoItemWidth])](#dc.legend+autoItemWidth) ⇒ <code>Boolean</code> &#124; <code>[legend](#dc.legend)</code>
+    * [.scatterPlot](#dc.scatterPlot)
+        * [new scatterPlot(parent, [chartGroup])](#new_dc.scatterPlot_new)
+        * [.existenceAccessor([accessor])](#dc.scatterPlot+existenceAccessor) ⇒ <code>function</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
+        * [.symbol([type])](#dc.scatterPlot+symbol) ⇒ <code>String</code> &#124; <code>function</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
+        * [.symbolSize([symbolSize])](#dc.scatterPlot+symbolSize) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
+        * [.highlightedSize([highlightedSize])](#dc.scatterPlot+highlightedSize) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
+        * [.excludedSize([excludedSize])](#dc.scatterPlot+excludedSize) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
+        * [.excludedColor([excludedColor])](#dc.scatterPlot+excludedColor) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
+        * [.excludedOpacity([excludedOpacity])](#dc.scatterPlot+excludedOpacity) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
+        * [.emptySize([emptySize])](#dc.scatterPlot+emptySize) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
+    * [.numberDisplay](#dc.numberDisplay)
+        * [new numberDisplay(parent, [chartGroup])](#new_dc.numberDisplay_new)
+        * [.html([html])](#dc.numberDisplay+html) ⇒ <code>Object</code> &#124; <code>[numberDisplay](#dc.numberDisplay)</code>
+        * [.value()](#dc.numberDisplay+value) ⇒ <code>Number</code>
+        * [.formatNumber([formatter])](#dc.numberDisplay+formatNumber) ⇒ <code>function</code> &#124; <code>[numberDisplay](#dc.numberDisplay)</code>
+    * [.heatMap](#dc.heatMap)
+        * [new heatMap(parent, [chartGroup])](#new_dc.heatMap_new)
+        * [.colsLabel([labelFunction])](#dc.heatMap+colsLabel) ⇒ <code>function</code> &#124; <code>[heatMap](#dc.heatMap)</code>
+        * [.rowsLabel([labelFunction])](#dc.heatMap+rowsLabel) ⇒ <code>function</code> &#124; <code>[heatMap](#dc.heatMap)</code>
+        * [.rows([rows])](#dc.heatMap+rows) ⇒ <code>Array.&lt;(String\|Number)&gt;</code> &#124; <code>[heatMap](#dc.heatMap)</code>
+        * [.cols([cols])](#dc.heatMap+cols) ⇒ <code>Array.&lt;(String\|Number)&gt;</code> &#124; <code>[heatMap](#dc.heatMap)</code>
+        * [.boxOnClick([handler])](#dc.heatMap+boxOnClick) ⇒ <code>function</code> &#124; <code>[heatMap](#dc.heatMap)</code>
+        * [.xAxisOnClick([handler])](#dc.heatMap+xAxisOnClick) ⇒ <code>function</code> &#124; <code>[heatMap](#dc.heatMap)</code>
+        * [.yAxisOnClick([handler])](#dc.heatMap+yAxisOnClick) ⇒ <code>function</code> &#124; <code>[heatMap](#dc.heatMap)</code>
+        * [.xBorderRadius([xBorderRadius])](#dc.heatMap+xBorderRadius) ⇒ <code>Number</code> &#124; <code>[heatMap](#dc.heatMap)</code>
+        * [.yBorderRadius([yBorderRadius])](#dc.heatMap+yBorderRadius) ⇒ <code>Number</code> &#124; <code>[heatMap](#dc.heatMap)</code>
+    * [.boxPlot](#dc.boxPlot)
+        * [new boxPlot(parent, [chartGroup])](#new_dc.boxPlot_new)
+        * [.boxPadding([padding])](#dc.boxPlot+boxPadding) ⇒ <code>Number</code> &#124; <code>[boxPlot](#dc.boxPlot)</code>
+        * [.outerPadding([padding])](#dc.boxPlot+outerPadding) ⇒ <code>Number</code> &#124; <code>[boxPlot](#dc.boxPlot)</code>
+        * [.boxWidth([boxWidth])](#dc.boxPlot+boxWidth) ⇒ <code>Number</code> &#124; <code>function</code> &#124; <code>[boxPlot](#dc.boxPlot)</code>
+        * [.tickFormat([tickFormat])](#dc.boxPlot+tickFormat) ⇒ <code>Number</code> &#124; <code>function</code> &#124; <code>[boxPlot](#dc.boxPlot)</code>
+    * [.selectMenu](#dc.selectMenu)
+        * [new selectMenu(parent, [chartGroup])](#new_dc.selectMenu_new)
+        * [.order](#dc.selectMenu+order)
+        * [.promptText](#dc.selectMenu+promptText)
+        * [.filterDisplayed](#dc.selectMenu+filterDisplayed)
+        * [.multiple](#dc.selectMenu+multiple)
+        * [.size](#dc.selectMenu+size)
+    * [.baseMixin](#dc.baseMixin) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+        * [.clickOn](#dc.baseMixin+clickOn) ⇒ <code>Boolean</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.height([height])](#dc.baseMixin+height) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.width([width])](#dc.baseMixin+width) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.minWidth([minWidth])](#dc.baseMixin+minWidth) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.minHeight([minHeight])](#dc.baseMixin+minHeight) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.dimension([dimension])](#dc.baseMixin+dimension) ⇒ <code>crossfilter.dimension</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.data([callback])](#dc.baseMixin+data) ⇒ <code>\*</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.group([group], [name])](#dc.baseMixin+group) ⇒ <code>crossfilter.group</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.ordering([orderFunction])](#dc.baseMixin+ordering) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.filterAll()](#dc.baseMixin+filterAll) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+        * [.select()](#dc.baseMixin+select) ⇒ <code>d3.selection</code>
+        * [.selectAll()](#dc.baseMixin+selectAll) ⇒ <code>d3.selection</code>
+        * [.anchor([parent], [chartGroup])](#dc.baseMixin+anchor) ⇒ <code>String</code> &#124; <code>node</code> &#124; <code>d3.selection</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.anchorName()](#dc.baseMixin+anchorName) ⇒ <code>String</code>
+        * [.root([rootElement])](#dc.baseMixin+root) ⇒ <code>HTMLElement</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.svg([svgElement])](#dc.baseMixin+svg) ⇒ <code>SVGElement</code> &#124; <code>d3.selection</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.resetSvg()](#dc.baseMixin+resetSvg) ⇒ <code>SVGElement</code>
+        * [.filterPrinter([filterPrinterFunction])](#dc.baseMixin+filterPrinter) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.controlsUseVisibility([controlsUseVisibility])](#dc.baseMixin+controlsUseVisibility) ⇒ <code>Boolean</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.turnOnControls()](#dc.baseMixin+turnOnControls) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+        * [.turnOffControls()](#dc.baseMixin+turnOffControls) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+        * [.transitionDuration([duration])](#dc.baseMixin+transitionDuration) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.render()](#dc.baseMixin+render) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+        * [.redraw()](#dc.baseMixin+redraw) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+        * [.commitHandler()](#dc.baseMixin+commitHandler) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+        * [.redrawGroup()](#dc.baseMixin+redrawGroup) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+        * [.renderGroup()](#dc.baseMixin+renderGroup) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+        * [.hasFilterHandler([hasFilterHandler])](#dc.baseMixin+hasFilterHandler) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.hasFilter([filter])](#dc.baseMixin+hasFilter) ⇒ <code>Boolean</code>
+        * [.removeFilterHandler([removeFilterHandler])](#dc.baseMixin+removeFilterHandler) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.addFilterHandler([addFilterHandler])](#dc.baseMixin+addFilterHandler) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.resetFilterHandler([resetFilterHandler])](#dc.baseMixin+resetFilterHandler) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+        * [.filter([filter])](#dc.baseMixin+filter) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+        * [.filters()](#dc.baseMixin+filters) ⇒ <code>Array.&lt;\*&gt;</code>
+        * [.onClick(datum)](#dc.baseMixin+onClick)
+        * [.filterHandler([filterHandler])](#dc.baseMixin+filterHandler) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.keyAccessor([keyAccessor])](#dc.baseMixin+keyAccessor) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.valueAccessor([valueAccessor])](#dc.baseMixin+valueAccessor) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.label([labelFunction], [enableLabels])](#dc.baseMixin+label) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.renderLabel([renderLabel])](#dc.baseMixin+renderLabel) ⇒ <code>Boolean</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.title([titleFunction])](#dc.baseMixin+title) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.renderTitle([renderTitle])](#dc.baseMixin+renderTitle) ⇒ <code>Boolean</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * ~~[.renderlet(renderletFunction)](#dc.baseMixin+renderlet) ⇒ <code>[baseMixin](#dc.baseMixin)</code>~~
+        * [.chartGroup([chartGroup])](#dc.baseMixin+chartGroup) ⇒ <code>String</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.expireCache()](#dc.baseMixin+expireCache) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+        * [.legend([legend])](#dc.baseMixin+legend) ⇒ <code>[legend](#dc.legend)</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+        * [.chartID()](#dc.baseMixin+chartID) ⇒ <code>String</code>
+        * [.options(opts)](#dc.baseMixin+options) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+        * [.on(event, listener)](#dc.baseMixin+on) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+    * [.marginMixin](#dc.marginMixin) ⇒ <code>[marginMixin](#dc.marginMixin)</code>
+        * [.margins([margins])](#dc.marginMixin+margins) ⇒ <code>Object</code> &#124; <code>[marginMixin](#dc.marginMixin)</code>
+    * [.colorMixin](#dc.colorMixin) ⇒ <code>[colorMixin](#dc.colorMixin)</code>
+        * [.colors([colorScale])](#dc.colorMixin+colors) ⇒ <code>d3.scale</code> &#124; <code>[colorMixin](#dc.colorMixin)</code>
+        * [.ordinalColors(r)](#dc.colorMixin+ordinalColors) ⇒ <code>[colorMixin](#dc.colorMixin)</code>
+        * [.linearColors(r)](#dc.colorMixin+linearColors) ⇒ <code>[colorMixin](#dc.colorMixin)</code>
+        * [.colorAccessor([colorAccessor])](#dc.colorMixin+colorAccessor) ⇒ <code>function</code> &#124; <code>[colorMixin](#dc.colorMixin)</code>
+        * [.colorDomain([domain])](#dc.colorMixin+colorDomain) ⇒ <code>Array.&lt;String&gt;</code> &#124; <code>[colorMixin](#dc.colorMixin)</code>
+        * [.calculateColorDomain()](#dc.colorMixin+calculateColorDomain) ⇒ <code>[colorMixin](#dc.colorMixin)</code>
+        * [.getColor(d, [i])](#dc.colorMixin+getColor) ⇒ <code>String</code>
+        * [.colorCalculator([colorCalculator])](#dc.colorMixin+colorCalculator) ⇒ <code>\*</code>
+    * [.coordinateGridMixin](#dc.coordinateGridMixin) ⇒ <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.xAxisTickLabelRotate](#dc.coordinateGridMixin+xAxisTickLabelRotate) ⇒ <code>Number</code>
+        * [.yAxisTickLabelRotate](#dc.coordinateGridMixin+yAxisTickLabelRotate) ⇒ <code>Number</code>
+        * [.yAxisTickIntegersOnly](#dc.coordinateGridMixin+yAxisTickIntegersOnly) ⇒ <code>Boolean</code>
+        * [.xAxisLabel](#dc.coordinateGridMixin+xAxisLabel) ⇒ <code>String</code>
+        * [.rescale()](#dc.coordinateGridMixin+rescale) ⇒ <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.rangeChart([rangeChart])](#dc.coordinateGridMixin+rangeChart) ⇒ <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.zoomScale([extent])](#dc.coordinateGridMixin+zoomScale) ⇒ <code>Array.&lt;(Number\|Date)&gt;</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.zoomOutRestrict([zoomOutRestrict])](#dc.coordinateGridMixin+zoomOutRestrict) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.g([gElement])](#dc.coordinateGridMixin+g) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.mouseZoomable([mouseZoomable])](#dc.coordinateGridMixin+mouseZoomable) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.chartBodyG([chartBodyG])](#dc.coordinateGridMixin+chartBodyG) ⇒ <code>SVGElement</code>
+        * [.x([xScale])](#dc.coordinateGridMixin+x) ⇒ <code>d3.scale</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.xUnits([xUnits])](#dc.coordinateGridMixin+xUnits) ⇒ <code>function</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.xAxis([xAxis])](#dc.coordinateGridMixin+xAxis) ⇒ <code>d3.svg.axis</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.elasticX([elasticX])](#dc.coordinateGridMixin+elasticX) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.xAxisPadding([padding])](#dc.coordinateGridMixin+xAxisPadding) ⇒ <code>Number</code> &#124; <code>String</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.xUnitCount()](#dc.coordinateGridMixin+xUnitCount) ⇒ <code>Number</code>
+        * [.useRightYAxis([useRightYAxis])](#dc.coordinateGridMixin+useRightYAxis) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.isOrdinal()](#dc.coordinateGridMixin+isOrdinal) ⇒ <code>Boolean</code>
+        * [.xAxisLabel([labelText], [padding])](#dc.coordinateGridMixin+xAxisLabel) ⇒ <code>String</code>
+        * [.yAxisLabel([labelText], [padding])](#dc.coordinateGridMixin+yAxisLabel) ⇒ <code>String</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.y([yScale])](#dc.coordinateGridMixin+y) ⇒ <code>d3.scale</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.yAxis([yAxis])](#dc.coordinateGridMixin+yAxis) ⇒ <code>d3.svg.axis</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.elasticY([elasticY])](#dc.coordinateGridMixin+elasticY) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.renderHorizontalGridLines([renderHorizontalGridLines])](#dc.coordinateGridMixin+renderHorizontalGridLines) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.renderVerticalGridLines([renderVerticalGridLines])](#dc.coordinateGridMixin+renderVerticalGridLines) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.xAxisMin()](#dc.coordinateGridMixin+xAxisMin) ⇒ <code>\*</code>
+        * [.xAxisMax()](#dc.coordinateGridMixin+xAxisMax) ⇒ <code>\*</code>
+        * [.yAxisMin()](#dc.coordinateGridMixin+yAxisMin) ⇒ <code>\*</code>
+        * [.yAxisMax()](#dc.coordinateGridMixin+yAxisMax) ⇒ <code>\*</code>
+        * [.yAxisPadding([padding])](#dc.coordinateGridMixin+yAxisPadding) ⇒ <code>Number</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.round([round])](#dc.coordinateGridMixin+round) ⇒ <code>function</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.clipPadding([padding])](#dc.coordinateGridMixin+clipPadding) ⇒ <code>Number</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.focus([range])](#dc.coordinateGridMixin+focus)
+        * [.brushOn([brushOn])](#dc.coordinateGridMixin+brushOn) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.g([gElement])](#dc.coordinateGridMixin+g) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.g([gElement])](#dc.coordinateGridMixin+g) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.stackMixin](#dc.stackMixin) ⇒ <code>[stackMixin](#dc.stackMixin)</code>
+        * [.stack(group, [name], [accessor])](#dc.stackMixin+stack) ⇒ <code>Array.&lt;{group: crossfilter.group, name: String, accessor: function()}&gt;</code> &#124; <code>[stackMixin](#dc.stackMixin)</code>
+        * [.hidableStacks([hidableStacks])](#dc.stackMixin+hidableStacks) ⇒ <code>Boolean</code> &#124; <code>[stackMixin](#dc.stackMixin)</code>
+        * [.hideStack(stackName)](#dc.stackMixin+hideStack) ⇒ <code>[stackMixin](#dc.stackMixin)</code>
+        * [.showStack(stackName)](#dc.stackMixin+showStack) ⇒ <code>[stackMixin](#dc.stackMixin)</code>
+        * [.title([stackName], [titleAccessor])](#dc.stackMixin+title) ⇒ <code>String</code> &#124; <code>[stackMixin](#dc.stackMixin)</code>
+        * [.stackLayout([stack])](#dc.stackMixin+stackLayout) ⇒ <code>function</code> &#124; <code>[stackMixin](#dc.stackMixin)</code>
+    * [.capMixin](#dc.capMixin) ⇒ <code>[capMixin](#dc.capMixin)</code>
+        * [.cap([count])](#dc.capMixin+cap) ⇒ <code>Number</code> &#124; <code>[capMixin](#dc.capMixin)</code>
+        * [.othersLabel([label])](#dc.capMixin+othersLabel) ⇒ <code>String</code> &#124; <code>[capMixin](#dc.capMixin)</code>
+        * [.othersGrouper([grouperFunction])](#dc.capMixin+othersGrouper) ⇒ <code>function</code> &#124; <code>[capMixin](#dc.capMixin)</code>
+    * [.bubbleMixin](#dc.bubbleMixin) ⇒ <code>[bubbleMixin](#dc.bubbleMixin)</code>
+        * [.r([bubbleRadiusScale])](#dc.bubbleMixin+r) ⇒ <code>d3.scale</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
+        * [.radiusValueAccessor([radiusValueAccessor])](#dc.bubbleMixin+radiusValueAccessor) ⇒ <code>function</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
+        * [.minRadius([radius])](#dc.bubbleMixin+minRadius) ⇒ <code>Number</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
+        * [.minRadiusWithLabel([radius])](#dc.bubbleMixin+minRadiusWithLabel) ⇒ <code>Number</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
+        * [.maxBubbleRelativeSize([relativeSize])](#dc.bubbleMixin+maxBubbleRelativeSize) ⇒ <code>Number</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
+    * [.rowMixin](#dc.rowMixin) ⇒ <code>[rowChart](#dc.rowChart)</code>
+    * [.dateFormat](#dc.dateFormat) : <code>function</code>
+    * [.chartRegistry](#dc.chartRegistry) : <code>object</code>
+        * [.has(chart)](#dc.chartRegistry.has) ⇒ <code>Boolean</code>
+        * [.register(chart, [group])](#dc.chartRegistry.register)
+        * [.deregister(chart, [group])](#dc.chartRegistry.deregister)
+        * [.clear(group)](#dc.chartRegistry.clear)
+        * [.list([group])](#dc.chartRegistry.list) ⇒ <code>Array.&lt;Object&gt;</code>
+    * [.units](#dc.units) : <code>object</code>
+        * [.fp](#dc.units.fp) : <code>object</code>
+            * [.precision(precision)](#dc.units.fp.precision) ⇒ <code>function</code>
+        * [.integers(start, end)](#dc.units.integers) ⇒ <code>Number</code>
+        * [.ordinal(start, end, domain)](#dc.units.ordinal) ⇒ <code>Array.&lt;String&gt;</code>
+    * [.printers](#dc.printers) : <code>object</code>
+        * [.filters(filters)](#dc.printers.filters) ⇒ <code>String</code>
+        * [.filter(filter)](#dc.printers.filter) ⇒ <code>String</code>
+    * [.utils](#dc.utils) : <code>object</code>
+        * [.printSingleValue(filter)](#dc.utils.printSingleValue) ⇒ <code>String</code>
+        * [.add(l, r)](#dc.utils.add) ⇒ <code>String</code> &#124; <code>Date</code> &#124; <code>Number</code>
+        * [.subtract(l, r)](#dc.utils.subtract) ⇒ <code>String</code> &#124; <code>Date</code> &#124; <code>Number</code>
+        * [.isNumber(n)](#dc.utils.isNumber) ⇒ <code>Boolean</code>
+        * [.isFloat(n)](#dc.utils.isFloat) ⇒ <code>Boolean</code>
+        * [.isInteger(n)](#dc.utils.isInteger) ⇒ <code>Boolean</code>
+        * [.isNegligible(n)](#dc.utils.isNegligible) ⇒ <code>Boolean</code>
+        * [.clamp(val, min, max)](#dc.utils.clamp) ⇒ <code>any</code>
+        * [.uniqueId()](#dc.utils.uniqueId) ⇒ <code>Number</code>
+        * [.nameToId(name)](#dc.utils.nameToId) ⇒ <code>String</code>
+        * [.appendOrSelect(parent, selector, tag)](#dc.utils.appendOrSelect) ⇒ <code>d3.selection</code>
+        * [.safeNumber(n)](#dc.utils.safeNumber) ⇒ <code>Number</code>
+    * [.filters](#dc.filters) : <code>object</code>
+        * [.RangedFilter](#dc.filters.RangedFilter)
+            * [new RangedFilter(low, high)](#new_dc.filters.RangedFilter_new)
+        * [.TwoDimensionalFilter](#dc.filters.TwoDimensionalFilter)
+            * [new TwoDimensionalFilter(filter)](#new_dc.filters.TwoDimensionalFilter_new)
+        * [.RangedTwoDimensionalFilter](#dc.filters.RangedTwoDimensionalFilter)
+            * [new RangedTwoDimensionalFilter(filter)](#new_dc.filters.RangedTwoDimensionalFilter_new)
+    * [.registerChart(chart, [group])](#dc.registerChart)
+    * [.deregisterChart(chart, [group])](#dc.deregisterChart)
+    * [.hasChart(chart)](#dc.hasChart) ⇒ <code>Boolean</code>
+    * [.deregisterAllCharts(group)](#dc.deregisterAllCharts)
+    * [.filterAll([group])](#dc.filterAll)
+    * [.refocusAll([group])](#dc.refocusAll)
+    * [.renderAll([group])](#dc.renderAll)
+    * [.redrawAll([group])](#dc.redrawAll)
+    * [.disableTransitions()](#dc.disableTransitions) ⇒ <code>Boolean</code>
+    * [.pluck(n, [f])](#dc.pluck) ⇒ <code>function</code>
+
+<a name="dc.pieChart"></a>
+### dc.pieChart
+**Kind**: static class of <code>[dc](#dc)</code>  
+**Mixes**: <code>[capMixin](#dc.capMixin)</code>, <code>[colorMixin](#dc.colorMixin)</code>, <code>[baseMixin](#dc.baseMixin)</code>  
+
+* [.pieChart](#dc.pieChart)
     * [new pieChart(parent, [chartGroup])](#new_dc.pieChart_new)
     * [.slicesCap([cap])](#dc.pieChart+slicesCap) ⇒ <code>Number</code> &#124; <code>[pieChart](#dc.pieChart)</code>
     * [.externalRadiusPadding([externalRadiusPadding])](#dc.pieChart+externalRadiusPadding) ⇒ <code>Number</code> &#124; <code>[pieChart](#dc.pieChart)</code>
@@ -32,310 +346,6 @@ chart.width(300)
     * [.emptyTitle([title])](#dc.pieChart+emptyTitle) ⇒ <code>String</code> &#124; <code>[pieChart](#dc.pieChart)</code>
     * [.externalLabels([externalLabelRadius])](#dc.pieChart+externalLabels) ⇒ <code>Number</code> &#124; <code>[pieChart](#dc.pieChart)</code>
     * [.drawPaths([drawPaths])](#dc.pieChart+drawPaths) ⇒ <code>Boolean</code> &#124; <code>[pieChart](#dc.pieChart)</code>
-  * [.barChart](#dc.barChart)
-    * [new barChart(parent, [chartGroup])](#new_dc.barChart_new)
-    * [.centerBar([centerBar])](#dc.barChart+centerBar) ⇒ <code>Boolean</code> &#124; <code>[barChart](#dc.barChart)</code>
-    * [.barPadding([barPadding])](#dc.barChart+barPadding) ⇒ <code>Number</code> &#124; <code>[barChart](#dc.barChart)</code>
-    * [.outerPadding([padding])](#dc.barChart+outerPadding) ⇒ <code>Number</code> &#124; <code>[barChart](#dc.barChart)</code>
-    * [.gap([gap])](#dc.barChart+gap) ⇒ <code>Number</code> &#124; <code>[barChart](#dc.barChart)</code>
-    * [.alwaysUseRounding([alwaysUseRounding])](#dc.barChart+alwaysUseRounding) ⇒ <code>Boolean</code> &#124; <code>[barChart](#dc.barChart)</code>
-  * [.lineChart](#dc.lineChart)
-    * [new lineChart(parent, [chartGroup])](#new_dc.lineChart_new)
-    * [.interpolate([interpolate])](#dc.lineChart+interpolate) ⇒ <code>String</code> &#124; <code>[lineChart](#dc.lineChart)</code>
-    * [.tension([tension])](#dc.lineChart+tension) ⇒ <code>Number</code> &#124; <code>[lineChart](#dc.lineChart)</code>
-    * [.defined([defined])](#dc.lineChart+defined) ⇒ <code>function</code> &#124; <code>[lineChart](#dc.lineChart)</code>
-    * [.dashStyle([dashStyle])](#dc.lineChart+dashStyle) ⇒ <code>Array.&lt;Number&gt;</code> &#124; <code>[lineChart](#dc.lineChart)</code>
-    * [.renderArea([renderArea])](#dc.lineChart+renderArea) ⇒ <code>Boolean</code> &#124; <code>[lineChart](#dc.lineChart)</code>
-    * [.xyTipsOn([xyTipsOn])](#dc.lineChart+xyTipsOn) ⇒ <code>Boolean</code> &#124; <code>[lineChart](#dc.lineChart)</code>
-    * [.dotRadius([dotRadius])](#dc.lineChart+dotRadius) ⇒ <code>Number</code> &#124; <code>[lineChart](#dc.lineChart)</code>
-    * [.renderDataPoints([options])](#dc.lineChart+renderDataPoints) ⇒ <code>Object</code> &#124; <code>[lineChart](#dc.lineChart)</code>
-  * [.dataCount](#dc.dataCount)
-    * [new dataCount(parent, [chartGroup])](#new_dc.dataCount_new)
-    * [.html([options])](#dc.dataCount+html) ⇒ <code>Object</code> &#124; <code>[dataCount](#dc.dataCount)</code>
-    * [.formatNumber([formatter])](#dc.dataCount+formatNumber) ⇒ <code>function</code> &#124; <code>[dataCount](#dc.dataCount)</code>
-  * [.dataTable](#dc.dataTable)
-    * [new dataTable(parent, [chartGroup])](#new_dc.dataTable_new)
-    * [.size([size])](#dc.dataTable+size) ⇒ <code>Number</code> &#124; <code>[dataTable](#dc.dataTable)</code>
-    * [.beginSlice([beginSlice])](#dc.dataTable+beginSlice) ⇒ <code>Number</code> &#124; <code>[dataTable](#dc.dataTable)</code>
-    * [.endSlice([endSlice])](#dc.dataTable+endSlice) ⇒ <code>Number</code> &#124; <code>[dataTable](#dc.dataTable)</code>
-    * [.columns([columns])](#dc.dataTable+columns) ⇒ <code>Array.&lt;function()&gt;</code> &#124; <code>[dataTable](#dc.dataTable)</code>
-    * [.sortBy([sortBy])](#dc.dataTable+sortBy) ⇒ <code>function</code> &#124; <code>[dataTable](#dc.dataTable)</code>
-    * [.order([order])](#dc.dataTable+order) ⇒ <code>function</code> &#124; <code>[dataTable](#dc.dataTable)</code>
-    * [.showGroups([showGroups])](#dc.dataTable+showGroups) ⇒ <code>Boolean</code> &#124; <code>[dataTable](#dc.dataTable)</code>
-  * [.dataGrid](#dc.dataGrid)
-    * [new dataGrid(parent, [chartGroup])](#new_dc.dataGrid_new)
-    * [.beginSlice([beginSlice])](#dc.dataGrid+beginSlice) ⇒ <code>Number</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
-    * [.endSlice([endSlice])](#dc.dataGrid+endSlice) ⇒ <code>Number</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
-    * [.size([size])](#dc.dataGrid+size) ⇒ <code>Number</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
-    * [.html([html])](#dc.dataGrid+html) ⇒ <code>function</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
-    * [.htmlGroup([htmlGroup])](#dc.dataGrid+htmlGroup) ⇒ <code>function</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
-    * [.sortBy([sortByFunction])](#dc.dataGrid+sortBy) ⇒ <code>function</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
-    * [.order([order])](#dc.dataGrid+order) ⇒ <code>function</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
-  * [.bubbleChart](#dc.bubbleChart)
-    * [new bubbleChart(parent, [chartGroup])](#new_dc.bubbleChart_new)
-    * [.elasticRadius([elasticRadius])](#dc.bubbleChart+elasticRadius) ⇒ <code>Boolean</code> &#124; <code>[bubbleChart](#dc.bubbleChart)</code>
-    * [.sortBubbleSize([sortBubbleSize])](#dc.bubbleChart+sortBubbleSize) ⇒ <code>Boolean</code> &#124; <code>[bubbleChart](#dc.bubbleChart)</code>
-  * [.compositeChart](#dc.compositeChart)
-    * [new compositeChart(parent, [chartGroup])](#new_dc.compositeChart_new)
-    * [.useRightAxisGridLines([useRightAxisGridLines])](#dc.compositeChart+useRightAxisGridLines) ⇒ <code>Boolean</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
-    * [.childOptions([childOptions])](#dc.compositeChart+childOptions) ⇒ <code>Object</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
-    * [.rightYAxisLabel([rightYAxisLabel], [padding])](#dc.compositeChart+rightYAxisLabel) ⇒ <code>String</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
-    * [.compose([subChartArray])](#dc.compositeChart+compose) ⇒ <code>[compositeChart](#dc.compositeChart)</code>
-    * [.children()](#dc.compositeChart+children) ⇒ <code>[Array.&lt;baseMixin&gt;](#dc.baseMixin)</code>
-    * [.shareColors([shareColors])](#dc.compositeChart+shareColors) ⇒ <code>Boolean</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
-    * [.shareTitle([shareTitle])](#dc.compositeChart+shareTitle) ⇒ <code>Boolean</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
-    * [.rightY([yScale])](#dc.compositeChart+rightY) ⇒ <code>d3.scale</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
-    * [.alignYAxes([alignYAxes])](#dc.compositeChart+alignYAxes) ⇒ <code>Chart</code>
-    * [.rightYAxis([rightYAxis])](#dc.compositeChart+rightYAxis) ⇒ <code>d3.svg.axis</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
-  * [.seriesChart](#dc.seriesChart)
-    * [new seriesChart(parent, [chartGroup])](#new_dc.seriesChart_new)
-    * [.chart([chartFunction])](#dc.seriesChart+chart) ⇒ <code>function</code> &#124; <code>[seriesChart](#dc.seriesChart)</code>
-    * [.seriesAccessor([accessor])](#dc.seriesChart+seriesAccessor) ⇒ <code>function</code> &#124; <code>[seriesChart](#dc.seriesChart)</code>
-    * [.seriesSort([sortFunction])](#dc.seriesChart+seriesSort) ⇒ <code>function</code> &#124; <code>[seriesChart](#dc.seriesChart)</code>
-    * [.valueSort([sortFunction])](#dc.seriesChart+valueSort) ⇒ <code>function</code> &#124; <code>[seriesChart](#dc.seriesChart)</code>
-  * [.geoChoroplethChart](#dc.geoChoroplethChart)
-    * [new geoChoroplethChart(parent, [chartGroup])](#new_dc.geoChoroplethChart_new)
-    * [.overlayGeoJson(json, name, keyAccessor)](#dc.geoChoroplethChart+overlayGeoJson) ⇒ <code>[geoChoroplethChart](#dc.geoChoroplethChart)</code>
-    * [.projection([projection])](#dc.geoChoroplethChart+projection) ⇒ <code>[geoChoroplethChart](#dc.geoChoroplethChart)</code>
-    * [.geoJsons()](#dc.geoChoroplethChart+geoJsons) ⇒ <code>Array.&lt;{name:String, data: Object, accessor: function()}&gt;</code>
-    * [.geoPath()](#dc.geoChoroplethChart+geoPath) ⇒ <code>d3.geo.path</code>
-    * [.removeGeoJson(name)](#dc.geoChoroplethChart+removeGeoJson) ⇒ <code>[geoChoroplethChart](#dc.geoChoroplethChart)</code>
-  * [.bubbleOverlay](#dc.bubbleOverlay)
-    * [new bubbleOverlay(parent, [chartGroup])](#new_dc.bubbleOverlay_new)
-    * [.svg([imageElement])](#dc.bubbleOverlay+svg) ⇒ <code>[bubbleOverlay](#dc.bubbleOverlay)</code>
-    * [.point(name, x, y)](#dc.bubbleOverlay+point) ⇒ <code>[bubbleOverlay](#dc.bubbleOverlay)</code>
-  * [.rowChart](#dc.rowChart)
-    * [new rowChart(parent, [chartGroup])](#new_dc.rowChart_new)
-    * [.x([scale])](#dc.rowChart+x) ⇒ <code>d3.scale</code> &#124; <code>[rowChart](#dc.rowChart)</code>
-    * [.renderTitleLabel([renderTitleLabel])](#dc.rowChart+renderTitleLabel) ⇒ <code>Boolean</code> &#124; <code>[rowChart](#dc.rowChart)</code>
-    * [.xAxis()](#dc.rowChart+xAxis) ⇒ <code>d3.svg.axis</code>
-    * [.fixedBarHeight([fixedBarHeight])](#dc.rowChart+fixedBarHeight) ⇒ <code>Boolean</code> &#124; <code>Number</code> &#124; <code>[rowChart](#dc.rowChart)</code>
-    * [.gap([gap])](#dc.rowChart+gap) ⇒ <code>Number</code> &#124; <code>[rowChart](#dc.rowChart)</code>
-    * [.elasticX([elasticX])](#dc.rowChart+elasticX) ⇒ <code>Boolean</code> &#124; <code>[rowChart](#dc.rowChart)</code>
-    * [.labelOffsetX([labelOffsetX])](#dc.rowChart+labelOffsetX) ⇒ <code>Number</code> &#124; <code>[rowChart](#dc.rowChart)</code>
-    * [.labelOffsetY([labelOffsety])](#dc.rowChart+labelOffsetY) ⇒ <code>Number</code> &#124; <code>[rowChart](#dc.rowChart)</code>
-    * [.titleLabelOffsetX([titleLabelOffsetX])](#dc.rowChart+titleLabelOffsetX) ⇒ <code>Number</code> &#124; <code>[rowChart](#dc.rowChart)</code>
-  * [.legend](#dc.legend)
-    * [new legend()](#new_dc.legend_new)
-    * [.x([x])](#dc.legend+x) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
-    * [.y([y])](#dc.legend+y) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
-    * [.gap([gap])](#dc.legend+gap) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
-    * [.itemHeight([itemHeight])](#dc.legend+itemHeight) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
-    * [.horizontal([horizontal])](#dc.legend+horizontal) ⇒ <code>Boolean</code> &#124; <code>[legend](#dc.legend)</code>
-    * [.legendWidth([legendWidth])](#dc.legend+legendWidth) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
-    * [.itemWidth([itemWidth])](#dc.legend+itemWidth) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
-    * [.autoItemWidth([autoItemWidth])](#dc.legend+autoItemWidth) ⇒ <code>Boolean</code> &#124; <code>[legend](#dc.legend)</code>
-  * [.scatterPlot](#dc.scatterPlot)
-    * [new scatterPlot(parent, [chartGroup])](#new_dc.scatterPlot_new)
-    * [.existenceAccessor([accessor])](#dc.scatterPlot+existenceAccessor) ⇒ <code>function</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
-    * [.symbol([type])](#dc.scatterPlot+symbol) ⇒ <code>String</code> &#124; <code>function</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
-    * [.symbolSize([symbolSize])](#dc.scatterPlot+symbolSize) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
-    * [.highlightedSize([highlightedSize])](#dc.scatterPlot+highlightedSize) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
-    * [.excludedSize([excludedSize])](#dc.scatterPlot+excludedSize) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
-    * [.excludedColor([excludedColor])](#dc.scatterPlot+excludedColor) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
-    * [.excludedOpacity([excludedOpacity])](#dc.scatterPlot+excludedOpacity) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
-    * [.emptySize([emptySize])](#dc.scatterPlot+emptySize) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
-  * [.numberDisplay](#dc.numberDisplay)
-    * [new numberDisplay(parent, [chartGroup])](#new_dc.numberDisplay_new)
-    * [.html([html])](#dc.numberDisplay+html) ⇒ <code>Object</code> &#124; <code>[numberDisplay](#dc.numberDisplay)</code>
-    * [.value()](#dc.numberDisplay+value) ⇒ <code>Number</code>
-    * [.formatNumber([formatter])](#dc.numberDisplay+formatNumber) ⇒ <code>function</code> &#124; <code>[numberDisplay](#dc.numberDisplay)</code>
-  * [.heatMap](#dc.heatMap)
-    * [new heatMap(parent, [chartGroup])](#new_dc.heatMap_new)
-    * [.colsLabel([labelFunction])](#dc.heatMap+colsLabel) ⇒ <code>function</code> &#124; <code>[heatMap](#dc.heatMap)</code>
-    * [.rowsLabel([labelFunction])](#dc.heatMap+rowsLabel) ⇒ <code>function</code> &#124; <code>[heatMap](#dc.heatMap)</code>
-    * [.rows([rows])](#dc.heatMap+rows) ⇒ <code>Array.&lt;(String\|Number)&gt;</code> &#124; <code>[heatMap](#dc.heatMap)</code>
-    * [.cols([cols])](#dc.heatMap+cols) ⇒ <code>Array.&lt;(String\|Number)&gt;</code> &#124; <code>[heatMap](#dc.heatMap)</code>
-    * [.boxOnClick([handler])](#dc.heatMap+boxOnClick) ⇒ <code>function</code> &#124; <code>[heatMap](#dc.heatMap)</code>
-    * [.xAxisOnClick([handler])](#dc.heatMap+xAxisOnClick) ⇒ <code>function</code> &#124; <code>[heatMap](#dc.heatMap)</code>
-    * [.yAxisOnClick([handler])](#dc.heatMap+yAxisOnClick) ⇒ <code>function</code> &#124; <code>[heatMap](#dc.heatMap)</code>
-    * [.xBorderRadius([xBorderRadius])](#dc.heatMap+xBorderRadius) ⇒ <code>Number</code> &#124; <code>[heatMap](#dc.heatMap)</code>
-    * [.yBorderRadius([yBorderRadius])](#dc.heatMap+yBorderRadius) ⇒ <code>Number</code> &#124; <code>[heatMap](#dc.heatMap)</code>
-  * [.boxPlot](#dc.boxPlot)
-    * [new boxPlot(parent, [chartGroup])](#new_dc.boxPlot_new)
-    * [.boxPadding([padding])](#dc.boxPlot+boxPadding) ⇒ <code>Number</code> &#124; <code>[boxPlot](#dc.boxPlot)</code>
-    * [.outerPadding([padding])](#dc.boxPlot+outerPadding) ⇒ <code>Number</code> &#124; <code>[boxPlot](#dc.boxPlot)</code>
-    * [.boxWidth([boxWidth])](#dc.boxPlot+boxWidth) ⇒ <code>Number</code> &#124; <code>function</code> &#124; <code>[boxPlot](#dc.boxPlot)</code>
-    * [.tickFormat([tickFormat])](#dc.boxPlot+tickFormat) ⇒ <code>Number</code> &#124; <code>function</code> &#124; <code>[boxPlot](#dc.boxPlot)</code>
-  * [.selectMenu](#dc.selectMenu)
-    * [new selectMenu(parent, [chartGroup])](#new_dc.selectMenu_new)
-    * [.order](#dc.selectMenu+order)
-    * [.promptText](#dc.selectMenu+promptText)
-    * [.filterDisplayed](#dc.selectMenu+filterDisplayed)
-    * [.multiple](#dc.selectMenu+multiple)
-    * [.size](#dc.selectMenu+size)
-  * [.baseMixin](#dc.baseMixin) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-    * [.height([height])](#dc.baseMixin+height) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.width([width])](#dc.baseMixin+width) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.minWidth([minWidth])](#dc.baseMixin+minWidth) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.minHeight([minHeight])](#dc.baseMixin+minHeight) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.dimension([dimension])](#dc.baseMixin+dimension) ⇒ <code>crossfilter.dimension</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.data([callback])](#dc.baseMixin+data) ⇒ <code>\*</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.group([group], [name])](#dc.baseMixin+group) ⇒ <code>crossfilter.group</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.ordering([orderFunction])](#dc.baseMixin+ordering) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.filterAll()](#dc.baseMixin+filterAll) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-    * [.select()](#dc.baseMixin+select) ⇒ <code>d3.selection</code>
-    * [.selectAll()](#dc.baseMixin+selectAll) ⇒ <code>d3.selection</code>
-    * [.anchor([parent], [chartGroup])](#dc.baseMixin+anchor) ⇒ <code>String</code> &#124; <code>node</code> &#124; <code>d3.selection</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.anchorName()](#dc.baseMixin+anchorName) ⇒ <code>String</code>
-    * [.root([rootElement])](#dc.baseMixin+root) ⇒ <code>HTMLElement</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.svg([svgElement])](#dc.baseMixin+svg) ⇒ <code>SVGElement</code> &#124; <code>d3.selection</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.resetSvg()](#dc.baseMixin+resetSvg) ⇒ <code>SVGElement</code>
-    * [.filterPrinter([filterPrinterFunction])](#dc.baseMixin+filterPrinter) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.controlsUseVisibility([controlsUseVisibility])](#dc.baseMixin+controlsUseVisibility) ⇒ <code>Boolean</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.turnOnControls()](#dc.baseMixin+turnOnControls) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-    * [.turnOffControls()](#dc.baseMixin+turnOffControls) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-    * [.transitionDuration([duration])](#dc.baseMixin+transitionDuration) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.render()](#dc.baseMixin+render) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-    * [.redraw()](#dc.baseMixin+redraw) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-    * [.commitHandler()](#dc.baseMixin+commitHandler) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-    * [.redrawGroup()](#dc.baseMixin+redrawGroup) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-    * [.renderGroup()](#dc.baseMixin+renderGroup) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-    * [.hasFilterHandler([hasFilterHandler])](#dc.baseMixin+hasFilterHandler) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.hasFilter([filter])](#dc.baseMixin+hasFilter) ⇒ <code>Boolean</code>
-    * [.removeFilterHandler([removeFilterHandler])](#dc.baseMixin+removeFilterHandler) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.addFilterHandler([addFilterHandler])](#dc.baseMixin+addFilterHandler) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.resetFilterHandler([resetFilterHandler])](#dc.baseMixin+resetFilterHandler) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-    * [.filter([filter])](#dc.baseMixin+filter) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-    * [.filters()](#dc.baseMixin+filters) ⇒ <code>Array.&lt;\*&gt;</code>
-    * [.onClick(datum)](#dc.baseMixin+onClick)
-    * [.filterHandler([filterHandler])](#dc.baseMixin+filterHandler) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.keyAccessor([keyAccessor])](#dc.baseMixin+keyAccessor) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.valueAccessor([valueAccessor])](#dc.baseMixin+valueAccessor) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.label([labelFunction], [enableLabels])](#dc.baseMixin+label) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.renderLabel([renderLabel])](#dc.baseMixin+renderLabel) ⇒ <code>Boolean</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.title([titleFunction])](#dc.baseMixin+title) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.renderTitle([renderTitle])](#dc.baseMixin+renderTitle) ⇒ <code>Boolean</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * ~~[.renderlet(renderletFunction)](#dc.baseMixin+renderlet) ⇒ <code>[baseMixin](#dc.baseMixin)</code>~~
-    * [.chartGroup([chartGroup])](#dc.baseMixin+chartGroup) ⇒ <code>String</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.expireCache()](#dc.baseMixin+expireCache) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-    * [.legend([legend])](#dc.baseMixin+legend) ⇒ <code>[legend](#dc.legend)</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-    * [.chartID()](#dc.baseMixin+chartID) ⇒ <code>String</code>
-    * [.options(opts)](#dc.baseMixin+options) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-    * [.on(event, listener)](#dc.baseMixin+on) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-  * [.marginMixin](#dc.marginMixin) ⇒ <code>[marginMixin](#dc.marginMixin)</code>
-    * [.margins([margins])](#dc.marginMixin+margins) ⇒ <code>Object</code> &#124; <code>[marginMixin](#dc.marginMixin)</code>
-  * [.colorMixin](#dc.colorMixin) ⇒ <code>[colorMixin](#dc.colorMixin)</code>
-    * [.colors([colorScale])](#dc.colorMixin+colors) ⇒ <code>d3.scale</code> &#124; <code>[colorMixin](#dc.colorMixin)</code>
-    * [.ordinalColors(r)](#dc.colorMixin+ordinalColors) ⇒ <code>[colorMixin](#dc.colorMixin)</code>
-    * [.linearColors(r)](#dc.colorMixin+linearColors) ⇒ <code>[colorMixin](#dc.colorMixin)</code>
-    * [.colorAccessor([colorAccessor])](#dc.colorMixin+colorAccessor) ⇒ <code>function</code> &#124; <code>[colorMixin](#dc.colorMixin)</code>
-    * [.colorDomain([domain])](#dc.colorMixin+colorDomain) ⇒ <code>Array.&lt;String&gt;</code> &#124; <code>[colorMixin](#dc.colorMixin)</code>
-    * [.calculateColorDomain()](#dc.colorMixin+calculateColorDomain) ⇒ <code>[colorMixin](#dc.colorMixin)</code>
-    * [.getColor(d, [i])](#dc.colorMixin+getColor) ⇒ <code>String</code>
-    * [.colorCalculator([colorCalculator])](#dc.colorMixin+colorCalculator) ⇒ <code>\*</code>
-  * [.coordinateGridMixin](#dc.coordinateGridMixin) ⇒ <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.rescale()](#dc.coordinateGridMixin+rescale) ⇒ <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.rangeChart([rangeChart])](#dc.coordinateGridMixin+rangeChart) ⇒ <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.zoomScale([extent])](#dc.coordinateGridMixin+zoomScale) ⇒ <code>Array.&lt;(Number\|Date)&gt;</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.zoomOutRestrict([zoomOutRestrict])](#dc.coordinateGridMixin+zoomOutRestrict) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.g([gElement])](#dc.coordinateGridMixin+g) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.mouseZoomable([mouseZoomable])](#dc.coordinateGridMixin+mouseZoomable) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.chartBodyG([chartBodyG])](#dc.coordinateGridMixin+chartBodyG) ⇒ <code>SVGElement</code>
-    * [.x([xScale])](#dc.coordinateGridMixin+x) ⇒ <code>d3.scale</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.xUnits([xUnits])](#dc.coordinateGridMixin+xUnits) ⇒ <code>function</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.xAxis([xAxis])](#dc.coordinateGridMixin+xAxis) ⇒ <code>d3.svg.axis</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.elasticX([elasticX])](#dc.coordinateGridMixin+elasticX) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.xAxisPadding([padding])](#dc.coordinateGridMixin+xAxisPadding) ⇒ <code>Number</code> &#124; <code>String</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.xUnitCount()](#dc.coordinateGridMixin+xUnitCount) ⇒ <code>Number</code>
-    * [.useRightYAxis([useRightYAxis])](#dc.coordinateGridMixin+useRightYAxis) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.isOrdinal()](#dc.coordinateGridMixin+isOrdinal) ⇒ <code>Boolean</code>
-    * [.xAxisLabel([labelText], [padding])](#dc.coordinateGridMixin+xAxisLabel) ⇒ <code>String</code>
-    * [.yAxisLabel([labelText], [padding])](#dc.coordinateGridMixin+yAxisLabel) ⇒ <code>String</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.y([yScale])](#dc.coordinateGridMixin+y) ⇒ <code>d3.scale</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.yAxis([yAxis])](#dc.coordinateGridMixin+yAxis) ⇒ <code>d3.svg.axis</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.elasticY([elasticY])](#dc.coordinateGridMixin+elasticY) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.renderHorizontalGridLines([renderHorizontalGridLines])](#dc.coordinateGridMixin+renderHorizontalGridLines) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.renderVerticalGridLines([renderVerticalGridLines])](#dc.coordinateGridMixin+renderVerticalGridLines) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.xAxisMin()](#dc.coordinateGridMixin+xAxisMin) ⇒ <code>\*</code>
-    * [.xAxisMax()](#dc.coordinateGridMixin+xAxisMax) ⇒ <code>\*</code>
-    * [.yAxisMin()](#dc.coordinateGridMixin+yAxisMin) ⇒ <code>\*</code>
-    * [.yAxisMax()](#dc.coordinateGridMixin+yAxisMax) ⇒ <code>\*</code>
-    * [.yAxisPadding([padding])](#dc.coordinateGridMixin+yAxisPadding) ⇒ <code>Number</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.round([round])](#dc.coordinateGridMixin+round) ⇒ <code>function</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.clipPadding([padding])](#dc.coordinateGridMixin+clipPadding) ⇒ <code>Number</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.focus([range])](#dc.coordinateGridMixin+focus)
-    * [.brushOn([brushOn])](#dc.coordinateGridMixin+brushOn) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.stackMixin](#dc.stackMixin) ⇒ <code>[stackMixin](#dc.stackMixin)</code>
-    * [.stack(group, [name], [accessor])](#dc.stackMixin+stack) ⇒ <code>Array.&lt;{group: crossfilter.group, name: String, accessor: function()}&gt;</code> &#124; <code>[stackMixin](#dc.stackMixin)</code>
-    * [.hidableStacks([hidableStacks])](#dc.stackMixin+hidableStacks) ⇒ <code>Boolean</code> &#124; <code>[stackMixin](#dc.stackMixin)</code>
-    * [.hideStack(stackName)](#dc.stackMixin+hideStack) ⇒ <code>[stackMixin](#dc.stackMixin)</code>
-    * [.showStack(stackName)](#dc.stackMixin+showStack) ⇒ <code>[stackMixin](#dc.stackMixin)</code>
-    * [.title([stackName], [titleAccessor])](#dc.stackMixin+title) ⇒ <code>String</code> &#124; <code>[stackMixin](#dc.stackMixin)</code>
-    * [.stackLayout([stack])](#dc.stackMixin+stackLayout) ⇒ <code>function</code> &#124; <code>[stackMixin](#dc.stackMixin)</code>
-  * [.capMixin](#dc.capMixin) ⇒ <code>[capMixin](#dc.capMixin)</code>
-    * [.cap([count])](#dc.capMixin+cap) ⇒ <code>Number</code> &#124; <code>[capMixin](#dc.capMixin)</code>
-    * [.othersLabel([label])](#dc.capMixin+othersLabel) ⇒ <code>String</code> &#124; <code>[capMixin](#dc.capMixin)</code>
-    * [.othersGrouper([grouperFunction])](#dc.capMixin+othersGrouper) ⇒ <code>function</code> &#124; <code>[capMixin](#dc.capMixin)</code>
-  * [.bubbleMixin](#dc.bubbleMixin) ⇒ <code>[bubbleMixin](#dc.bubbleMixin)</code>
-    * [.r([bubbleRadiusScale])](#dc.bubbleMixin+r) ⇒ <code>d3.scale</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
-    * [.radiusValueAccessor([radiusValueAccessor])](#dc.bubbleMixin+radiusValueAccessor) ⇒ <code>function</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
-    * [.minRadius([radius])](#dc.bubbleMixin+minRadius) ⇒ <code>Number</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
-    * [.minRadiusWithLabel([radius])](#dc.bubbleMixin+minRadiusWithLabel) ⇒ <code>Number</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
-    * [.maxBubbleRelativeSize([relativeSize])](#dc.bubbleMixin+maxBubbleRelativeSize) ⇒ <code>Number</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
-  * [.dateFormat](#dc.dateFormat) : <code>function</code>
-  * [.chartRegistry](#dc.chartRegistry) : <code>object</code>
-    * [.has(chart)](#dc.chartRegistry.has) ⇒ <code>Boolean</code>
-    * [.register(chart, [group])](#dc.chartRegistry.register)
-    * [.deregister(chart, [group])](#dc.chartRegistry.deregister)
-    * [.clear(group)](#dc.chartRegistry.clear)
-    * [.list([group])](#dc.chartRegistry.list) ⇒ <code>Array.&lt;Object&gt;</code>
-  * [.units](#dc.units) : <code>object</code>
-    * [.fp](#dc.units.fp) : <code>object</code>
-      * [.precision(precision)](#dc.units.fp.precision) ⇒ <code>function</code>
-    * [.integers(start, end)](#dc.units.integers) ⇒ <code>Number</code>
-    * [.ordinal(start, end, domain)](#dc.units.ordinal) ⇒ <code>Array.&lt;String&gt;</code>
-  * [.printers](#dc.printers) : <code>object</code>
-    * [.filters(filters)](#dc.printers.filters) ⇒ <code>String</code>
-    * [.filter(filter)](#dc.printers.filter) ⇒ <code>String</code>
-  * [.utils](#dc.utils) : <code>object</code>
-    * [.printSingleValue(filter)](#dc.utils.printSingleValue) ⇒ <code>String</code>
-    * [.add(l, r)](#dc.utils.add) ⇒ <code>String</code> &#124; <code>Date</code> &#124; <code>Number</code>
-    * [.subtract(l, r)](#dc.utils.subtract) ⇒ <code>String</code> &#124; <code>Date</code> &#124; <code>Number</code>
-    * [.isNumber(n)](#dc.utils.isNumber) ⇒ <code>Boolean</code>
-    * [.isFloat(n)](#dc.utils.isFloat) ⇒ <code>Boolean</code>
-    * [.isInteger(n)](#dc.utils.isInteger) ⇒ <code>Boolean</code>
-    * [.isNegligible(n)](#dc.utils.isNegligible) ⇒ <code>Boolean</code>
-    * [.clamp(val, min, max)](#dc.utils.clamp) ⇒ <code>any</code>
-    * [.uniqueId()](#dc.utils.uniqueId) ⇒ <code>Number</code>
-    * [.nameToId(name)](#dc.utils.nameToId) ⇒ <code>String</code>
-    * [.appendOrSelect(parent, selector, tag)](#dc.utils.appendOrSelect) ⇒ <code>d3.selection</code>
-    * [.safeNumber(n)](#dc.utils.safeNumber) ⇒ <code>Number</code>
-  * [.filters](#dc.filters) : <code>object</code>
-    * [.RangedFilter](#dc.filters.RangedFilter)
-      * [new RangedFilter(low, high)](#new_dc.filters.RangedFilter_new)
-    * [.TwoDimensionalFilter](#dc.filters.TwoDimensionalFilter)
-      * [new TwoDimensionalFilter(filter)](#new_dc.filters.TwoDimensionalFilter_new)
-    * [.RangedTwoDimensionalFilter](#dc.filters.RangedTwoDimensionalFilter)
-      * [new RangedTwoDimensionalFilter(filter)](#new_dc.filters.RangedTwoDimensionalFilter_new)
-  * [.registerChart(chart, [group])](#dc.registerChart)
-  * [.deregisterChart(chart, [group])](#dc.deregisterChart)
-  * [.hasChart(chart)](#dc.hasChart) ⇒ <code>Boolean</code>
-  * [.deregisterAllCharts(group)](#dc.deregisterAllCharts)
-  * [.filterAll([group])](#dc.filterAll)
-  * [.refocusAll([group])](#dc.refocusAll)
-  * [.renderAll([group])](#dc.renderAll)
-  * [.redrawAll([group])](#dc.redrawAll)
-  * [.disableTransitions()](#dc.disableTransitions) ⇒ <code>Boolean</code>
-  * [.pluck(n, [f])](#dc.pluck) ⇒ <code>function</code>
-
-<a name="dc.pieChart"></a>
-### dc.pieChart
-**Kind**: static class of <code>[dc](#dc)</code>  
-**Mixes**: <code>[capMixin](#dc.capMixin)</code>, <code>[colorMixin](#dc.colorMixin)</code>, <code>[baseMixin](#dc.baseMixin)</code>  
-
-* [.pieChart](#dc.pieChart)
-  * [new pieChart(parent, [chartGroup])](#new_dc.pieChart_new)
-  * [.slicesCap([cap])](#dc.pieChart+slicesCap) ⇒ <code>Number</code> &#124; <code>[pieChart](#dc.pieChart)</code>
-  * [.externalRadiusPadding([externalRadiusPadding])](#dc.pieChart+externalRadiusPadding) ⇒ <code>Number</code> &#124; <code>[pieChart](#dc.pieChart)</code>
-  * [.innerRadius([innerRadius])](#dc.pieChart+innerRadius) ⇒ <code>Number</code> &#124; <code>[pieChart](#dc.pieChart)</code>
-  * [.radius([radius])](#dc.pieChart+radius) ⇒ <code>Number</code> &#124; <code>[pieChart](#dc.pieChart)</code>
-  * [.cx([cx])](#dc.pieChart+cx) ⇒ <code>Number</code> &#124; <code>[pieChart](#dc.pieChart)</code>
-  * [.cy([cy])](#dc.pieChart+cy) ⇒ <code>Number</code> &#124; <code>[pieChart](#dc.pieChart)</code>
-  * [.minAngleForLabel([minAngleForLabel])](#dc.pieChart+minAngleForLabel) ⇒ <code>Number</code> &#124; <code>[pieChart](#dc.pieChart)</code>
-  * [.emptyTitle([title])](#dc.pieChart+emptyTitle) ⇒ <code>String</code> &#124; <code>[pieChart](#dc.pieChart)</code>
-  * [.externalLabels([externalLabelRadius])](#dc.pieChart+externalLabels) ⇒ <code>Number</code> &#124; <code>[pieChart](#dc.pieChart)</code>
-  * [.drawPaths([drawPaths])](#dc.pieChart+drawPaths) ⇒ <code>Boolean</code> &#124; <code>[pieChart](#dc.pieChart)</code>
 
 <a name="new_dc.pieChart_new"></a>
 #### new pieChart(parent, [chartGroup])
@@ -473,12 +483,12 @@ Get or set whether to draw lines from pie slices to their labels.
 **Mixes**: <code>[stackMixin](#dc.stackMixin)</code>, <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>  
 
 * [.barChart](#dc.barChart)
-  * [new barChart(parent, [chartGroup])](#new_dc.barChart_new)
-  * [.centerBar([centerBar])](#dc.barChart+centerBar) ⇒ <code>Boolean</code> &#124; <code>[barChart](#dc.barChart)</code>
-  * [.barPadding([barPadding])](#dc.barChart+barPadding) ⇒ <code>Number</code> &#124; <code>[barChart](#dc.barChart)</code>
-  * [.outerPadding([padding])](#dc.barChart+outerPadding) ⇒ <code>Number</code> &#124; <code>[barChart](#dc.barChart)</code>
-  * [.gap([gap])](#dc.barChart+gap) ⇒ <code>Number</code> &#124; <code>[barChart](#dc.barChart)</code>
-  * [.alwaysUseRounding([alwaysUseRounding])](#dc.barChart+alwaysUseRounding) ⇒ <code>Boolean</code> &#124; <code>[barChart](#dc.barChart)</code>
+    * [new barChart(parent, [chartGroup])](#new_dc.barChart_new)
+    * [.centerBar([centerBar])](#dc.barChart+centerBar) ⇒ <code>Boolean</code> &#124; <code>[barChart](#dc.barChart)</code>
+    * [.barPadding([barPadding])](#dc.barChart+barPadding) ⇒ <code>Number</code> &#124; <code>[barChart](#dc.barChart)</code>
+    * [.outerPadding([padding])](#dc.barChart+outerPadding) ⇒ <code>Number</code> &#124; <code>[barChart](#dc.barChart)</code>
+    * [.gap([gap])](#dc.barChart+gap) ⇒ <code>Number</code> &#124; <code>[barChart](#dc.barChart)</code>
+    * [.alwaysUseRounding([alwaysUseRounding])](#dc.barChart+alwaysUseRounding) ⇒ <code>Boolean</code> &#124; <code>[barChart](#dc.barChart)</code>
 
 <a name="new_dc.barChart_new"></a>
 #### new barChart(parent, [chartGroup])
@@ -574,15 +584,15 @@ chart.round(function(n) { return Math.floor(n) + 0.5; });
 **Mixes**: <code>[stackMixin](#dc.stackMixin)</code>, <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>  
 
 * [.lineChart](#dc.lineChart)
-  * [new lineChart(parent, [chartGroup])](#new_dc.lineChart_new)
-  * [.interpolate([interpolate])](#dc.lineChart+interpolate) ⇒ <code>String</code> &#124; <code>[lineChart](#dc.lineChart)</code>
-  * [.tension([tension])](#dc.lineChart+tension) ⇒ <code>Number</code> &#124; <code>[lineChart](#dc.lineChart)</code>
-  * [.defined([defined])](#dc.lineChart+defined) ⇒ <code>function</code> &#124; <code>[lineChart](#dc.lineChart)</code>
-  * [.dashStyle([dashStyle])](#dc.lineChart+dashStyle) ⇒ <code>Array.&lt;Number&gt;</code> &#124; <code>[lineChart](#dc.lineChart)</code>
-  * [.renderArea([renderArea])](#dc.lineChart+renderArea) ⇒ <code>Boolean</code> &#124; <code>[lineChart](#dc.lineChart)</code>
-  * [.xyTipsOn([xyTipsOn])](#dc.lineChart+xyTipsOn) ⇒ <code>Boolean</code> &#124; <code>[lineChart](#dc.lineChart)</code>
-  * [.dotRadius([dotRadius])](#dc.lineChart+dotRadius) ⇒ <code>Number</code> &#124; <code>[lineChart](#dc.lineChart)</code>
-  * [.renderDataPoints([options])](#dc.lineChart+renderDataPoints) ⇒ <code>Object</code> &#124; <code>[lineChart](#dc.lineChart)</code>
+    * [new lineChart(parent, [chartGroup])](#new_dc.lineChart_new)
+    * [.interpolate([interpolate])](#dc.lineChart+interpolate) ⇒ <code>String</code> &#124; <code>[lineChart](#dc.lineChart)</code>
+    * [.tension([tension])](#dc.lineChart+tension) ⇒ <code>Number</code> &#124; <code>[lineChart](#dc.lineChart)</code>
+    * [.defined([defined])](#dc.lineChart+defined) ⇒ <code>function</code> &#124; <code>[lineChart](#dc.lineChart)</code>
+    * [.dashStyle([dashStyle])](#dc.lineChart+dashStyle) ⇒ <code>Array.&lt;Number&gt;</code> &#124; <code>[lineChart](#dc.lineChart)</code>
+    * [.renderArea([renderArea])](#dc.lineChart+renderArea) ⇒ <code>Boolean</code> &#124; <code>[lineChart](#dc.lineChart)</code>
+    * [.xyTipsOn([xyTipsOn])](#dc.lineChart+xyTipsOn) ⇒ <code>Boolean</code> &#124; <code>[lineChart](#dc.lineChart)</code>
+    * [.dotRadius([dotRadius])](#dc.lineChart+dotRadius) ⇒ <code>Number</code> &#124; <code>[lineChart](#dc.lineChart)</code>
+    * [.renderDataPoints([options])](#dc.lineChart+renderDataPoints) ⇒ <code>Object</code> &#124; <code>[lineChart](#dc.lineChart)</code>
 
 <a name="new_dc.lineChart_new"></a>
 #### new lineChart(parent, [chartGroup])
@@ -735,9 +745,9 @@ chart.renderDataPoints({radius: 2, fillOpacity: 0.8, strokeOpacity: 0.8})
 **Mixes**: <code>[baseMixin](#dc.baseMixin)</code>  
 
 * [.dataCount](#dc.dataCount)
-  * [new dataCount(parent, [chartGroup])](#new_dc.dataCount_new)
-  * [.html([options])](#dc.dataCount+html) ⇒ <code>Object</code> &#124; <code>[dataCount](#dc.dataCount)</code>
-  * [.formatNumber([formatter])](#dc.dataCount+formatNumber) ⇒ <code>function</code> &#124; <code>[dataCount](#dc.dataCount)</code>
+    * [new dataCount(parent, [chartGroup])](#new_dc.dataCount_new)
+    * [.html([options])](#dc.dataCount+html) ⇒ <code>Object</code> &#124; <code>[dataCount](#dc.dataCount)</code>
+    * [.formatNumber([formatter])](#dc.dataCount+formatNumber) ⇒ <code>function</code> &#124; <code>[dataCount](#dc.dataCount)</code>
 
 <a name="new_dc.dataCount_new"></a>
 #### new dataCount(parent, [chartGroup])
@@ -808,14 +818,14 @@ counter.formatNumber(d3.format('.2g'))
 **Mixes**: <code>[baseMixin](#dc.baseMixin)</code>  
 
 * [.dataTable](#dc.dataTable)
-  * [new dataTable(parent, [chartGroup])](#new_dc.dataTable_new)
-  * [.size([size])](#dc.dataTable+size) ⇒ <code>Number</code> &#124; <code>[dataTable](#dc.dataTable)</code>
-  * [.beginSlice([beginSlice])](#dc.dataTable+beginSlice) ⇒ <code>Number</code> &#124; <code>[dataTable](#dc.dataTable)</code>
-  * [.endSlice([endSlice])](#dc.dataTable+endSlice) ⇒ <code>Number</code> &#124; <code>[dataTable](#dc.dataTable)</code>
-  * [.columns([columns])](#dc.dataTable+columns) ⇒ <code>Array.&lt;function()&gt;</code> &#124; <code>[dataTable](#dc.dataTable)</code>
-  * [.sortBy([sortBy])](#dc.dataTable+sortBy) ⇒ <code>function</code> &#124; <code>[dataTable](#dc.dataTable)</code>
-  * [.order([order])](#dc.dataTable+order) ⇒ <code>function</code> &#124; <code>[dataTable](#dc.dataTable)</code>
-  * [.showGroups([showGroups])](#dc.dataTable+showGroups) ⇒ <code>Boolean</code> &#124; <code>[dataTable](#dc.dataTable)</code>
+    * [new dataTable(parent, [chartGroup])](#new_dc.dataTable_new)
+    * [.size([size])](#dc.dataTable+size) ⇒ <code>Number</code> &#124; <code>[dataTable](#dc.dataTable)</code>
+    * [.beginSlice([beginSlice])](#dc.dataTable+beginSlice) ⇒ <code>Number</code> &#124; <code>[dataTable](#dc.dataTable)</code>
+    * [.endSlice([endSlice])](#dc.dataTable+endSlice) ⇒ <code>Number</code> &#124; <code>[dataTable](#dc.dataTable)</code>
+    * [.columns([columns])](#dc.dataTable+columns) ⇒ <code>Array.&lt;function()&gt;</code> &#124; <code>[dataTable](#dc.dataTable)</code>
+    * [.sortBy([sortBy])](#dc.dataTable+sortBy) ⇒ <code>function</code> &#124; <code>[dataTable](#dc.dataTable)</code>
+    * [.order([order])](#dc.dataTable+order) ⇒ <code>function</code> &#124; <code>[dataTable](#dc.dataTable)</code>
+    * [.showGroups([showGroups])](#dc.dataTable+showGroups) ⇒ <code>Boolean</code> &#124; <code>[dataTable](#dc.dataTable)</code>
 
 <a name="new_dc.dataTable_new"></a>
 #### new dataTable(parent, [chartGroup])
@@ -1021,14 +1031,14 @@ chart
 **Mixes**: <code>[baseMixin](#dc.baseMixin)</code>  
 
 * [.dataGrid](#dc.dataGrid)
-  * [new dataGrid(parent, [chartGroup])](#new_dc.dataGrid_new)
-  * [.beginSlice([beginSlice])](#dc.dataGrid+beginSlice) ⇒ <code>Number</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
-  * [.endSlice([endSlice])](#dc.dataGrid+endSlice) ⇒ <code>Number</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
-  * [.size([size])](#dc.dataGrid+size) ⇒ <code>Number</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
-  * [.html([html])](#dc.dataGrid+html) ⇒ <code>function</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
-  * [.htmlGroup([htmlGroup])](#dc.dataGrid+htmlGroup) ⇒ <code>function</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
-  * [.sortBy([sortByFunction])](#dc.dataGrid+sortBy) ⇒ <code>function</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
-  * [.order([order])](#dc.dataGrid+order) ⇒ <code>function</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
+    * [new dataGrid(parent, [chartGroup])](#new_dc.dataGrid_new)
+    * [.beginSlice([beginSlice])](#dc.dataGrid+beginSlice) ⇒ <code>Number</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
+    * [.endSlice([endSlice])](#dc.dataGrid+endSlice) ⇒ <code>Number</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
+    * [.size([size])](#dc.dataGrid+size) ⇒ <code>Number</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
+    * [.html([html])](#dc.dataGrid+html) ⇒ <code>function</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
+    * [.htmlGroup([htmlGroup])](#dc.dataGrid+htmlGroup) ⇒ <code>function</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
+    * [.sortBy([sortByFunction])](#dc.dataGrid+sortBy) ⇒ <code>function</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
+    * [.order([order])](#dc.dataGrid+order) ⇒ <code>function</code> &#124; <code>[dataGrid](#dc.dataGrid)</code>
 
 <a name="new_dc.dataGrid_new"></a>
 #### new dataGrid(parent, [chartGroup])
@@ -1152,9 +1162,9 @@ chart.order(d3.descending);
 **Mixes**: <code>[bubbleMixin](#dc.bubbleMixin)</code>, <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>  
 
 * [.bubbleChart](#dc.bubbleChart)
-  * [new bubbleChart(parent, [chartGroup])](#new_dc.bubbleChart_new)
-  * [.elasticRadius([elasticRadius])](#dc.bubbleChart+elasticRadius) ⇒ <code>Boolean</code> &#124; <code>[bubbleChart](#dc.bubbleChart)</code>
-  * [.sortBubbleSize([sortBubbleSize])](#dc.bubbleChart+sortBubbleSize) ⇒ <code>Boolean</code> &#124; <code>[bubbleChart](#dc.bubbleChart)</code>
+    * [new bubbleChart(parent, [chartGroup])](#new_dc.bubbleChart_new)
+    * [.elasticRadius([elasticRadius])](#dc.bubbleChart+elasticRadius) ⇒ <code>Boolean</code> &#124; <code>[bubbleChart](#dc.bubbleChart)</code>
+    * [.sortBubbleSize([sortBubbleSize])](#dc.bubbleChart+sortBubbleSize) ⇒ <code>Boolean</code> &#124; <code>[bubbleChart](#dc.bubbleChart)</code>
 
 <a name="new_dc.bubbleChart_new"></a>
 #### new bubbleChart(parent, [chartGroup])
@@ -1210,17 +1220,17 @@ bubbles will be sorted by their radius, with smaller bubbles in front.
 **Mixes**: <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>  
 
 * [.compositeChart](#dc.compositeChart)
-  * [new compositeChart(parent, [chartGroup])](#new_dc.compositeChart_new)
-  * [.useRightAxisGridLines([useRightAxisGridLines])](#dc.compositeChart+useRightAxisGridLines) ⇒ <code>Boolean</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
-  * [.childOptions([childOptions])](#dc.compositeChart+childOptions) ⇒ <code>Object</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
-  * [.rightYAxisLabel([rightYAxisLabel], [padding])](#dc.compositeChart+rightYAxisLabel) ⇒ <code>String</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
-  * [.compose([subChartArray])](#dc.compositeChart+compose) ⇒ <code>[compositeChart](#dc.compositeChart)</code>
-  * [.children()](#dc.compositeChart+children) ⇒ <code>[Array.&lt;baseMixin&gt;](#dc.baseMixin)</code>
-  * [.shareColors([shareColors])](#dc.compositeChart+shareColors) ⇒ <code>Boolean</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
-  * [.shareTitle([shareTitle])](#dc.compositeChart+shareTitle) ⇒ <code>Boolean</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
-  * [.rightY([yScale])](#dc.compositeChart+rightY) ⇒ <code>d3.scale</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
-  * [.alignYAxes([alignYAxes])](#dc.compositeChart+alignYAxes) ⇒ <code>Chart</code>
-  * [.rightYAxis([rightYAxis])](#dc.compositeChart+rightYAxis) ⇒ <code>d3.svg.axis</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
+    * [new compositeChart(parent, [chartGroup])](#new_dc.compositeChart_new)
+    * [.useRightAxisGridLines([useRightAxisGridLines])](#dc.compositeChart+useRightAxisGridLines) ⇒ <code>Boolean</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
+    * [.childOptions([childOptions])](#dc.compositeChart+childOptions) ⇒ <code>Object</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
+    * [.rightYAxisLabel([rightYAxisLabel], [padding])](#dc.compositeChart+rightYAxisLabel) ⇒ <code>String</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
+    * [.compose([subChartArray])](#dc.compositeChart+compose) ⇒ <code>[compositeChart](#dc.compositeChart)</code>
+    * [.children()](#dc.compositeChart+children) ⇒ <code>[Array.&lt;baseMixin&gt;](#dc.baseMixin)</code>
+    * [.shareColors([shareColors])](#dc.compositeChart+shareColors) ⇒ <code>Boolean</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
+    * [.shareTitle([shareTitle])](#dc.compositeChart+shareTitle) ⇒ <code>Boolean</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
+    * [.rightY([yScale])](#dc.compositeChart+rightY) ⇒ <code>d3.scale</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
+    * [.alignYAxes([alignYAxes])](#dc.compositeChart+alignYAxes) ⇒ <code>Chart</code>
+    * [.rightYAxis([rightYAxis])](#dc.compositeChart+rightYAxis) ⇒ <code>d3.svg.axis</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
 
 <a name="new_dc.compositeChart_new"></a>
 #### new compositeChart(parent, [chartGroup])
@@ -1385,11 +1395,11 @@ chart.rightYAxis().tickValues([0, 100, 200, 300]);
 **Mixes**: <code>[compositeChart](#dc.compositeChart)</code>  
 
 * [.seriesChart](#dc.seriesChart)
-  * [new seriesChart(parent, [chartGroup])](#new_dc.seriesChart_new)
-  * [.chart([chartFunction])](#dc.seriesChart+chart) ⇒ <code>function</code> &#124; <code>[seriesChart](#dc.seriesChart)</code>
-  * [.seriesAccessor([accessor])](#dc.seriesChart+seriesAccessor) ⇒ <code>function</code> &#124; <code>[seriesChart](#dc.seriesChart)</code>
-  * [.seriesSort([sortFunction])](#dc.seriesChart+seriesSort) ⇒ <code>function</code> &#124; <code>[seriesChart](#dc.seriesChart)</code>
-  * [.valueSort([sortFunction])](#dc.seriesChart+valueSort) ⇒ <code>function</code> &#124; <code>[seriesChart](#dc.seriesChart)</code>
+    * [new seriesChart(parent, [chartGroup])](#new_dc.seriesChart_new)
+    * [.chart([chartFunction])](#dc.seriesChart+chart) ⇒ <code>function</code> &#124; <code>[seriesChart](#dc.seriesChart)</code>
+    * [.seriesAccessor([accessor])](#dc.seriesChart+seriesAccessor) ⇒ <code>function</code> &#124; <code>[seriesChart](#dc.seriesChart)</code>
+    * [.seriesSort([sortFunction])](#dc.seriesChart+seriesSort) ⇒ <code>function</code> &#124; <code>[seriesChart](#dc.seriesChart)</code>
+    * [.valueSort([sortFunction])](#dc.seriesChart+valueSort) ⇒ <code>function</code> &#124; <code>[seriesChart](#dc.seriesChart)</code>
 
 <a name="new_dc.seriesChart_new"></a>
 #### new seriesChart(parent, [chartGroup])
@@ -1497,12 +1507,12 @@ _chart.valueSort(function keySort (a, b) {
 **Mixes**: <code>[colorMixin](#dc.colorMixin)</code>, <code>[baseMixin](#dc.baseMixin)</code>  
 
 * [.geoChoroplethChart](#dc.geoChoroplethChart)
-  * [new geoChoroplethChart(parent, [chartGroup])](#new_dc.geoChoroplethChart_new)
-  * [.overlayGeoJson(json, name, keyAccessor)](#dc.geoChoroplethChart+overlayGeoJson) ⇒ <code>[geoChoroplethChart](#dc.geoChoroplethChart)</code>
-  * [.projection([projection])](#dc.geoChoroplethChart+projection) ⇒ <code>[geoChoroplethChart](#dc.geoChoroplethChart)</code>
-  * [.geoJsons()](#dc.geoChoroplethChart+geoJsons) ⇒ <code>Array.&lt;{name:String, data: Object, accessor: function()}&gt;</code>
-  * [.geoPath()](#dc.geoChoroplethChart+geoPath) ⇒ <code>d3.geo.path</code>
-  * [.removeGeoJson(name)](#dc.geoChoroplethChart+removeGeoJson) ⇒ <code>[geoChoroplethChart](#dc.geoChoroplethChart)</code>
+    * [new geoChoroplethChart(parent, [chartGroup])](#new_dc.geoChoroplethChart_new)
+    * [.overlayGeoJson(json, name, keyAccessor)](#dc.geoChoroplethChart+overlayGeoJson) ⇒ <code>[geoChoroplethChart](#dc.geoChoroplethChart)</code>
+    * [.projection([projection])](#dc.geoChoroplethChart+projection) ⇒ <code>[geoChoroplethChart](#dc.geoChoroplethChart)</code>
+    * [.geoJsons()](#dc.geoChoroplethChart+geoJsons) ⇒ <code>Array.&lt;{name:String, data: Object, accessor: function()}&gt;</code>
+    * [.geoPath()](#dc.geoChoroplethChart+geoPath) ⇒ <code>d3.geo.path</code>
+    * [.removeGeoJson(name)](#dc.geoChoroplethChart+removeGeoJson) ⇒ <code>[geoChoroplethChart](#dc.geoChoroplethChart)</code>
 
 <a name="new_dc.geoChoroplethChart_new"></a>
 #### new geoChoroplethChart(parent, [chartGroup])
@@ -1602,9 +1612,9 @@ Remove a GeoJson layer from this chart by name
 **Mixes**: <code>[bubbleMixin](#dc.bubbleMixin)</code>, <code>[baseMixin](#dc.baseMixin)</code>  
 
 * [.bubbleOverlay](#dc.bubbleOverlay)
-  * [new bubbleOverlay(parent, [chartGroup])](#new_dc.bubbleOverlay_new)
-  * [.svg([imageElement])](#dc.bubbleOverlay+svg) ⇒ <code>[bubbleOverlay](#dc.bubbleOverlay)</code>
-  * [.point(name, x, y)](#dc.bubbleOverlay+point) ⇒ <code>[bubbleOverlay](#dc.bubbleOverlay)</code>
+    * [new bubbleOverlay(parent, [chartGroup])](#new_dc.bubbleOverlay_new)
+    * [.svg([imageElement])](#dc.bubbleOverlay+svg) ⇒ <code>[bubbleOverlay](#dc.bubbleOverlay)</code>
+    * [.point(name, x, y)](#dc.bubbleOverlay+point) ⇒ <code>[bubbleOverlay](#dc.bubbleOverlay)</code>
 
 <a name="new_dc.bubbleOverlay_new"></a>
 #### new bubbleOverlay(parent, [chartGroup])
@@ -1668,19 +1678,19 @@ value specified here are relative to the underlying svg.
 <a name="dc.rowChart"></a>
 ### dc.rowChart
 **Kind**: static class of <code>[dc](#dc)</code>  
-**Mixes**: <code>[capMixin](#dc.capMixin)</code>, <code>[marginMixin](#dc.marginMixin)</code>, <code>[colorMixin](#dc.colorMixin)</code>, <code>[baseMixin](#dc.baseMixin)</code>  
+**Mixes**: <code>[rowMixin](#dc.rowMixin)</code>, <code>[capMixin](#dc.capMixin)</code>, <code>[marginMixin](#dc.marginMixin)</code>, <code>[colorMixin](#dc.colorMixin)</code>, <code>[baseMixin](#dc.baseMixin)</code>  
 
 * [.rowChart](#dc.rowChart)
-  * [new rowChart(parent, [chartGroup])](#new_dc.rowChart_new)
-  * [.x([scale])](#dc.rowChart+x) ⇒ <code>d3.scale</code> &#124; <code>[rowChart](#dc.rowChart)</code>
-  * [.renderTitleLabel([renderTitleLabel])](#dc.rowChart+renderTitleLabel) ⇒ <code>Boolean</code> &#124; <code>[rowChart](#dc.rowChart)</code>
-  * [.xAxis()](#dc.rowChart+xAxis) ⇒ <code>d3.svg.axis</code>
-  * [.fixedBarHeight([fixedBarHeight])](#dc.rowChart+fixedBarHeight) ⇒ <code>Boolean</code> &#124; <code>Number</code> &#124; <code>[rowChart](#dc.rowChart)</code>
-  * [.gap([gap])](#dc.rowChart+gap) ⇒ <code>Number</code> &#124; <code>[rowChart](#dc.rowChart)</code>
-  * [.elasticX([elasticX])](#dc.rowChart+elasticX) ⇒ <code>Boolean</code> &#124; <code>[rowChart](#dc.rowChart)</code>
-  * [.labelOffsetX([labelOffsetX])](#dc.rowChart+labelOffsetX) ⇒ <code>Number</code> &#124; <code>[rowChart](#dc.rowChart)</code>
-  * [.labelOffsetY([labelOffsety])](#dc.rowChart+labelOffsetY) ⇒ <code>Number</code> &#124; <code>[rowChart](#dc.rowChart)</code>
-  * [.titleLabelOffsetX([titleLabelOffsetX])](#dc.rowChart+titleLabelOffsetX) ⇒ <code>Number</code> &#124; <code>[rowChart](#dc.rowChart)</code>
+    * [new rowChart(parent, [chartGroup])](#new_dc.rowChart_new)
+    * [.x([scale])](#dc.rowChart+x) ⇒ <code>d3.scale</code> &#124; <code>[rowChart](#dc.rowChart)</code>
+    * [.renderTitleLabel([renderTitleLabel])](#dc.rowChart+renderTitleLabel) ⇒ <code>Boolean</code> &#124; <code>[rowChart](#dc.rowChart)</code>
+    * [.xAxis()](#dc.rowChart+xAxis) ⇒ <code>d3.svg.axis</code>
+    * [.fixedBarHeight([fixedBarHeight])](#dc.rowChart+fixedBarHeight) ⇒ <code>Boolean</code> &#124; <code>Number</code> &#124; <code>[rowChart](#dc.rowChart)</code>
+    * [.gap([gap])](#dc.rowChart+gap) ⇒ <code>Number</code> &#124; <code>[rowChart](#dc.rowChart)</code>
+    * [.elasticX([elasticX])](#dc.rowChart+elasticX) ⇒ <code>Boolean</code> &#124; <code>[rowChart](#dc.rowChart)</code>
+    * [.labelOffsetX([labelOffsetX])](#dc.rowChart+labelOffsetX) ⇒ <code>Number</code> &#124; <code>[rowChart](#dc.rowChart)</code>
+    * [.labelOffsetY([labelOffsety])](#dc.rowChart+labelOffsetY) ⇒ <code>Number</code> &#124; <code>[rowChart](#dc.rowChart)</code>
+    * [.titleLabelOffsetX([titleLabelOffsetX])](#dc.rowChart+titleLabelOffsetX) ⇒ <code>Number</code> &#124; <code>[rowChart](#dc.rowChart)</code>
 
 <a name="new_dc.rowChart_new"></a>
 #### new rowChart(parent, [chartGroup])
@@ -1807,20 +1817,41 @@ Get of set the x offset (horizontal space between right edge of row and right ed
 | --- | --- | --- |
 | [titleLabelOffsetX] | <code>Number</code> | <code>2</code> | 
 
+<a name="dc.pairedRowChart"></a>
+### dc.pairedRowChart
+**Kind**: static class of <code>[dc](#dc)</code>  
+**Mixes**: <code>[rowMixin](#dc.rowMixin)</code>, <code>[capMixin](#dc.capMixin)</code>, <code>[marginMixin](#dc.marginMixin)</code>, <code>[colorMixin](#dc.colorMixin)</code>, <code>[baseMixin](#dc.baseMixin)</code>  
+<a name="new_dc.pairedRowChart_new"></a>
+#### new pairedRowChart(parent, [chartGroup])
+Concrete paired row chart implementation.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| parent | <code>String</code> &#124; <code>node</code> &#124; <code>d3.selection</code> | Any valid [d3 single selector](https://github.com/mbostock/d3/wiki/Selections#selecting-elements) specifying a dom block element such as a div; or a dom element or d3 selection. |
+| [chartGroup] | <code>String</code> | The name of the chart group this chart instance should be placed in. Interaction with a chart will only trigger events and redraws within the chart's group. |
+
+**Example**  
+```js
+// create a row chart under #chart-container1 element using the default global chart group
+var chart1 = dc.pairedRowChart('#chart-container1');
+// create a row chart under #chart-container2 element using chart group A
+var chart2 = dc.pairedRowChart('#chart-container2', 'chartGroupA');
+```
 <a name="dc.legend"></a>
 ### dc.legend
 **Kind**: static class of <code>[dc](#dc)</code>  
 
 * [.legend](#dc.legend)
-  * [new legend()](#new_dc.legend_new)
-  * [.x([x])](#dc.legend+x) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
-  * [.y([y])](#dc.legend+y) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
-  * [.gap([gap])](#dc.legend+gap) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
-  * [.itemHeight([itemHeight])](#dc.legend+itemHeight) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
-  * [.horizontal([horizontal])](#dc.legend+horizontal) ⇒ <code>Boolean</code> &#124; <code>[legend](#dc.legend)</code>
-  * [.legendWidth([legendWidth])](#dc.legend+legendWidth) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
-  * [.itemWidth([itemWidth])](#dc.legend+itemWidth) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
-  * [.autoItemWidth([autoItemWidth])](#dc.legend+autoItemWidth) ⇒ <code>Boolean</code> &#124; <code>[legend](#dc.legend)</code>
+    * [new legend()](#new_dc.legend_new)
+    * [.x([x])](#dc.legend+x) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
+    * [.y([y])](#dc.legend+y) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
+    * [.gap([gap])](#dc.legend+gap) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
+    * [.itemHeight([itemHeight])](#dc.legend+itemHeight) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
+    * [.horizontal([horizontal])](#dc.legend+horizontal) ⇒ <code>Boolean</code> &#124; <code>[legend](#dc.legend)</code>
+    * [.legendWidth([legendWidth])](#dc.legend+legendWidth) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
+    * [.itemWidth([itemWidth])](#dc.legend+itemWidth) ⇒ <code>Number</code> &#124; <code>[legend](#dc.legend)</code>
+    * [.autoItemWidth([autoItemWidth])](#dc.legend+autoItemWidth) ⇒ <code>Boolean</code> &#124; <code>[legend](#dc.legend)</code>
 
 <a name="new_dc.legend_new"></a>
 #### new legend()
@@ -1922,15 +1953,15 @@ This setting takes into account [gap](#dc.legend+gap).
 **Mixes**: <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>  
 
 * [.scatterPlot](#dc.scatterPlot)
-  * [new scatterPlot(parent, [chartGroup])](#new_dc.scatterPlot_new)
-  * [.existenceAccessor([accessor])](#dc.scatterPlot+existenceAccessor) ⇒ <code>function</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
-  * [.symbol([type])](#dc.scatterPlot+symbol) ⇒ <code>String</code> &#124; <code>function</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
-  * [.symbolSize([symbolSize])](#dc.scatterPlot+symbolSize) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
-  * [.highlightedSize([highlightedSize])](#dc.scatterPlot+highlightedSize) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
-  * [.excludedSize([excludedSize])](#dc.scatterPlot+excludedSize) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
-  * [.excludedColor([excludedColor])](#dc.scatterPlot+excludedColor) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
-  * [.excludedOpacity([excludedOpacity])](#dc.scatterPlot+excludedOpacity) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
-  * [.emptySize([emptySize])](#dc.scatterPlot+emptySize) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
+    * [new scatterPlot(parent, [chartGroup])](#new_dc.scatterPlot_new)
+    * [.existenceAccessor([accessor])](#dc.scatterPlot+existenceAccessor) ⇒ <code>function</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
+    * [.symbol([type])](#dc.scatterPlot+symbol) ⇒ <code>String</code> &#124; <code>function</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
+    * [.symbolSize([symbolSize])](#dc.scatterPlot+symbolSize) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
+    * [.highlightedSize([highlightedSize])](#dc.scatterPlot+highlightedSize) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
+    * [.excludedSize([excludedSize])](#dc.scatterPlot+excludedSize) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
+    * [.excludedColor([excludedColor])](#dc.scatterPlot+excludedColor) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
+    * [.excludedOpacity([excludedOpacity])](#dc.scatterPlot+excludedOpacity) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
+    * [.emptySize([emptySize])](#dc.scatterPlot+emptySize) ⇒ <code>Number</code> &#124; <code>[scatterPlot](#dc.scatterPlot)</code>
 
 <a name="new_dc.scatterPlot_new"></a>
 #### new scatterPlot(parent, [chartGroup])
@@ -2072,10 +2103,10 @@ Set or get radius for symbols when the group is empty.
 **Mixes**: <code>[baseMixin](#dc.baseMixin)</code>  
 
 * [.numberDisplay](#dc.numberDisplay)
-  * [new numberDisplay(parent, [chartGroup])](#new_dc.numberDisplay_new)
-  * [.html([html])](#dc.numberDisplay+html) ⇒ <code>Object</code> &#124; <code>[numberDisplay](#dc.numberDisplay)</code>
-  * [.value()](#dc.numberDisplay+value) ⇒ <code>Number</code>
-  * [.formatNumber([formatter])](#dc.numberDisplay+formatNumber) ⇒ <code>function</code> &#124; <code>[numberDisplay](#dc.numberDisplay)</code>
+    * [new numberDisplay(parent, [chartGroup])](#new_dc.numberDisplay_new)
+    * [.html([html])](#dc.numberDisplay+html) ⇒ <code>Object</code> &#124; <code>[numberDisplay](#dc.numberDisplay)</code>
+    * [.value()](#dc.numberDisplay+value) ⇒ <code>Number</code>
+    * [.formatNumber([formatter])](#dc.numberDisplay+formatNumber) ⇒ <code>function</code> &#124; <code>[numberDisplay](#dc.numberDisplay)</code>
 
 <a name="new_dc.numberDisplay_new"></a>
 #### new numberDisplay(parent, [chartGroup])
@@ -2137,16 +2168,16 @@ Get or set a function to format the value for the display.
 **Mixes**: <code>[colorMixin](#dc.colorMixin)</code>, <code>[marginMixin](#dc.marginMixin)</code>, <code>[baseMixin](#dc.baseMixin)</code>  
 
 * [.heatMap](#dc.heatMap)
-  * [new heatMap(parent, [chartGroup])](#new_dc.heatMap_new)
-  * [.colsLabel([labelFunction])](#dc.heatMap+colsLabel) ⇒ <code>function</code> &#124; <code>[heatMap](#dc.heatMap)</code>
-  * [.rowsLabel([labelFunction])](#dc.heatMap+rowsLabel) ⇒ <code>function</code> &#124; <code>[heatMap](#dc.heatMap)</code>
-  * [.rows([rows])](#dc.heatMap+rows) ⇒ <code>Array.&lt;(String\|Number)&gt;</code> &#124; <code>[heatMap](#dc.heatMap)</code>
-  * [.cols([cols])](#dc.heatMap+cols) ⇒ <code>Array.&lt;(String\|Number)&gt;</code> &#124; <code>[heatMap](#dc.heatMap)</code>
-  * [.boxOnClick([handler])](#dc.heatMap+boxOnClick) ⇒ <code>function</code> &#124; <code>[heatMap](#dc.heatMap)</code>
-  * [.xAxisOnClick([handler])](#dc.heatMap+xAxisOnClick) ⇒ <code>function</code> &#124; <code>[heatMap](#dc.heatMap)</code>
-  * [.yAxisOnClick([handler])](#dc.heatMap+yAxisOnClick) ⇒ <code>function</code> &#124; <code>[heatMap](#dc.heatMap)</code>
-  * [.xBorderRadius([xBorderRadius])](#dc.heatMap+xBorderRadius) ⇒ <code>Number</code> &#124; <code>[heatMap](#dc.heatMap)</code>
-  * [.yBorderRadius([yBorderRadius])](#dc.heatMap+yBorderRadius) ⇒ <code>Number</code> &#124; <code>[heatMap](#dc.heatMap)</code>
+    * [new heatMap(parent, [chartGroup])](#new_dc.heatMap_new)
+    * [.colsLabel([labelFunction])](#dc.heatMap+colsLabel) ⇒ <code>function</code> &#124; <code>[heatMap](#dc.heatMap)</code>
+    * [.rowsLabel([labelFunction])](#dc.heatMap+rowsLabel) ⇒ <code>function</code> &#124; <code>[heatMap](#dc.heatMap)</code>
+    * [.rows([rows])](#dc.heatMap+rows) ⇒ <code>Array.&lt;(String\|Number)&gt;</code> &#124; <code>[heatMap](#dc.heatMap)</code>
+    * [.cols([cols])](#dc.heatMap+cols) ⇒ <code>Array.&lt;(String\|Number)&gt;</code> &#124; <code>[heatMap](#dc.heatMap)</code>
+    * [.boxOnClick([handler])](#dc.heatMap+boxOnClick) ⇒ <code>function</code> &#124; <code>[heatMap](#dc.heatMap)</code>
+    * [.xAxisOnClick([handler])](#dc.heatMap+xAxisOnClick) ⇒ <code>function</code> &#124; <code>[heatMap](#dc.heatMap)</code>
+    * [.yAxisOnClick([handler])](#dc.heatMap+yAxisOnClick) ⇒ <code>function</code> &#124; <code>[heatMap](#dc.heatMap)</code>
+    * [.xBorderRadius([xBorderRadius])](#dc.heatMap+xBorderRadius) ⇒ <code>Number</code> &#124; <code>[heatMap](#dc.heatMap)</code>
+    * [.yBorderRadius([yBorderRadius])](#dc.heatMap+yBorderRadius) ⇒ <code>Number</code> &#124; <code>[heatMap](#dc.heatMap)</code>
 
 <a name="new_dc.heatMap_new"></a>
 #### new heatMap(parent, [chartGroup])
@@ -2291,11 +2322,11 @@ Gets or sets the Y border radius.  Set to 0 to get full rectangles.
 **Mixes**: <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>  
 
 * [.boxPlot](#dc.boxPlot)
-  * [new boxPlot(parent, [chartGroup])](#new_dc.boxPlot_new)
-  * [.boxPadding([padding])](#dc.boxPlot+boxPadding) ⇒ <code>Number</code> &#124; <code>[boxPlot](#dc.boxPlot)</code>
-  * [.outerPadding([padding])](#dc.boxPlot+outerPadding) ⇒ <code>Number</code> &#124; <code>[boxPlot](#dc.boxPlot)</code>
-  * [.boxWidth([boxWidth])](#dc.boxPlot+boxWidth) ⇒ <code>Number</code> &#124; <code>function</code> &#124; <code>[boxPlot](#dc.boxPlot)</code>
-  * [.tickFormat([tickFormat])](#dc.boxPlot+tickFormat) ⇒ <code>Number</code> &#124; <code>function</code> &#124; <code>[boxPlot](#dc.boxPlot)</code>
+    * [new boxPlot(parent, [chartGroup])](#new_dc.boxPlot_new)
+    * [.boxPadding([padding])](#dc.boxPlot+boxPadding) ⇒ <code>Number</code> &#124; <code>[boxPlot](#dc.boxPlot)</code>
+    * [.outerPadding([padding])](#dc.boxPlot+outerPadding) ⇒ <code>Number</code> &#124; <code>[boxPlot](#dc.boxPlot)</code>
+    * [.boxWidth([boxWidth])](#dc.boxPlot+boxWidth) ⇒ <code>Number</code> &#124; <code>function</code> &#124; <code>[boxPlot](#dc.boxPlot)</code>
+    * [.tickFormat([tickFormat])](#dc.boxPlot+tickFormat) ⇒ <code>Number</code> &#124; <code>function</code> &#124; <code>[boxPlot](#dc.boxPlot)</code>
 
 <a name="new_dc.boxPlot_new"></a>
 #### new boxPlot(parent, [chartGroup])
@@ -2384,12 +2415,12 @@ chart.tickFormat(d3.format('.2f'));
 **Mixes**: <code>[baseMixin](#dc.baseMixin)</code>  
 
 * [.selectMenu](#dc.selectMenu)
-  * [new selectMenu(parent, [chartGroup])](#new_dc.selectMenu_new)
-  * [.order](#dc.selectMenu+order)
-  * [.promptText](#dc.selectMenu+promptText)
-  * [.filterDisplayed](#dc.selectMenu+filterDisplayed)
-  * [.multiple](#dc.selectMenu+multiple)
-  * [.size](#dc.selectMenu+size)
+    * [new selectMenu(parent, [chartGroup])](#new_dc.selectMenu_new)
+    * [.order](#dc.selectMenu+order)
+    * [.promptText](#dc.selectMenu+promptText)
+    * [.filterDisplayed](#dc.selectMenu+filterDisplayed)
+    * [.multiple](#dc.selectMenu+multiple)
+    * [.size](#dc.selectMenu+size)
 
 <a name="new_dc.selectMenu_new"></a>
 #### new selectMenu(parent, [chartGroup])
@@ -2509,54 +2540,65 @@ and available on all chart implementations in the `dc` library.
 
 
 * [.baseMixin](#dc.baseMixin) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-  * [.height([height])](#dc.baseMixin+height) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.width([width])](#dc.baseMixin+width) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.minWidth([minWidth])](#dc.baseMixin+minWidth) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.minHeight([minHeight])](#dc.baseMixin+minHeight) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.dimension([dimension])](#dc.baseMixin+dimension) ⇒ <code>crossfilter.dimension</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.data([callback])](#dc.baseMixin+data) ⇒ <code>\*</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.group([group], [name])](#dc.baseMixin+group) ⇒ <code>crossfilter.group</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.ordering([orderFunction])](#dc.baseMixin+ordering) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.filterAll()](#dc.baseMixin+filterAll) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-  * [.select()](#dc.baseMixin+select) ⇒ <code>d3.selection</code>
-  * [.selectAll()](#dc.baseMixin+selectAll) ⇒ <code>d3.selection</code>
-  * [.anchor([parent], [chartGroup])](#dc.baseMixin+anchor) ⇒ <code>String</code> &#124; <code>node</code> &#124; <code>d3.selection</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.anchorName()](#dc.baseMixin+anchorName) ⇒ <code>String</code>
-  * [.root([rootElement])](#dc.baseMixin+root) ⇒ <code>HTMLElement</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.svg([svgElement])](#dc.baseMixin+svg) ⇒ <code>SVGElement</code> &#124; <code>d3.selection</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.resetSvg()](#dc.baseMixin+resetSvg) ⇒ <code>SVGElement</code>
-  * [.filterPrinter([filterPrinterFunction])](#dc.baseMixin+filterPrinter) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.controlsUseVisibility([controlsUseVisibility])](#dc.baseMixin+controlsUseVisibility) ⇒ <code>Boolean</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.turnOnControls()](#dc.baseMixin+turnOnControls) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-  * [.turnOffControls()](#dc.baseMixin+turnOffControls) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-  * [.transitionDuration([duration])](#dc.baseMixin+transitionDuration) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.render()](#dc.baseMixin+render) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-  * [.redraw()](#dc.baseMixin+redraw) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-  * [.commitHandler()](#dc.baseMixin+commitHandler) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-  * [.redrawGroup()](#dc.baseMixin+redrawGroup) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-  * [.renderGroup()](#dc.baseMixin+renderGroup) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-  * [.hasFilterHandler([hasFilterHandler])](#dc.baseMixin+hasFilterHandler) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.hasFilter([filter])](#dc.baseMixin+hasFilter) ⇒ <code>Boolean</code>
-  * [.removeFilterHandler([removeFilterHandler])](#dc.baseMixin+removeFilterHandler) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.addFilterHandler([addFilterHandler])](#dc.baseMixin+addFilterHandler) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.resetFilterHandler([resetFilterHandler])](#dc.baseMixin+resetFilterHandler) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-  * [.filter([filter])](#dc.baseMixin+filter) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-  * [.filters()](#dc.baseMixin+filters) ⇒ <code>Array.&lt;\*&gt;</code>
-  * [.onClick(datum)](#dc.baseMixin+onClick)
-  * [.filterHandler([filterHandler])](#dc.baseMixin+filterHandler) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.keyAccessor([keyAccessor])](#dc.baseMixin+keyAccessor) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.valueAccessor([valueAccessor])](#dc.baseMixin+valueAccessor) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.label([labelFunction], [enableLabels])](#dc.baseMixin+label) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.renderLabel([renderLabel])](#dc.baseMixin+renderLabel) ⇒ <code>Boolean</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.title([titleFunction])](#dc.baseMixin+title) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.renderTitle([renderTitle])](#dc.baseMixin+renderTitle) ⇒ <code>Boolean</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * ~~[.renderlet(renderletFunction)](#dc.baseMixin+renderlet) ⇒ <code>[baseMixin](#dc.baseMixin)</code>~~
-  * [.chartGroup([chartGroup])](#dc.baseMixin+chartGroup) ⇒ <code>String</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.expireCache()](#dc.baseMixin+expireCache) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-  * [.legend([legend])](#dc.baseMixin+legend) ⇒ <code>[legend](#dc.legend)</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-  * [.chartID()](#dc.baseMixin+chartID) ⇒ <code>String</code>
-  * [.options(opts)](#dc.baseMixin+options) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-  * [.on(event, listener)](#dc.baseMixin+on) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+    * [.clickOn](#dc.baseMixin+clickOn) ⇒ <code>Boolean</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.height([height])](#dc.baseMixin+height) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.width([width])](#dc.baseMixin+width) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.minWidth([minWidth])](#dc.baseMixin+minWidth) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.minHeight([minHeight])](#dc.baseMixin+minHeight) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.dimension([dimension])](#dc.baseMixin+dimension) ⇒ <code>crossfilter.dimension</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.data([callback])](#dc.baseMixin+data) ⇒ <code>\*</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.group([group], [name])](#dc.baseMixin+group) ⇒ <code>crossfilter.group</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.ordering([orderFunction])](#dc.baseMixin+ordering) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.filterAll()](#dc.baseMixin+filterAll) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+    * [.select()](#dc.baseMixin+select) ⇒ <code>d3.selection</code>
+    * [.selectAll()](#dc.baseMixin+selectAll) ⇒ <code>d3.selection</code>
+    * [.anchor([parent], [chartGroup])](#dc.baseMixin+anchor) ⇒ <code>String</code> &#124; <code>node</code> &#124; <code>d3.selection</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.anchorName()](#dc.baseMixin+anchorName) ⇒ <code>String</code>
+    * [.root([rootElement])](#dc.baseMixin+root) ⇒ <code>HTMLElement</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.svg([svgElement])](#dc.baseMixin+svg) ⇒ <code>SVGElement</code> &#124; <code>d3.selection</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.resetSvg()](#dc.baseMixin+resetSvg) ⇒ <code>SVGElement</code>
+    * [.filterPrinter([filterPrinterFunction])](#dc.baseMixin+filterPrinter) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.controlsUseVisibility([controlsUseVisibility])](#dc.baseMixin+controlsUseVisibility) ⇒ <code>Boolean</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.turnOnControls()](#dc.baseMixin+turnOnControls) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+    * [.turnOffControls()](#dc.baseMixin+turnOffControls) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+    * [.transitionDuration([duration])](#dc.baseMixin+transitionDuration) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.render()](#dc.baseMixin+render) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+    * [.redraw()](#dc.baseMixin+redraw) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+    * [.commitHandler()](#dc.baseMixin+commitHandler) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+    * [.redrawGroup()](#dc.baseMixin+redrawGroup) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+    * [.renderGroup()](#dc.baseMixin+renderGroup) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+    * [.hasFilterHandler([hasFilterHandler])](#dc.baseMixin+hasFilterHandler) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.hasFilter([filter])](#dc.baseMixin+hasFilter) ⇒ <code>Boolean</code>
+    * [.removeFilterHandler([removeFilterHandler])](#dc.baseMixin+removeFilterHandler) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.addFilterHandler([addFilterHandler])](#dc.baseMixin+addFilterHandler) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.resetFilterHandler([resetFilterHandler])](#dc.baseMixin+resetFilterHandler) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+    * [.filter([filter])](#dc.baseMixin+filter) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+    * [.filters()](#dc.baseMixin+filters) ⇒ <code>Array.&lt;\*&gt;</code>
+    * [.onClick(datum)](#dc.baseMixin+onClick)
+    * [.filterHandler([filterHandler])](#dc.baseMixin+filterHandler) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.keyAccessor([keyAccessor])](#dc.baseMixin+keyAccessor) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.valueAccessor([valueAccessor])](#dc.baseMixin+valueAccessor) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.label([labelFunction], [enableLabels])](#dc.baseMixin+label) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.renderLabel([renderLabel])](#dc.baseMixin+renderLabel) ⇒ <code>Boolean</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.title([titleFunction])](#dc.baseMixin+title) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.renderTitle([renderTitle])](#dc.baseMixin+renderTitle) ⇒ <code>Boolean</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * ~~[.renderlet(renderletFunction)](#dc.baseMixin+renderlet) ⇒ <code>[baseMixin](#dc.baseMixin)</code>~~
+    * [.chartGroup([chartGroup])](#dc.baseMixin+chartGroup) ⇒ <code>String</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.expireCache()](#dc.baseMixin+expireCache) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+    * [.legend([legend])](#dc.baseMixin+legend) ⇒ <code>[legend](#dc.legend)</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+    * [.chartID()](#dc.baseMixin+chartID) ⇒ <code>String</code>
+    * [.options(opts)](#dc.baseMixin+options) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+    * [.on(event, listener)](#dc.baseMixin+on) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+
+<a name="dc.baseMixin+clickOn"></a>
+#### baseMixin.clickOn ⇒ <code>Boolean</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
+Turn on/off the click filter.
+
+**Kind**: instance property of <code>[baseMixin](#dc.baseMixin)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [clickOn] | <code>Boolean</code> | <code>true</code> | 
 
 <a name="dc.baseMixin+height"></a>
 #### baseMixin.height([height]) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
@@ -3403,14 +3445,14 @@ as a mix-in for any concrete chart implementation.
 
 
 * [.colorMixin](#dc.colorMixin) ⇒ <code>[colorMixin](#dc.colorMixin)</code>
-  * [.colors([colorScale])](#dc.colorMixin+colors) ⇒ <code>d3.scale</code> &#124; <code>[colorMixin](#dc.colorMixin)</code>
-  * [.ordinalColors(r)](#dc.colorMixin+ordinalColors) ⇒ <code>[colorMixin](#dc.colorMixin)</code>
-  * [.linearColors(r)](#dc.colorMixin+linearColors) ⇒ <code>[colorMixin](#dc.colorMixin)</code>
-  * [.colorAccessor([colorAccessor])](#dc.colorMixin+colorAccessor) ⇒ <code>function</code> &#124; <code>[colorMixin](#dc.colorMixin)</code>
-  * [.colorDomain([domain])](#dc.colorMixin+colorDomain) ⇒ <code>Array.&lt;String&gt;</code> &#124; <code>[colorMixin](#dc.colorMixin)</code>
-  * [.calculateColorDomain()](#dc.colorMixin+calculateColorDomain) ⇒ <code>[colorMixin](#dc.colorMixin)</code>
-  * [.getColor(d, [i])](#dc.colorMixin+getColor) ⇒ <code>String</code>
-  * [.colorCalculator([colorCalculator])](#dc.colorMixin+colorCalculator) ⇒ <code>\*</code>
+    * [.colors([colorScale])](#dc.colorMixin+colors) ⇒ <code>d3.scale</code> &#124; <code>[colorMixin](#dc.colorMixin)</code>
+    * [.ordinalColors(r)](#dc.colorMixin+ordinalColors) ⇒ <code>[colorMixin](#dc.colorMixin)</code>
+    * [.linearColors(r)](#dc.colorMixin+linearColors) ⇒ <code>[colorMixin](#dc.colorMixin)</code>
+    * [.colorAccessor([colorAccessor])](#dc.colorMixin+colorAccessor) ⇒ <code>function</code> &#124; <code>[colorMixin](#dc.colorMixin)</code>
+    * [.colorDomain([domain])](#dc.colorMixin+colorDomain) ⇒ <code>Array.&lt;String&gt;</code> &#124; <code>[colorMixin](#dc.colorMixin)</code>
+    * [.calculateColorDomain()](#dc.colorMixin+calculateColorDomain) ⇒ <code>[colorMixin](#dc.colorMixin)</code>
+    * [.getColor(d, [i])](#dc.colorMixin+getColor) ⇒ <code>String</code>
+    * [.colorCalculator([colorCalculator])](#dc.colorMixin+colorCalculator) ⇒ <code>\*</code>
 
 <a name="dc.colorMixin+colors"></a>
 #### colorMixin.colors([colorScale]) ⇒ <code>d3.scale</code> &#124; <code>[colorMixin](#dc.colorMixin)</code>
@@ -3531,37 +3573,85 @@ concrete chart types, e.g. bar chart, line chart, and bubble chart.
 
 
 * [.coordinateGridMixin](#dc.coordinateGridMixin) ⇒ <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.rescale()](#dc.coordinateGridMixin+rescale) ⇒ <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.rangeChart([rangeChart])](#dc.coordinateGridMixin+rangeChart) ⇒ <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.zoomScale([extent])](#dc.coordinateGridMixin+zoomScale) ⇒ <code>Array.&lt;(Number\|Date)&gt;</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.zoomOutRestrict([zoomOutRestrict])](#dc.coordinateGridMixin+zoomOutRestrict) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.g([gElement])](#dc.coordinateGridMixin+g) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.mouseZoomable([mouseZoomable])](#dc.coordinateGridMixin+mouseZoomable) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.chartBodyG([chartBodyG])](#dc.coordinateGridMixin+chartBodyG) ⇒ <code>SVGElement</code>
-  * [.x([xScale])](#dc.coordinateGridMixin+x) ⇒ <code>d3.scale</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.xUnits([xUnits])](#dc.coordinateGridMixin+xUnits) ⇒ <code>function</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.xAxis([xAxis])](#dc.coordinateGridMixin+xAxis) ⇒ <code>d3.svg.axis</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.elasticX([elasticX])](#dc.coordinateGridMixin+elasticX) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.xAxisPadding([padding])](#dc.coordinateGridMixin+xAxisPadding) ⇒ <code>Number</code> &#124; <code>String</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.xUnitCount()](#dc.coordinateGridMixin+xUnitCount) ⇒ <code>Number</code>
-  * [.useRightYAxis([useRightYAxis])](#dc.coordinateGridMixin+useRightYAxis) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.isOrdinal()](#dc.coordinateGridMixin+isOrdinal) ⇒ <code>Boolean</code>
-  * [.xAxisLabel([labelText], [padding])](#dc.coordinateGridMixin+xAxisLabel) ⇒ <code>String</code>
-  * [.yAxisLabel([labelText], [padding])](#dc.coordinateGridMixin+yAxisLabel) ⇒ <code>String</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.y([yScale])](#dc.coordinateGridMixin+y) ⇒ <code>d3.scale</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.yAxis([yAxis])](#dc.coordinateGridMixin+yAxis) ⇒ <code>d3.svg.axis</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.elasticY([elasticY])](#dc.coordinateGridMixin+elasticY) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.renderHorizontalGridLines([renderHorizontalGridLines])](#dc.coordinateGridMixin+renderHorizontalGridLines) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.renderVerticalGridLines([renderVerticalGridLines])](#dc.coordinateGridMixin+renderVerticalGridLines) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.xAxisMin()](#dc.coordinateGridMixin+xAxisMin) ⇒ <code>\*</code>
-  * [.xAxisMax()](#dc.coordinateGridMixin+xAxisMax) ⇒ <code>\*</code>
-  * [.yAxisMin()](#dc.coordinateGridMixin+yAxisMin) ⇒ <code>\*</code>
-  * [.yAxisMax()](#dc.coordinateGridMixin+yAxisMax) ⇒ <code>\*</code>
-  * [.yAxisPadding([padding])](#dc.coordinateGridMixin+yAxisPadding) ⇒ <code>Number</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.round([round])](#dc.coordinateGridMixin+round) ⇒ <code>function</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.clipPadding([padding])](#dc.coordinateGridMixin+clipPadding) ⇒ <code>Number</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-  * [.focus([range])](#dc.coordinateGridMixin+focus)
-  * [.brushOn([brushOn])](#dc.coordinateGridMixin+brushOn) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.xAxisTickLabelRotate](#dc.coordinateGridMixin+xAxisTickLabelRotate) ⇒ <code>Number</code>
+    * [.yAxisTickLabelRotate](#dc.coordinateGridMixin+yAxisTickLabelRotate) ⇒ <code>Number</code>
+    * [.yAxisTickIntegersOnly](#dc.coordinateGridMixin+yAxisTickIntegersOnly) ⇒ <code>Boolean</code>
+    * [.xAxisLabel](#dc.coordinateGridMixin+xAxisLabel) ⇒ <code>String</code>
+    * [.rescale()](#dc.coordinateGridMixin+rescale) ⇒ <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.rangeChart([rangeChart])](#dc.coordinateGridMixin+rangeChart) ⇒ <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.zoomScale([extent])](#dc.coordinateGridMixin+zoomScale) ⇒ <code>Array.&lt;(Number\|Date)&gt;</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.zoomOutRestrict([zoomOutRestrict])](#dc.coordinateGridMixin+zoomOutRestrict) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.g([gElement])](#dc.coordinateGridMixin+g) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.mouseZoomable([mouseZoomable])](#dc.coordinateGridMixin+mouseZoomable) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.chartBodyG([chartBodyG])](#dc.coordinateGridMixin+chartBodyG) ⇒ <code>SVGElement</code>
+    * [.x([xScale])](#dc.coordinateGridMixin+x) ⇒ <code>d3.scale</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.xUnits([xUnits])](#dc.coordinateGridMixin+xUnits) ⇒ <code>function</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.xAxis([xAxis])](#dc.coordinateGridMixin+xAxis) ⇒ <code>d3.svg.axis</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.elasticX([elasticX])](#dc.coordinateGridMixin+elasticX) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.xAxisPadding([padding])](#dc.coordinateGridMixin+xAxisPadding) ⇒ <code>Number</code> &#124; <code>String</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.xUnitCount()](#dc.coordinateGridMixin+xUnitCount) ⇒ <code>Number</code>
+    * [.useRightYAxis([useRightYAxis])](#dc.coordinateGridMixin+useRightYAxis) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.isOrdinal()](#dc.coordinateGridMixin+isOrdinal) ⇒ <code>Boolean</code>
+    * [.xAxisLabel([labelText], [padding])](#dc.coordinateGridMixin+xAxisLabel) ⇒ <code>String</code>
+    * [.yAxisLabel([labelText], [padding])](#dc.coordinateGridMixin+yAxisLabel) ⇒ <code>String</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.y([yScale])](#dc.coordinateGridMixin+y) ⇒ <code>d3.scale</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.yAxis([yAxis])](#dc.coordinateGridMixin+yAxis) ⇒ <code>d3.svg.axis</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.elasticY([elasticY])](#dc.coordinateGridMixin+elasticY) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.renderHorizontalGridLines([renderHorizontalGridLines])](#dc.coordinateGridMixin+renderHorizontalGridLines) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.renderVerticalGridLines([renderVerticalGridLines])](#dc.coordinateGridMixin+renderVerticalGridLines) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.xAxisMin()](#dc.coordinateGridMixin+xAxisMin) ⇒ <code>\*</code>
+    * [.xAxisMax()](#dc.coordinateGridMixin+xAxisMax) ⇒ <code>\*</code>
+    * [.yAxisMin()](#dc.coordinateGridMixin+yAxisMin) ⇒ <code>\*</code>
+    * [.yAxisMax()](#dc.coordinateGridMixin+yAxisMax) ⇒ <code>\*</code>
+    * [.yAxisPadding([padding])](#dc.coordinateGridMixin+yAxisPadding) ⇒ <code>Number</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.round([round])](#dc.coordinateGridMixin+round) ⇒ <code>function</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.clipPadding([padding])](#dc.coordinateGridMixin+clipPadding) ⇒ <code>Number</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.focus([range])](#dc.coordinateGridMixin+focus)
+    * [.brushOn([brushOn])](#dc.coordinateGridMixin+brushOn) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.g([gElement])](#dc.coordinateGridMixin+g) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.g([gElement])](#dc.coordinateGridMixin+g) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+
+<a name="dc.coordinateGridMixin+xAxisTickLabelRotate"></a>
+#### coordinateGridMixin.xAxisTickLabelRotate ⇒ <code>Number</code>
+Get or set the x axis tick label rotation in degrees. Can be between -90 and 90.
+
+**Kind**: instance property of <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>  
+
+| Param | Type |
+| --- | --- |
+| [rotate] | <code>Number</code> | 
+
+<a name="dc.coordinateGridMixin+yAxisTickLabelRotate"></a>
+#### coordinateGridMixin.yAxisTickLabelRotate ⇒ <code>Number</code>
+Get or set the y axis tick label rotation in degrees. Can be between -90 and 90.
+
+**Kind**: instance property of <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>  
+
+| Param | Type |
+| --- | --- |
+| [rotate] | <code>Number</code> | 
+
+<a name="dc.coordinateGridMixin+yAxisTickIntegersOnly"></a>
+#### coordinateGridMixin.yAxisTickIntegersOnly ⇒ <code>Boolean</code>
+Get or set the y axis tick intergers only flag. Can be between true or false
+
+**Kind**: instance property of <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>  
+
+| Param | Type |
+| --- | --- |
+| [flag] | <code>Boolean</code> | 
+
+<a name="dc.coordinateGridMixin+xAxisLabel"></a>
+#### coordinateGridMixin.xAxisLabel ⇒ <code>String</code>
+Set or get the x axis label. If setting the label, you may optionally include additional padding to
+the margin to make room for the label. By default the padded is set to 12 to accomodate the text height.
+
+**Kind**: instance property of <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [labelText] | <code>String</code> |  | 
+| [padding] | <code>Number</code> | <code>12</code> | 
 
 <a name="dc.coordinateGridMixin+rescale"></a>
 #### coordinateGridMixin.rescale() ⇒ <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
@@ -3964,6 +4054,30 @@ if enabled, but only via scrolling (panning will be disabled.)
 | --- | --- | --- |
 | [brushOn] | <code>Boolean</code> | <code>true</code> | 
 
+<a name="dc.coordinateGridMixin+g"></a>
+#### coordinateGridMixin.g([gElement]) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+Get or set the root g element. This method is usually used to retrieve the g element in order to
+overlay custom svg drawing programatically. **Caution**: The root g element is usually generated
+by dc.js internals, and resetting it might produce unpredictable result.
+
+**Kind**: instance method of <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>  
+
+| Param | Type |
+| --- | --- |
+| [gElement] | <code>SVGElement</code> | 
+
+<a name="dc.coordinateGridMixin+g"></a>
+#### coordinateGridMixin.g([gElement]) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+Get or set the root g element. This method is usually used to retrieve the g element in order to
+overlay custom svg drawing programatically. **Caution**: The root g element is usually generated
+by dc.js internals, and resetting it might produce unpredictable result.
+
+**Kind**: instance method of <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>  
+
+| Param | Type |
+| --- | --- |
+| [gElement] | <code>SVGElement</code> | 
+
 <a name="dc.stackMixin"></a>
 ### dc.stackMixin ⇒ <code>[stackMixin](#dc.stackMixin)</code>
 Stack Mixin is an mixin that provides cross-chart support of stackability using d3.layout.stack.
@@ -3976,12 +4090,12 @@ Stack Mixin is an mixin that provides cross-chart support of stackability using 
 
 
 * [.stackMixin](#dc.stackMixin) ⇒ <code>[stackMixin](#dc.stackMixin)</code>
-  * [.stack(group, [name], [accessor])](#dc.stackMixin+stack) ⇒ <code>Array.&lt;{group: crossfilter.group, name: String, accessor: function()}&gt;</code> &#124; <code>[stackMixin](#dc.stackMixin)</code>
-  * [.hidableStacks([hidableStacks])](#dc.stackMixin+hidableStacks) ⇒ <code>Boolean</code> &#124; <code>[stackMixin](#dc.stackMixin)</code>
-  * [.hideStack(stackName)](#dc.stackMixin+hideStack) ⇒ <code>[stackMixin](#dc.stackMixin)</code>
-  * [.showStack(stackName)](#dc.stackMixin+showStack) ⇒ <code>[stackMixin](#dc.stackMixin)</code>
-  * [.title([stackName], [titleAccessor])](#dc.stackMixin+title) ⇒ <code>String</code> &#124; <code>[stackMixin](#dc.stackMixin)</code>
-  * [.stackLayout([stack])](#dc.stackMixin+stackLayout) ⇒ <code>function</code> &#124; <code>[stackMixin](#dc.stackMixin)</code>
+    * [.stack(group, [name], [accessor])](#dc.stackMixin+stack) ⇒ <code>Array.&lt;{group: crossfilter.group, name: String, accessor: function()}&gt;</code> &#124; <code>[stackMixin](#dc.stackMixin)</code>
+    * [.hidableStacks([hidableStacks])](#dc.stackMixin+hidableStacks) ⇒ <code>Boolean</code> &#124; <code>[stackMixin](#dc.stackMixin)</code>
+    * [.hideStack(stackName)](#dc.stackMixin+hideStack) ⇒ <code>[stackMixin](#dc.stackMixin)</code>
+    * [.showStack(stackName)](#dc.stackMixin+showStack) ⇒ <code>[stackMixin](#dc.stackMixin)</code>
+    * [.title([stackName], [titleAccessor])](#dc.stackMixin+title) ⇒ <code>String</code> &#124; <code>[stackMixin](#dc.stackMixin)</code>
+    * [.stackLayout([stack])](#dc.stackMixin+stackLayout) ⇒ <code>function</code> &#124; <code>[stackMixin](#dc.stackMixin)</code>
 
 <a name="dc.stackMixin+stack"></a>
 #### stackMixin.stack(group, [name], [accessor]) ⇒ <code>Array.&lt;{group: crossfilter.group, name: String, accessor: function()}&gt;</code> &#124; <code>[stackMixin](#dc.stackMixin)</code>
@@ -4095,9 +4209,9 @@ others* element is clicked.
 
 
 * [.capMixin](#dc.capMixin) ⇒ <code>[capMixin](#dc.capMixin)</code>
-  * [.cap([count])](#dc.capMixin+cap) ⇒ <code>Number</code> &#124; <code>[capMixin](#dc.capMixin)</code>
-  * [.othersLabel([label])](#dc.capMixin+othersLabel) ⇒ <code>String</code> &#124; <code>[capMixin](#dc.capMixin)</code>
-  * [.othersGrouper([grouperFunction])](#dc.capMixin+othersGrouper) ⇒ <code>function</code> &#124; <code>[capMixin](#dc.capMixin)</code>
+    * [.cap([count])](#dc.capMixin+cap) ⇒ <code>Number</code> &#124; <code>[capMixin](#dc.capMixin)</code>
+    * [.othersLabel([label])](#dc.capMixin+othersLabel) ⇒ <code>String</code> &#124; <code>[capMixin](#dc.capMixin)</code>
+    * [.othersGrouper([grouperFunction])](#dc.capMixin+othersGrouper) ⇒ <code>function</code> &#124; <code>[capMixin](#dc.capMixin)</code>
 
 <a name="dc.capMixin+cap"></a>
 #### capMixin.cap([count]) ⇒ <code>Number</code> &#124; <code>[capMixin](#dc.capMixin)</code>
@@ -4174,11 +4288,11 @@ This Mixin provides reusable functionalities for any chart that needs to visuali
 
 
 * [.bubbleMixin](#dc.bubbleMixin) ⇒ <code>[bubbleMixin](#dc.bubbleMixin)</code>
-  * [.r([bubbleRadiusScale])](#dc.bubbleMixin+r) ⇒ <code>d3.scale</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
-  * [.radiusValueAccessor([radiusValueAccessor])](#dc.bubbleMixin+radiusValueAccessor) ⇒ <code>function</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
-  * [.minRadius([radius])](#dc.bubbleMixin+minRadius) ⇒ <code>Number</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
-  * [.minRadiusWithLabel([radius])](#dc.bubbleMixin+minRadiusWithLabel) ⇒ <code>Number</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
-  * [.maxBubbleRelativeSize([relativeSize])](#dc.bubbleMixin+maxBubbleRelativeSize) ⇒ <code>Number</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
+    * [.r([bubbleRadiusScale])](#dc.bubbleMixin+r) ⇒ <code>d3.scale</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
+    * [.radiusValueAccessor([radiusValueAccessor])](#dc.bubbleMixin+radiusValueAccessor) ⇒ <code>function</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
+    * [.minRadius([radius])](#dc.bubbleMixin+minRadius) ⇒ <code>Number</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
+    * [.minRadiusWithLabel([radius])](#dc.bubbleMixin+minRadiusWithLabel) ⇒ <code>Number</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
+    * [.maxBubbleRelativeSize([relativeSize])](#dc.bubbleMixin+maxBubbleRelativeSize) ⇒ <code>Number</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
 
 <a name="dc.bubbleMixin+r"></a>
 #### bubbleMixin.r([bubbleRadiusScale]) ⇒ <code>d3.scale</code> &#124; <code>[bubbleMixin](#dc.bubbleMixin)</code>
@@ -4238,6 +4352,17 @@ when the difference in radius between bubbles is too great.
 | --- | --- | --- |
 | [relativeSize] | <code>Number</code> | <code>0.3</code> | 
 
+<a name="dc.rowMixin"></a>
+### dc.rowMixin ⇒ <code>[rowChart](#dc.rowChart)</code>
+Row is a mixin that provides utility functions for both the Row Chart and Paired Row Chart
+
+**Kind**: static mixin of <code>[dc](#dc)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| parent | <code>String</code> &#124; <code>node</code> &#124; <code>d3.selection</code> | Any valid [d3 single selector](https://github.com/mbostock/d3/wiki/Selections#selecting-elements) specifying a dom block element such as a div; or a dom element or d3 selection. |
+| [chartGroup] | <code>String</code> | The name of the chart group this chart instance should be placed in. Interaction with a chart will only trigger events and redraws within the chart's group. |
+
 <a name="dc.dateFormat"></a>
 ### dc.dateFormat : <code>function</code>
 The default date format for dc.js
@@ -4259,11 +4384,11 @@ global functions [filterAll](#dc.filterAll), [refocusAll](#dc.refocusAll),
 **Kind**: static namespace of <code>[dc](#dc)</code>  
 
 * [.chartRegistry](#dc.chartRegistry) : <code>object</code>
-  * [.has(chart)](#dc.chartRegistry.has) ⇒ <code>Boolean</code>
-  * [.register(chart, [group])](#dc.chartRegistry.register)
-  * [.deregister(chart, [group])](#dc.chartRegistry.deregister)
-  * [.clear(group)](#dc.chartRegistry.clear)
-  * [.list([group])](#dc.chartRegistry.list) ⇒ <code>Array.&lt;Object&gt;</code>
+    * [.has(chart)](#dc.chartRegistry.has) ⇒ <code>Boolean</code>
+    * [.register(chart, [group])](#dc.chartRegistry.register)
+    * [.deregister(chart, [group])](#dc.chartRegistry.deregister)
+    * [.clear(group)](#dc.chartRegistry.clear)
+    * [.list([group])](#dc.chartRegistry.list) ⇒ <code>Array.&lt;Object&gt;</code>
 
 <a name="dc.chartRegistry.has"></a>
 #### chartRegistry.has(chart) ⇒ <code>Boolean</code>
@@ -4325,10 +4450,10 @@ If no group is provided, the charts in the default group are returned.
 **Kind**: static namespace of <code>[dc](#dc)</code>  
 
 * [.units](#dc.units) : <code>object</code>
-  * [.fp](#dc.units.fp) : <code>object</code>
-    * [.precision(precision)](#dc.units.fp.precision) ⇒ <code>function</code>
-  * [.integers(start, end)](#dc.units.integers) ⇒ <code>Number</code>
-  * [.ordinal(start, end, domain)](#dc.units.ordinal) ⇒ <code>Array.&lt;String&gt;</code>
+    * [.fp](#dc.units.fp) : <code>object</code>
+        * [.precision(precision)](#dc.units.fp.precision) ⇒ <code>function</code>
+    * [.integers(start, end)](#dc.units.integers) ⇒ <code>Number</code>
+    * [.ordinal(start, end, domain)](#dc.units.ordinal) ⇒ <code>Array.&lt;String&gt;</code>
 
 <a name="dc.units.fp"></a>
 #### units.fp : <code>object</code>
@@ -4408,8 +4533,8 @@ chart.xUnits(dc.units.ordinal)
 **Kind**: static namespace of <code>[dc](#dc)</code>  
 
 * [.printers](#dc.printers) : <code>object</code>
-  * [.filters(filters)](#dc.printers.filters) ⇒ <code>String</code>
-  * [.filter(filter)](#dc.printers.filter) ⇒ <code>String</code>
+    * [.filters(filters)](#dc.printers.filters) ⇒ <code>String</code>
+    * [.filter(filter)](#dc.printers.filter) ⇒ <code>String</code>
 
 <a name="dc.printers.filters"></a>
 #### printers.filters(filters) ⇒ <code>String</code>
@@ -4436,18 +4561,18 @@ Converts a filter into a readable string
 **Kind**: static namespace of <code>[dc](#dc)</code>  
 
 * [.utils](#dc.utils) : <code>object</code>
-  * [.printSingleValue(filter)](#dc.utils.printSingleValue) ⇒ <code>String</code>
-  * [.add(l, r)](#dc.utils.add) ⇒ <code>String</code> &#124; <code>Date</code> &#124; <code>Number</code>
-  * [.subtract(l, r)](#dc.utils.subtract) ⇒ <code>String</code> &#124; <code>Date</code> &#124; <code>Number</code>
-  * [.isNumber(n)](#dc.utils.isNumber) ⇒ <code>Boolean</code>
-  * [.isFloat(n)](#dc.utils.isFloat) ⇒ <code>Boolean</code>
-  * [.isInteger(n)](#dc.utils.isInteger) ⇒ <code>Boolean</code>
-  * [.isNegligible(n)](#dc.utils.isNegligible) ⇒ <code>Boolean</code>
-  * [.clamp(val, min, max)](#dc.utils.clamp) ⇒ <code>any</code>
-  * [.uniqueId()](#dc.utils.uniqueId) ⇒ <code>Number</code>
-  * [.nameToId(name)](#dc.utils.nameToId) ⇒ <code>String</code>
-  * [.appendOrSelect(parent, selector, tag)](#dc.utils.appendOrSelect) ⇒ <code>d3.selection</code>
-  * [.safeNumber(n)](#dc.utils.safeNumber) ⇒ <code>Number</code>
+    * [.printSingleValue(filter)](#dc.utils.printSingleValue) ⇒ <code>String</code>
+    * [.add(l, r)](#dc.utils.add) ⇒ <code>String</code> &#124; <code>Date</code> &#124; <code>Number</code>
+    * [.subtract(l, r)](#dc.utils.subtract) ⇒ <code>String</code> &#124; <code>Date</code> &#124; <code>Number</code>
+    * [.isNumber(n)](#dc.utils.isNumber) ⇒ <code>Boolean</code>
+    * [.isFloat(n)](#dc.utils.isFloat) ⇒ <code>Boolean</code>
+    * [.isInteger(n)](#dc.utils.isInteger) ⇒ <code>Boolean</code>
+    * [.isNegligible(n)](#dc.utils.isNegligible) ⇒ <code>Boolean</code>
+    * [.clamp(val, min, max)](#dc.utils.clamp) ⇒ <code>any</code>
+    * [.uniqueId()](#dc.utils.uniqueId) ⇒ <code>Number</code>
+    * [.nameToId(name)](#dc.utils.nameToId) ⇒ <code>String</code>
+    * [.appendOrSelect(parent, selector, tag)](#dc.utils.appendOrSelect) ⇒ <code>d3.selection</code>
+    * [.safeNumber(n)](#dc.utils.safeNumber) ⇒ <code>Number</code>
 
 <a name="dc.utils.printSingleValue"></a>
 #### utils.printSingleValue(filter) ⇒ <code>String</code>
@@ -4601,12 +4726,12 @@ can be used as long as they have the properties above.
 **Kind**: static namespace of <code>[dc](#dc)</code>  
 
 * [.filters](#dc.filters) : <code>object</code>
-  * [.RangedFilter](#dc.filters.RangedFilter)
-    * [new RangedFilter(low, high)](#new_dc.filters.RangedFilter_new)
-  * [.TwoDimensionalFilter](#dc.filters.TwoDimensionalFilter)
-    * [new TwoDimensionalFilter(filter)](#new_dc.filters.TwoDimensionalFilter_new)
-  * [.RangedTwoDimensionalFilter](#dc.filters.RangedTwoDimensionalFilter)
-    * [new RangedTwoDimensionalFilter(filter)](#new_dc.filters.RangedTwoDimensionalFilter_new)
+    * [.RangedFilter](#dc.filters.RangedFilter)
+        * [new RangedFilter(low, high)](#new_dc.filters.RangedFilter_new)
+    * [.TwoDimensionalFilter](#dc.filters.TwoDimensionalFilter)
+        * [new TwoDimensionalFilter(filter)](#new_dc.filters.TwoDimensionalFilter_new)
+    * [.RangedTwoDimensionalFilter](#dc.filters.RangedTwoDimensionalFilter)
+        * [new RangedTwoDimensionalFilter(filter)](#new_dc.filters.RangedTwoDimensionalFilter_new)
 
 <a name="dc.filters.RangedFilter"></a>
 #### filters.RangedFilter

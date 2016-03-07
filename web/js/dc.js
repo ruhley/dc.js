@@ -1012,6 +1012,8 @@ dc.baseMixin = function (_chart) {
     var _ordering = dc.pluck('key');
     var _orderSort;
 
+    var _clickOn = true;
+
     var _renderLabel = false;
 
     var _title = function (d) {
@@ -2032,6 +2034,80 @@ dc.baseMixin = function (_chart) {
         d3.select(e).classed(dc.constants.DESELECTED_CLASS, false);
     };
 
+    _chart._attachTitle = function(items, arc) {
+        items.on('mouseover', function(d, i) {
+                _chart._renderTitle(d, i, this, arc)
+            })
+            .on('mouseleave', _chart._removeTitle);
+    }
+
+    _chart._renderTitle = function(d, i, element, arc) {
+        var data = d;
+        if (d.data) {
+            data = d.data;
+        }
+
+        // get the tooltip
+        var tooltip = d3.select('.dc-title');
+
+        var existed = !tooltip.empty();
+
+        // the tooltip doesn't exist, so create it
+        if (!existed) {
+            tooltip = d3.select('body')
+                .append('div')
+                .attr('class', 'dc-title')
+                .style('opacity', 0);
+        }
+
+        // cancel any transitions
+        tooltip.interrupt();
+
+        // set the content of the tooltip
+        tooltip.html(_title(data));
+
+        // set the standard styles
+        tooltip.style('border-color', _chart.getColor(d.layer ? d : data, i));
+
+        // calculate the position of the tooltip
+        var tooltipBounding = tooltip.node().getBoundingClientRect();
+        var style = {};
+
+        // if a pie chart
+        if (arc) {
+            var gBounding = _chart.g().node().getBoundingClientRect();
+            var centroid = arc.centroid(d);
+
+            style.left = gBounding.left + (gBounding.width / 2) - (tooltipBounding.width / 2) + centroid[0] + (window.scrollX || document.documentElement.scrollLeft);
+            style.top = gBounding.top + (gBounding.height / 2) - tooltipBounding.height - 10 + centroid[1] + (window.scrollY || document.documentElement.scrollTop);
+        // all other charts
+        } else {
+            var elBounding = element.getBoundingClientRect();
+
+            style.left = elBounding.left + (elBounding.width / 2) - (tooltipBounding.width / 2) + (window.scrollX || document.documentElement.scrollLeft);
+            style.top = elBounding.top - tooltipBounding.height - 10 + (window.scrollY || document.documentElement.scrollTop);
+        }
+
+        style.top += 'px';
+        style.left += 'px';
+
+        // move the tooltip into position
+        if (!existed) {
+            tooltip.style(style);
+        }
+
+        style.opacity = 1;
+
+        dc.transition(tooltip, _chart.transitionDuration() / 1.5)
+            .style(style);
+    };
+
+    _chart._removeTitle = function() {
+        dc.transition(d3.select('.dc-title'), _chart.transitionDuration() / 1.5)
+            .style('opacity', 0)
+            .remove();
+    };
+
     /**
      * This function is passed to d3 as the onClick handler for each chart. The default behavior is to
      * filter on the clicked datum (passed to the callback) and redraw the chart group.
@@ -2041,11 +2117,13 @@ dc.baseMixin = function (_chart) {
      * @param {*} datum
      */
     _chart.onClick = function (datum) {
-        var filter = _chart.keyAccessor()(datum);
-        dc.events.trigger(function () {
-            _chart.filter(filter);
-            _chart.redrawGroup();
-        });
+        if (_chart.clickOn()) {
+            var filter = _chart.keyAccessor()(datum);
+            dc.events.trigger(function () {
+                _chart.filter(filter);
+                _chart.redrawGroup();
+            });
+        }
     };
 
     /**
@@ -2362,6 +2440,23 @@ dc.baseMixin = function (_chart) {
         }
         _legend = legend;
         _legend.parent(_chart);
+        return _chart;
+    };
+
+    /**
+     * Turn on/off the click filter.
+     * @name clickOn
+     * @memberof dc.baseMixin
+     * @instance
+     * @param {Boolean} [clickOn=true]
+     * @return {Boolean}
+     * @return {dc.baseMixin}
+     */
+    _chart.clickOn = function (clickOn) {
+        if (!arguments.length) {
+            return _clickOn;
+        }
+        _clickOn = clickOn;
         return _chart;
     };
 
@@ -2741,6 +2836,7 @@ dc.coordinateGridMixin = function (_chart) {
     var _xAxisLabel;
     var _xAxisLabelPadding = 0;
     var _lastXDomain;
+    var _xAxisTickLabelRotate = 0;
 
     var _y;
     var _yAxis = d3.svg.axis().orient('left');
@@ -2748,6 +2844,8 @@ dc.coordinateGridMixin = function (_chart) {
     var _yElasticity = false;
     var _yAxisLabel;
     var _yAxisLabelPadding = 0;
+    var _yAxisTickLabelRotate = 0;
+    var _yAxisTickIntegersOnly = false;
 
     var _brush = d3.svg.brush();
     var _brushOn = true;
@@ -3181,6 +3279,20 @@ dc.coordinateGridMixin = function (_chart) {
                       (_chart.height() - _xAxisLabelPadding) + ')')
                 .attr('text-anchor', 'middle');
         }
+
+        // rotate tick labels
+        var rotate = _chart.xAxisTickLabelRotate();
+        if (rotate) {
+          axisXG
+              .selectAll('.tick text')
+              .style('text-anchor', rotate < 0 ? 'end' : 'start')
+              .attr('transform',
+                  'rotate(' + rotate + ') ' +
+                  'translate(' + (10 * (rotate / MAX_TICK_LABEL_ROTATION)) +
+                  ', -' + Math.abs((13 * (rotate / MAX_TICK_LABEL_ROTATION))) + ')'
+              );
+        }
+
         if (_chart.xAxisLabel() && axisXLab.text() !== _chart.xAxisLabel()) {
             axisXLab.text(_chart.xAxisLabel());
         }
@@ -3284,6 +3396,10 @@ dc.coordinateGridMixin = function (_chart) {
         _y.range([_chart.yAxisHeight(), 0]);
         _yAxis = _yAxis.scale(_y);
 
+        if (_chart.yAxisTickIntegersOnly()) {
+            _yAxis.tickFormat(d3.format('d'));
+        }
+
         if (_useRightYAxis) {
             _yAxis.orient('right');
         }
@@ -3329,6 +3445,22 @@ dc.coordinateGridMixin = function (_chart) {
         var labelPosition = _useRightYAxis ? (_chart.width() - _yAxisLabelPadding) : _yAxisLabelPadding;
         var rotation = _useRightYAxis ? 90 : -90;
         _chart.renderYAxisLabel('y', _chart.yAxisLabel(), rotation, labelPosition);
+
+        // rotate the y axis tick labels
+        var rotate = _chart.yAxisTickLabelRotate();
+        if (rotate) {
+            var translateXRatio = rotate <= (MAX_TICK_LABEL_ROTATION / 2) ? 8 : 12;
+            var translateYRatio = rotate <= (MAX_TICK_LABEL_ROTATION / 2) ? 16 : 14;
+
+            axisYG
+                .selectAll('.tick text')
+                .style('text-anchor', 'end')
+                .attr('transform',
+                    'rotate(' + rotate + ') ' +
+                    'translate(' + (translateXRatio * (rotate / MAX_TICK_LABEL_ROTATION)) +
+                    ', ' + (translateYRatio * (rotate / MAX_TICK_LABEL_ROTATION)) + ')'
+                );
+        }
     };
 
     _chart._renderHorizontalGridLinesForAxis = function (g, scale, axis) {
@@ -3403,6 +3535,54 @@ dc.coordinateGridMixin = function (_chart) {
         _chart.margins().left -= _yAxisLabelPadding;
         _yAxisLabelPadding = (padding === undefined) ? DEFAULT_AXIS_LABEL_PADDING : padding;
         _chart.margins().left += _yAxisLabelPadding;
+        return _chart;
+    };
+
+    /**
+     * Get or set the x axis tick label rotation in degrees. Can be between -90 and 90.
+     * @name xAxisTickLabelRotate
+     * @memberof dc.coordinateGridMixin
+     * @instance
+     * @param {Number} [rotate]
+     * @return {Number}
+     */
+    _chart.xAxisTickLabelRotate = function (rotate) {
+        if (!arguments.length) {
+            return _xAxisTickLabelRotate;
+        }
+        _xAxisTickLabelRotate = rotate;
+        return _chart;
+    };
+
+    /**
+     * Get or set the y axis tick label rotation in degrees. Can be between -90 and 90.
+     * @name yAxisTickLabelRotate
+     * @memberof dc.coordinateGridMixin
+     * @instance
+     * @param {Number} [rotate]
+     * @return {Number}
+     */
+    _chart.yAxisTickLabelRotate = function (rotate) {
+        if (!arguments.length) {
+            return _yAxisTickLabelRotate;
+        }
+        _yAxisTickLabelRotate = rotate;
+        return _chart;
+    };
+
+    /**
+     * Get or set the y axis tick intergers only flag. Can be between true or false
+     * @name yAxisTickIntegersOnly
+     * @memberof dc.coordinateGridMixin
+     * @instance
+     * @param {Boolean} [flag]
+     * @return {Boolean}
+     */
+    _chart.yAxisTickIntegersOnly = function (flag) {
+        if (!arguments.length) {
+            return _yAxisTickIntegersOnly;
+        }
+        _yAxisTickIntegersOnly = flag;
         return _chart;
     };
 
@@ -3977,8 +4157,14 @@ dc.stackMixin = function (_chart) {
 
     function prepareValues (layer, layerIdx) {
         var valAccessor = layer.accessor || _chart.valueAccessor();
+        var data = layer.group.all();
+
+        if (_chart.isOrdinal()) {
+            data = _chart._computeOrderedGroups(data);
+        }
+
         layer.name = String(layer.name || layerIdx);
-        layer.values = layer.group.all().map(function (d, i) {
+        layer.values = data.map(function (d, i) {
             return {
                 x: _chart.keyAccessor()(d, i),
                 y: layer.hidden ? null : valAccessor(d, i),
@@ -4680,6 +4866,498 @@ dc.bubbleMixin = function (_chart) {
 };
 
 /**
+ * Row is a mixin that provides utility functions for both the Row Chart and Paired Row Chart
+ * @name rowMixin
+ * @memberof dc
+ * @mixin
+ * @param {String|node|d3.selection} parent - Any valid
+ * {@link https://github.com/mbostock/d3/wiki/Selections#selecting-elements d3 single selector} specifying
+ * a dom block element such as a div; or a dom element or d3 selection.
+ * @param {String} [chartGroup] - The name of the chart group this chart instance should be placed in.
+ * Interaction with a chart will only trigger events and redraws within the chart's group.
+ * @return {dc.rowChart}
+ */
+dc.rowMixin = function (parent, chartGroup) {
+    var X_AXIS_LABEL_CLASS = 'x-axis-label';
+    var DEFAULT_AXIS_LABEL_PADDING = 12;
+
+    var _labelOffsetX = 10;
+    var _labelOffsetY = 15;
+    var _hasLabelOffsetY = false;
+    var _dyOffset = '0.35em';  // this helps center labels https://github.com/mbostock/d3/wiki/SVG-Shapes#svg_text
+    var _titleLabelOffsetX = 2;
+
+    var _g;
+
+    var _gap = 5;
+
+    var _fixedBarHeight = false;
+    var _rowCssClass = 'row';
+    var _titleRowCssClass = 'titlerow';
+    var _renderTitleLabel = false;
+
+    var _chart = dc.capMixin(dc.marginMixin(dc.colorMixin(dc.baseMixin({}))));
+
+    var _x;
+
+    var _elasticX;
+    var _xAxisLabel;
+
+    var _xAxis = d3.svg.axis().orient('bottom');
+
+
+    var _useRightYAxis = false;
+
+    _chart.rowsCap = _chart.cap;
+
+    function calculateAxisScale () {
+        if (!_x || _elasticX) {
+            var extent = d3.extent(_chart.data(), _chart.cappedValueAccessor);
+            if (extent[0] > 0) {
+                extent[0] = 0;
+            }
+            var domain = d3.scale.linear().domain(extent);
+
+            if (_chart.useRightYAxis()) {
+                _x = domain.range([_chart.axisWidth(), 0]);
+            } else {
+                _x = domain.range([0, _chart.axisWidth()]);
+            }
+        }
+        _xAxis.scale(_x);
+    }
+
+    _chart._drawAxis = function (g) {
+        var axisG = g.select('g.axis');
+
+        renderXAxisLabel();
+
+        calculateAxisScale();
+
+        if (axisG.empty()) {
+            axisG = g.append('g').attr('class', 'axis');
+        }
+        axisG.attr('transform', 'translate(0, ' + _chart.effectiveHeight() + ')');
+
+        dc.transition(axisG, _chart.transitionDuration())
+            .call(_xAxis);
+    }
+
+    function renderXAxisLabel () {
+        var text = _chart.xAxisLabel();
+
+        if (text) {
+            var axisXLab = _chart.g().selectAll('text.' + X_AXIS_LABEL_CLASS);
+
+            if (axisXLab.empty()) {
+                axisXLab = _chart.g().append('text')
+                    .attr('class', X_AXIS_LABEL_CLASS)
+                    .attr('text-anchor', 'middle');
+            }
+
+            if (axisXLab.text() !== text) {
+                axisXLab.text(text);
+            }
+            // calculate the height of the x axis label
+            _chart.xAxisLabelPadding = axisXLab.node().getBBox().height + 10;
+
+            axisXLab.attr('transform',
+                'translate(' + (_chart.axisWidth() / 2) +
+                ',' + (_chart.height() - _chart.xAxisLabelPadding + 10) + ')'
+            );
+
+            dc.transition(axisXLab, _chart.transitionDuration())
+                .attr('transform', 'translate(' + (_chart.axisWidth() / 2) + ',' +
+                    (_chart.height() - _chart.xAxisLabelPadding + 10) + ')');
+        }
+    }
+
+    _chart.title(function (d) {
+        return _chart.cappedKeyAccessor(d) + ': ' + _chart.cappedValueAccessor(d);
+    });
+
+    _chart.label(_chart.cappedKeyAccessor);
+
+    /**
+     * Gets or sets the x scale. The x scale can be any d3
+     * {@link https://github.com/mbostock/d3/wiki/Quantitative-Scales quantitive scale}
+     * @method x
+     * @memberof dc.rowChart
+     * @instance
+     * @see {@link https://github.com/mbostock/d3/wiki/Quantitative-Scales quantitive scale}
+     * @param {d3.scale} [scale]
+     * @return {d3.scale}
+     * @return {dc.rowChart}
+     */
+    _chart.x = function (scale) {
+        if (!arguments.length) {
+            return _x;
+        }
+        _x = scale;
+        return _chart;
+    };
+
+    _chart._drawGridLines = function (g) {
+        g.selectAll('g.tick')
+            .select('line.grid-line')
+            .remove();
+
+        g.selectAll('g.tick')
+            .append('line')
+            .attr('class', 'grid-line')
+            .attr('x1', 0)
+            .attr('y1', 0)
+            .attr('x2', 0)
+            .attr('y2', function () {
+                return -_chart.effectiveHeight();
+            });
+    }
+
+    _chart._createElements = function (rows) {
+        var rowEnter = rows.enter()
+            .append('g')
+            .attr('class', function (d, i) {
+                return _rowCssClass + ' _' + i;
+            });
+
+        rowEnter.append('rect').attr('width', 0);
+
+        createLabels(rowEnter);
+        updateLabels(rows);
+    }
+
+    _chart._removeElements = function (rows) {
+        rows.exit().remove();
+    }
+
+    function rootValue () {
+        var root = _x(0);
+        return (root === -Infinity || root !== root) ? _x(1) : root;
+    }
+
+    _chart._updateElements = function (rows) {
+        var n = rows.size();
+
+        var height;
+        if (!_fixedBarHeight) {
+            height = (_chart.effectiveHeight() - (n + 1) * _gap) / n;
+        } else {
+            height = _fixedBarHeight;
+        }
+
+        // vertically align label in center unless they override the value via property setter
+        if (!_hasLabelOffsetY) {
+            _labelOffsetY = height / 2;
+        }
+
+        var rect = rows.attr('transform', function (d, i) {
+            var h = ((i + 1) * _gap + i * height),
+                w = _chart.useRightYAxis() ? _chart.axisWidth() : 0;
+            return 'translate(' + w + ',' + h + ')';
+            }).select('rect')
+            .attr('height', height)
+            .attr('fill', _chart.getColor)
+            .on('click', onClick)
+            .classed('deselected', function (d) {
+                return (_chart.hasFilter()) ? !isSelectedRow(d) : false;
+            })
+            .classed('selected', function (d) {
+                return (_chart.hasFilter()) ? isSelectedRow(d) : false;
+            });
+
+        dc.transition(rect, _chart.transitionDuration())
+            .attr('width', function (d) {
+                return Math.abs(rootValue() - _x(_chart.valueAccessor()(d)));
+            })
+            .attr('transform', translateX);
+
+        _chart._attachTitle(rows);
+        updateLabels(rows);
+    }
+
+    function createLabels (rowEnter) {
+        if (_chart.renderLabel()) {
+            rowEnter.append('text')
+                .on('click', onClick);
+        }
+        if (_chart.renderTitleLabel()) {
+            rowEnter.append('text')
+                .attr('class', _titleRowCssClass)
+                .on('click', onClick);
+        }
+    }
+
+    function updateLabels (rows) {
+        if (_chart.renderLabel()) {
+            var lab = rows.select('text')
+                .attr('x', _chart.useRightYAxis() ? -_labelOffsetX : _labelOffsetX)
+                .attr('y', _labelOffsetY)
+                .attr('dy', _dyOffset)
+                .attr('text-anchor', _chart.useRightYAxis() ? 'end' : 'start')
+                .on('click', onClick)
+                .attr('class', function (d, i) {
+                    return _rowCssClass + ' _' + i;
+                })
+                .text(function (d) {
+                    return _chart.label()(d);
+                });
+            dc.transition(lab, _chart.transitionDuration())
+                .attr('transform', function(d) {
+                    if (_chart.useRightYAxis()) {
+                        return 'translate(0,0)';
+                    }
+                    return translateX(d);
+                });
+        }
+        if (_chart.renderTitleLabel()) {
+            var titlelab = rows.select('.' + _titleRowCssClass)
+                    .attr('x', _chart.useRightYAxis() ?
+                      _titleLabelOffsetX - _chart.axisWidth() :
+                      _chart.axisWidth() - _titleLabelOffsetX
+                    )
+                    .attr('y', _labelOffsetY)
+                    .attr('text-anchor', _chart.useRightYAxis() ? 'start' : 'end')
+                    .on('click', onClick)
+                    .attr('class', function (d, i) {
+                        return _titleRowCssClass + ' _' + i ;
+                    })
+                    .text(function (d) {
+                        return _chart.title()(d);
+                    });
+            dc.transition(titlelab, _chart.transitionDuration())
+                .attr('transform', function (d) {
+                    if (_chart.useRightYAxis()) {
+                        return 'translate(0,0)';
+                    }
+                    return translateX(d);
+                });
+        }
+    }
+
+    /**
+     * Turn on/off Title label rendering (values) using SVG style of text-anchor 'end'
+     * @method renderTitleLabel
+     * @memberof dc.rowChart
+     * @instance
+     * @param {Boolean} [renderTitleLabel=false]
+     * @return {Boolean}
+     * @return {dc.rowChart}
+     */
+    _chart.renderTitleLabel = function (renderTitleLabel) {
+        if (!arguments.length) {
+            return _renderTitleLabel;
+        }
+        _renderTitleLabel = renderTitleLabel;
+        return _chart;
+    };
+
+    function onClick (d) {
+        _chart.onClick(d);
+    }
+
+    function translateX (d) {
+        var x = _x(_chart.cappedValueAccessor(d)),
+            x0 = rootValue(),
+            s = x > x0 ? x0 : x;
+
+        if (_chart.useRightYAxis()) {
+            s -= _chart.axisWidth();
+        }
+
+        return 'translate(' + s + ',0)';
+    }
+
+    _chart._doRedraw = function () {
+        _chart._drawChart();
+        return _chart;
+    };
+
+    /**
+     * Get the x axis for the row chart instance.  Note: not settable for row charts.
+     * See the {@link https://github.com/mbostock/d3/wiki/SVG-Axes#wiki-axis d3 axis object}
+     * documention for more information.
+     * @method xAxis
+     * @memberof dc.rowChart
+     * @instance
+     * @see {@link https://github.com/mbostock/d3/wiki/SVG-Axes#wiki-axis d3.svg.axis}
+     * @example
+     * // customize x axis tick format
+     * chart.xAxis().tickFormat(function (v) {return v + '%';});
+     * // customize x axis tick values
+     * chart.xAxis().tickValues([0, 100, 200, 300]);
+     * @return {d3.svg.axis}
+     */
+    _chart.xAxis = function () {
+        return _xAxis;
+    };
+
+    /**
+     * Set or get the x axis label. If setting the label, you may optionally include additional padding to
+     * the margin to make room for the label. By default the padded is set to 12 to accomodate the text height.
+     * @name xAxisLabel
+     * @memberof dc.coordinateGridMixin
+     * @instance
+     * @param {String} [labelText]
+     * @param {Number} [padding=12]
+     * @return {String}
+     */
+    _chart.xAxisLabel = function (labelText, padding) {
+        if (!arguments.length) {
+            return _xAxisLabel;
+        }
+        _xAxisLabel = labelText;
+        return _chart;
+    };
+
+    /**
+     * Get or set the fixed bar height. Default is [false] which will auto-scale bars.
+     * For example, if you want to fix the height for a specific number of bars (useful in TopN charts)
+     * you could fix height as follows (where count = total number of bars in your TopN and gap is
+     * your vertical gap space).
+     * @method fixedBarHeight
+     * @memberof dc.rowChart
+     * @instance
+     * @example
+     * chart.fixedBarHeight( chartheight - (count + 1) * gap / count);
+     * @param {Boolean|Number} [fixedBarHeight=false]
+     * @return {Boolean|Number}
+     * @return {dc.rowChart}
+     */
+    _chart.fixedBarHeight = function (fixedBarHeight) {
+        if (!arguments.length) {
+            return _fixedBarHeight;
+        }
+        _fixedBarHeight = fixedBarHeight;
+        return _chart;
+    };
+
+    /**
+     * Get or set the vertical gap space between rows on a particular row chart instance
+     * @method gap
+     * @memberof dc.rowChart
+     * @instance
+     * @param {Number} [gap=5]
+     * @return {Number}
+     * @return {dc.rowChart}
+     */
+    _chart.gap = function (gap) {
+        if (!arguments.length) {
+            return _gap;
+        }
+        _gap = gap;
+        return _chart;
+    };
+
+    /**
+     * Get or set the elasticity on x axis. If this attribute is set to true, then the x axis will rescle to auto-fit the
+     * data range when filtered.
+     * @method elasticX
+     * @memberof dc.rowChart
+     * @instance
+     * @param {Boolean} [elasticX]
+     * @return {Boolean}
+     * @return {dc.rowChart}
+     */
+    _chart.elasticX = function (elasticX) {
+        if (!arguments.length) {
+            return _elasticX;
+        }
+        _elasticX = elasticX;
+        return _chart;
+    };
+
+    /**
+     * Get or set the x offset (horizontal space to the top left corner of a row) for labels on a particular row chart.
+     * @method labelOffsetX
+     * @memberof dc.rowChart
+     * @instance
+     * @param {Number} [labelOffsetX=10]
+     * @return {Number}
+     * @return {dc.rowChart}
+     */
+    _chart.labelOffsetX = function (labelOffsetX) {
+        if (!arguments.length) {
+            return _labelOffsetX;
+        }
+        _labelOffsetX = labelOffsetX;
+        return _chart;
+    };
+
+    /**
+     * Get or set the y offset (vertical space to the top left corner of a row) for labels on a particular row chart.
+     * @method labelOffsetY
+     * @memberof dc.rowChart
+     * @instance
+     * @param {Number} [labelOffsety=15]
+     * @return {Number}
+     * @return {dc.rowChart}
+     */
+    _chart.labelOffsetY = function (labelOffsety) {
+        if (!arguments.length) {
+            return _labelOffsetY;
+        }
+        _labelOffsetY = labelOffsety;
+        _hasLabelOffsetY = true;
+        return _chart;
+    };
+
+    /**
+     * Get of set the x offset (horizontal space between right edge of row and right edge or text.
+     * @method titleLabelOffsetX
+     * @memberof dc.rowChart
+     * @instance
+     * @param {Number} [titleLabelOffsetX=2]
+     * @return {Number}
+     * @return {dc.rowChart}
+     */
+    _chart.titleLabelOffsetX = function (titleLabelOffsetX) {
+        if (!arguments.length) {
+            return _titleLabelOffsetX;
+        }
+        _titleLabelOffsetX = titleLabelOffsetX;
+        return _chart;
+    };
+
+    /**
+     #### .useRightYAxis()
+     Gets or sets whether the chart should be drawn with a right axis instead of a left axis.
+     **/
+
+    _chart.useRightYAxis = function (_) {
+        if (!arguments.length) {
+            return _useRightYAxis;
+        }
+        _useRightYAxis = _;
+        return _chart;
+    };
+
+    /**
+     * Get or set the root g element. This method is usually used to retrieve the g element in order to
+     * overlay custom svg drawing programatically. **Caution**: The root g element is usually generated
+     * by dc.js internals, and resetting it might produce unpredictable result.
+     * @method g
+     * @memberof dc.coordinateGridMixin
+     * @instance
+     * @param {SVGElement} [gElement]
+     * @return {SVGElement}
+     * @return {dc.coordinateGridMixin}
+     */
+    _chart.g = function (gElement) {
+        if (!arguments.length) {
+            return _g;
+        }
+        _g = gElement;
+        return _chart;
+    };
+
+    function isSelectedRow (d) {
+        return _chart.hasFilter(_chart.cappedKeyAccessor(d));
+    }
+
+    return _chart.anchor(parent, chartGroup);
+};
+
+/**
  * The pie chart implementation is usually used to visualize a small categorical distribution.  The pie
  * chart uses keyAccessor to determine the slices, and valueAccessor to calculate the size of each
  * slice relative to the sum of all values. Slices are ordered by {@link dc.baseMixin#ordering ordering}
@@ -4708,6 +5386,7 @@ dc.pieChart = function (parent, chartGroup) {
     var DEFAULT_MIN_ANGLE_FOR_LABEL = 0.5;
 
     var _sliceCssClass = 'pie-slice';
+    var _sliceTextCssClass = 'pie-slice-text';
     var _emptyCssClass = 'empty-chart';
     var _emptyTitle = 'empty';
 
@@ -4800,7 +5479,7 @@ dc.pieChart = function (parent, chartGroup) {
 
         createSlicePath(slicesEnter, arc);
 
-        createTitles(slicesEnter);
+        _chart._attachTitle(slicesEnter, arc);
 
         createLabels(pieData, arc);
     }
@@ -4828,14 +5507,6 @@ dc.pieChart = function (parent, chartGroup) {
         });
     }
 
-    function createTitles (slicesEnter) {
-        if (_chart.renderTitle()) {
-            slicesEnter.append('title').text(function (d) {
-                return _chart.title()(d.data);
-            });
-        }
-    }
-
     _chart._applyLabelText = function (labels) {
         labels
             .text(function (d) {
@@ -4858,7 +5529,7 @@ dc.pieChart = function (parent, chartGroup) {
 
     function createLabels (pieData, arc) {
         if (_chart.renderLabel()) {
-            var labels = _g.selectAll('text.' + _sliceCssClass)
+            var labels = _g.selectAll('text.' + _sliceTextCssClass)
                 .data(pieData);
 
             labels.exit().remove();
@@ -4867,7 +5538,7 @@ dc.pieChart = function (parent, chartGroup) {
                 .enter()
                 .append('text')
                 .attr('class', function (d, i) {
-                    var classes = _sliceCssClass + ' _' + i;
+                    var classes = _sliceTextCssClass + ' _' + i;
                     if (_externalLabelRadius) {
                         classes += ' external';
                     }
@@ -4915,7 +5586,6 @@ dc.pieChart = function (parent, chartGroup) {
     function updateElements (pieData, arc) {
         updateSlicePaths(pieData, arc);
         updateLabels(pieData, arc);
-        updateTitles(pieData);
     }
 
     function updateSlicePaths (pieData, arc) {
@@ -4933,23 +5603,12 @@ dc.pieChart = function (parent, chartGroup) {
 
     function updateLabels (pieData, arc) {
         if (_chart.renderLabel()) {
-            var labels = _g.selectAll('text.' + _sliceCssClass)
+            var labels = _g.selectAll('text.' + _sliceTextCssClass)
                 .data(pieData);
             positionLabels(labels, arc);
             if (_externalLabelRadius && _drawPaths) {
                 updateLabelPaths(pieData, arc);
             }
-        }
-    }
-
-    function updateTitles (pieData) {
-        if (_chart.renderTitle()) {
-            _g.selectAll('g.' + _sliceCssClass)
-                .data(pieData)
-                .select('title')
-                .text(function (d) {
-                    return _chart.title()(d.data);
-                });
         }
     }
 
@@ -4972,6 +5631,25 @@ dc.pieChart = function (parent, chartGroup) {
             });
         }
     }
+
+    /**
+     * Get or set the root g element. This method is usually used to retrieve the g element in order to
+     * overlay custom svg drawing programatically. **Caution**: The root g element is usually generated
+     * by dc.js internals, and resetting it might produce unpredictable result.
+     * @method g
+     * @memberof dc.coordinateGridMixin
+     * @instance
+     * @param {SVGElement} [gElement]
+     * @return {SVGElement}
+     * @return {dc.coordinateGridMixin}
+     */
+    _chart.g = function (gElement) {
+        if (!arguments.length) {
+            return _g;
+        }
+        _g = gElement;
+        return _chart;
+    };
 
     /**
      * Get or set the external radius padding of the pie chart. This will force the radius of the
@@ -5386,9 +6064,7 @@ dc.barChart = function (parent, chartGroup) {
             .attr('y', _chart.yAxisHeight())
             .attr('height', 0);
 
-        if (_chart.renderTitle()) {
-            enter.append('title').text(dc.pluck('data', _chart.title(d.name)));
-        }
+        _chart._attachTitle(bars);
 
         if (_chart.isOrdinal()) {
             bars.on('click', _chart.onClick);
@@ -5926,8 +6602,9 @@ dc.lineChart = function (parent, chartGroup) {
                     .attr('cy', function (d) {
                         return dc.utils.safeNumber(_chart.y()(d.y + d.y0));
                     })
-                    .attr('fill', _chart.getColor)
-                    .call(renderTitle, d);
+                    .attr('fill', _chart.getColor);
+
+                _chart._attachTitle(dots);
 
                 dots.exit().remove();
             });
@@ -5974,13 +6651,6 @@ dc.lineChart = function (parent, chartGroup) {
     function hideRefLines (g) {
         g.select('path.' + Y_AXIS_REF_LINE_CLASS).style('display', 'none');
         g.select('path.' + X_AXIS_REF_LINE_CLASS).style('display', 'none');
-    }
-
-    function renderTitle (dot, d) {
-        if (_chart.renderTitle()) {
-            dot.selectAll('title').remove();
-            dot.append('title').text(dc.pluck('data', _chart.title(d.name)));
-        }
     }
 
     /**
@@ -7581,6 +8251,17 @@ dc.compositeChart = function (parent, chartGroup) {
         return _chart;
     };
 
+    dc.override(_chart, 'filterAll', function () {
+        var g = this._filterAll();
+        for (var i = 0; i < _children.length; ++i) {
+            var child = _children[i];
+
+            child.filterAll();
+        }
+
+        return g;
+    });
+
     return _chart.anchor(parent, chartGroup);
 };
 
@@ -8272,6 +8953,7 @@ dc.bubbleOverlay = function (parent, chartGroup) {
  * - {@link http://dc-js.github.com/dc.js/ Nasdaq 100 Index}
  * @class rowChart
  * @memberof dc
+ * @mixes dc.rowMixin
  * @mixes dc.capMixin
  * @mixes dc.marginMixin
  * @mixes dc.colorMixin
@@ -8289,405 +8971,188 @@ dc.bubbleOverlay = function (parent, chartGroup) {
  * @return {dc.rowChart}
  */
 dc.rowChart = function (parent, chartGroup) {
+    var _chart = dc.rowMixin(parent, chartGroup);
 
-    var _g;
-
-    var _labelOffsetX = 10;
-    var _labelOffsetY = 15;
-    var _hasLabelOffsetY = false;
-    var _dyOffset = '0.35em';  // this helps center labels https://github.com/mbostock/d3/wiki/SVG-Shapes#svg_text
-    var _titleLabelOffsetX = 2;
-
-    var _gap = 5;
-
-    var _fixedBarHeight = false;
     var _rowCssClass = 'row';
-    var _titleRowCssClass = 'titlerow';
-    var _renderTitleLabel = false;
-
-    var _chart = dc.capMixin(dc.marginMixin(dc.colorMixin(dc.baseMixin({}))));
-
-    var _x;
-
-    var _elasticX;
-
-    var _xAxis = d3.svg.axis().orient('bottom');
-
-    var _rowData;
-
-    _chart.rowsCap = _chart.cap;
-
-    function calculateAxisScale () {
-        if (!_x || _elasticX) {
-            var extent = d3.extent(_rowData, _chart.cappedValueAccessor);
-            if (extent[0] > 0) {
-                extent[0] = 0;
-            }
-            _x = d3.scale.linear().domain(extent)
-                .range([0, _chart.effectiveWidth()]);
-        }
-        _xAxis.scale(_x);
-    }
-
-    function drawAxis () {
-        var axisG = _g.select('g.axis');
-
-        calculateAxisScale();
-
-        if (axisG.empty()) {
-            axisG = _g.append('g').attr('class', 'axis');
-        }
-        axisG.attr('transform', 'translate(0, ' + _chart.effectiveHeight() + ')');
-
-        dc.transition(axisG, _chart.transitionDuration())
-            .call(_xAxis);
-    }
 
     _chart._doRender = function () {
         _chart.resetSvg();
 
-        _g = _chart.svg()
+        var _g = _chart.svg()
             .append('g')
             .attr('transform', 'translate(' + _chart.margins().left + ',' + _chart.margins().top + ')');
 
-        drawChart();
+        _chart.g(_g);
+
+        _chart._drawChart();
 
         return _chart;
     };
 
-    _chart.title(function (d) {
-        return _chart.cappedKeyAccessor(d) + ': ' + _chart.cappedValueAccessor(d);
-    });
+    _chart.axisWidth = function() {
+        return _chart.effectiveWidth();
+    };
 
-    _chart.label(_chart.cappedKeyAccessor);
+    _chart._drawChart = function () {
+        _chart._drawAxis(_chart.g());
+        _chart._drawGridLines(_chart.g());
+
+        var rows = _chart.g().selectAll('g.' + _rowCssClass)
+            .data(_chart.data());
+
+        _chart._createElements(rows);
+        _chart._removeElements(rows);
+        _chart._updateElements(rows);
+    };
+
+    return _chart;
+};
+
+/**
+ * Concrete paired row chart implementation.
+ *
+ * @class pairedRowChart
+ * @memberof dc
+ * @mixes dc.rowMixin
+ * @mixes dc.capMixin
+ * @mixes dc.marginMixin
+ * @mixes dc.colorMixin
+ * @mixes dc.baseMixin
+ * @example
+ * // create a row chart under #chart-container1 element using the default global chart group
+ * var chart1 = dc.pairedRowChart('#chart-container1');
+ * // create a row chart under #chart-container2 element using chart group A
+ * var chart2 = dc.pairedRowChart('#chart-container2', 'chartGroupA');
+ * @param {String|node|d3.selection} parent - Any valid
+ * {@link https://github.com/mbostock/d3/wiki/Selections#selecting-elements d3 single selector} specifying
+ * a dom block element such as a div; or a dom element or d3 selection.
+ * @param {String} [chartGroup] - The name of the chart group this chart instance should be placed in.
+ * Interaction with a chart will only trigger events and redraws within the chart's group.
+ * @return {dc.pairedRowChart}
+ */
+dc.pairedRowChart = function (parent, chartGroup) {
+    var _chart = dc.rowMixin(parent, chartGroup);
+
+    var _rowCssClass = 'row';
+
+    var _gLeft;
+    var _gRight;
+
+    // we need a way to know which data belongs on the left chart and which data belongs on the right
+    var _leftKeyFilter = function (d) {
+        return d.key[0];
+    };
+
+    var _rightKeyFilter = function (d) {
+        return d.key[0];
+    };
 
     /**
-     * Gets or sets the x scale. The x scale can be any d3
-     * {@link https://github.com/mbostock/d3/wiki/Quantitative-Scales quantitive scale}
-     * @method x
-     * @memberof dc.rowChart
-     * @instance
-     * @see {@link https://github.com/mbostock/d3/wiki/Quantitative-Scales quantitive scale}
-     * @param {d3.scale} [scale]
-     * @return {d3.scale}
-     * @return {dc.rowChart}
-     */
-    _chart.x = function (scale) {
+    #### .leftKeyFilter([value]) - **mandatory**
+    Set or get the left key filter attribute of a chart.
+    For example
+    function(d) {
+        return d.key[0] === 'Male';
+    }
+    If a value is given, then it will be used as the new left key filter. If no value is specified then
+    the current left key filter will be returned.
+    **/
+    _chart.leftKeyFilter = function (_) {
         if (!arguments.length) {
-            return _x;
+            return _leftKeyFilter;
         }
-        _x = scale;
+
+        _leftKeyFilter = _;
         return _chart;
     };
 
-    function drawGridLines () {
-        _g.selectAll('g.tick')
-            .select('line.grid-line')
-            .remove();
-
-        _g.selectAll('g.tick')
-            .append('line')
-            .attr('class', 'grid-line')
-            .attr('x1', 0)
-            .attr('y1', 0)
-            .attr('x2', 0)
-            .attr('y2', function () {
-                return -_chart.effectiveHeight();
-            });
+    /**
+    #### .rightKeyFilter([value]) - **mandatory**
+    Set or get the right key filter attribute of a chart.
+    For example
+    function(d) {
+        return d.key[0] === 'Female';
     }
+    If a value is given, then it will be used as the new right key filter. If no value is specified then
+    the current right key filter will be returned.
+    **/
+    _chart.rightKeyFilter = function (_) {
+        if (!arguments.length) {
+            return _rightKeyFilter;
+        }
 
-    function drawChart () {
-        _rowData = _chart.data();
+        _rightKeyFilter = _;
+        return _chart;
+    };
 
-        drawAxis();
-        drawGridLines();
+    _chart._doRender = function () {
+        _chart.resetSvg();
 
-        var rows = _g.selectAll('g.' + _rowCssClass)
-            .data(_rowData);
-
-        createElements(rows);
-        removeElements(rows);
-        updateElements(rows);
-    }
-
-    function createElements (rows) {
-        var rowEnter = rows.enter()
+        var _g = _chart.svg()
             .append('g')
-            .attr('class', function (d, i) {
-                return _rowCssClass + ' _' + i;
-            });
+            .attr('transform', 'translate(' + _chart.margins().left + ',' + _chart.margins().top + ')');
 
-        rowEnter.append('rect').attr('width', 0);
+        _chart.g(_g);
 
-        createLabels(rowEnter);
-        updateLabels(rows);
-    }
+        _gLeft = _g
+            .append('g')
+            .attr('transform', 'translate(0, 0)')
+            .attr('class', 'dc-paired-row-left');
 
-    function removeElements (rows) {
-        rows.exit().remove();
-    }
+        _gRight = _g
+            .append('g')
+            .attr('transform', 'translate(' + _chart.axisWidth() + ', 0)')
+            .attr('class', 'dc-paired-row-right');
 
-    function rootValue () {
-        var root = _x(0);
-        return (root === -Infinity || root !== root) ? _x(1) : root;
-    }
+        _chart._drawChart();
 
-    function updateElements (rows) {
-        var n = _rowData.length;
-
-        var height;
-        if (!_fixedBarHeight) {
-            height = (_chart.effectiveHeight() - (n + 1) * _gap) / n;
-        } else {
-            height = _fixedBarHeight;
-        }
-
-        // vertically align label in center unless they override the value via property setter
-        if (!_hasLabelOffsetY) {
-            _labelOffsetY = height / 2;
-        }
-
-        var rect = rows.attr('transform', function (d, i) {
-                return 'translate(0,' + ((i + 1) * _gap + i * height) + ')';
-            }).select('rect')
-            .attr('height', height)
-            .attr('fill', _chart.getColor)
-            .on('click', onClick)
-            .classed('deselected', function (d) {
-                return (_chart.hasFilter()) ? !isSelectedRow(d) : false;
-            })
-            .classed('selected', function (d) {
-                return (_chart.hasFilter()) ? isSelectedRow(d) : false;
-            });
-
-        dc.transition(rect, _chart.transitionDuration())
-            .attr('width', function (d) {
-                return Math.abs(rootValue() - _x(_chart.valueAccessor()(d)));
-            })
-            .attr('transform', translateX);
-
-        createTitles(rows);
-        updateLabels(rows);
-    }
-
-    function createTitles (rows) {
-        if (_chart.renderTitle()) {
-            rows.selectAll('title').remove();
-            rows.append('title').text(_chart.title());
-        }
-    }
-
-    function createLabels (rowEnter) {
-        if (_chart.renderLabel()) {
-            rowEnter.append('text')
-                .on('click', onClick);
-        }
-        if (_chart.renderTitleLabel()) {
-            rowEnter.append('text')
-                .attr('class', _titleRowCssClass)
-                .on('click', onClick);
-        }
-    }
-
-    function updateLabels (rows) {
-        if (_chart.renderLabel()) {
-            var lab = rows.select('text')
-                .attr('x', _labelOffsetX)
-                .attr('y', _labelOffsetY)
-                .attr('dy', _dyOffset)
-                .on('click', onClick)
-                .attr('class', function (d, i) {
-                    return _rowCssClass + ' _' + i;
-                })
-                .text(function (d) {
-                    return _chart.label()(d);
-                });
-            dc.transition(lab, _chart.transitionDuration())
-                .attr('transform', translateX);
-        }
-        if (_chart.renderTitleLabel()) {
-            var titlelab = rows.select('.' + _titleRowCssClass)
-                    .attr('x', _chart.effectiveWidth() - _titleLabelOffsetX)
-                    .attr('y', _labelOffsetY)
-                    .attr('text-anchor', 'end')
-                    .on('click', onClick)
-                    .attr('class', function (d, i) {
-                        return _titleRowCssClass + ' _' + i ;
-                    })
-                    .text(function (d) {
-                        return _chart.title()(d);
-                    });
-            dc.transition(titlelab, _chart.transitionDuration())
-                .attr('transform', translateX);
-        }
-    }
-
-    /**
-     * Turn on/off Title label rendering (values) using SVG style of text-anchor 'end'
-     * @method renderTitleLabel
-     * @memberof dc.rowChart
-     * @instance
-     * @param {Boolean} [renderTitleLabel=false]
-     * @return {Boolean}
-     * @return {dc.rowChart}
-     */
-    _chart.renderTitleLabel = function (renderTitleLabel) {
-        if (!arguments.length) {
-            return _renderTitleLabel;
-        }
-        _renderTitleLabel = renderTitleLabel;
         return _chart;
     };
 
-    function onClick (d) {
-        _chart.onClick(d);
-    }
-
-    function translateX (d) {
-        var x = _x(_chart.cappedValueAccessor(d)),
-            x0 = rootValue(),
-            s = x > x0 ? x0 : x;
-        return 'translate(' + s + ',0)';
-    }
-
-    _chart._doRedraw = function () {
-        drawChart();
-        return _chart;
+    _chart.axisWidth = function() {
+        return _chart.effectiveWidth() / 2;
     };
 
-    /**
-     * Get the x axis for the row chart instance.  Note: not settable for row charts.
-     * See the {@link https://github.com/mbostock/d3/wiki/SVG-Axes#wiki-axis d3 axis object}
-     * documention for more information.
-     * @method xAxis
-     * @memberof dc.rowChart
-     * @instance
-     * @see {@link https://github.com/mbostock/d3/wiki/SVG-Axes#wiki-axis d3.svg.axis}
-     * @example
-     * // customize x axis tick format
-     * chart.xAxis().tickFormat(function (v) {return v + '%';});
-     * // customize x axis tick values
-     * chart.xAxis().tickValues([0, 100, 200, 300]);
-     * @return {d3.svg.axis}
-     */
-    _chart.xAxis = function () {
-        return _xAxis;
+    _chart._drawChart = function () {
+        _chart.useRightYAxis(true);
+        _chart._drawChartLeft();
+        _chart.useRightYAxis(false);
+        _chart._drawChartRight();
     };
 
-    /**
-     * Get or set the fixed bar height. Default is [false] which will auto-scale bars.
-     * For example, if you want to fix the height for a specific number of bars (useful in TopN charts)
-     * you could fix height as follows (where count = total number of bars in your TopN and gap is
-     * your vertical gap space).
-     * @method fixedBarHeight
-     * @memberof dc.rowChart
-     * @instance
-     * @example
-     * chart.fixedBarHeight( chartheight - (count + 1) * gap / count);
-     * @param {Boolean|Number} [fixedBarHeight=false]
-     * @return {Boolean|Number}
-     * @return {dc.rowChart}
-     */
-    _chart.fixedBarHeight = function (fixedBarHeight) {
-        if (!arguments.length) {
-            return _fixedBarHeight;
-        }
-        _fixedBarHeight = fixedBarHeight;
-        return _chart;
+    _chart._drawChartLeft = function () {
+        var data = _chart.data().filter(function (d) {
+            return _chart.leftKeyFilter()(d);
+        });
+
+        _chart._drawAxis(_gLeft);
+
+        _chart._drawGridLines(_gLeft);
+
+        var rowsLeft = _gLeft.selectAll('g.' + _rowCssClass).data(data);
+
+        _chart._createElements(rowsLeft);
+        _chart._removeElements(rowsLeft);
+        _chart._updateElements(rowsLeft);
     };
 
-    /**
-     * Get or set the vertical gap space between rows on a particular row chart instance
-     * @method gap
-     * @memberof dc.rowChart
-     * @instance
-     * @param {Number} [gap=5]
-     * @return {Number}
-     * @return {dc.rowChart}
-     */
-    _chart.gap = function (gap) {
-        if (!arguments.length) {
-            return _gap;
-        }
-        _gap = gap;
-        return _chart;
+    _chart._drawChartRight = function () {
+        var data = _chart.data().filter(function (d) {
+            return _chart.rightKeyFilter()(d);
+        });
+
+        _chart._drawAxis(_gRight);
+
+        _chart._drawGridLines(_gRight);
+
+        var rowsRight = _gRight.selectAll('g.' + _rowCssClass).data(data);
+
+        _chart._createElements(rowsRight);
+        _chart._removeElements(rowsRight);
+        _chart._updateElements(rowsRight);
     };
 
-    /**
-     * Get or set the elasticity on x axis. If this attribute is set to true, then the x axis will rescle to auto-fit the
-     * data range when filtered.
-     * @method elasticX
-     * @memberof dc.rowChart
-     * @instance
-     * @param {Boolean} [elasticX]
-     * @return {Boolean}
-     * @return {dc.rowChart}
-     */
-    _chart.elasticX = function (elasticX) {
-        if (!arguments.length) {
-            return _elasticX;
-        }
-        _elasticX = elasticX;
-        return _chart;
-    };
-
-    /**
-     * Get or set the x offset (horizontal space to the top left corner of a row) for labels on a particular row chart.
-     * @method labelOffsetX
-     * @memberof dc.rowChart
-     * @instance
-     * @param {Number} [labelOffsetX=10]
-     * @return {Number}
-     * @return {dc.rowChart}
-     */
-    _chart.labelOffsetX = function (labelOffsetX) {
-        if (!arguments.length) {
-            return _labelOffsetX;
-        }
-        _labelOffsetX = labelOffsetX;
-        return _chart;
-    };
-
-    /**
-     * Get or set the y offset (vertical space to the top left corner of a row) for labels on a particular row chart.
-     * @method labelOffsetY
-     * @memberof dc.rowChart
-     * @instance
-     * @param {Number} [labelOffsety=15]
-     * @return {Number}
-     * @return {dc.rowChart}
-     */
-    _chart.labelOffsetY = function (labelOffsety) {
-        if (!arguments.length) {
-            return _labelOffsetY;
-        }
-        _labelOffsetY = labelOffsety;
-        _hasLabelOffsetY = true;
-        return _chart;
-    };
-
-    /**
-     * Get of set the x offset (horizontal space between right edge of row and right edge or text.
-     * @method titleLabelOffsetX
-     * @memberof dc.rowChart
-     * @instance
-     * @param {Number} [titleLabelOffsetX=2]
-     * @return {Number}
-     * @return {dc.rowChart}
-     */
-    _chart.titleLabelOffsetX = function (titleLabelOffsetX) {
-        if (!arguments.length) {
-            return _titleLabelOffsetX;
-        }
-        _titleLabelOffsetX = titleLabelOffsetX;
-        return _chart;
-    };
-
-    function isSelectedRow (d) {
-        return _chart.hasFilter(_chart.cappedKeyAccessor(d));
-    }
-
-    return _chart.anchor(parent, chartGroup);
+    return _chart;
 };
 
 /**
