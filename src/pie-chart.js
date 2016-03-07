@@ -27,6 +27,7 @@ dc.pieChart = function (parent, chartGroup) {
     var DEFAULT_MIN_ANGLE_FOR_LABEL = 0.5;
 
     var _sliceCssClass = 'pie-slice';
+    var _sliceTextCssClass = 'pie-slice-text';
     var _emptyCssClass = 'empty-chart';
     var _emptyTitle = 'empty';
 
@@ -177,7 +178,7 @@ dc.pieChart = function (parent, chartGroup) {
 
     function createLabels (pieData, arc) {
         if (_chart.renderLabel()) {
-            var labels = _g.selectAll('text.' + _sliceCssClass)
+            var labels = _g.selectAll('text.' + _sliceTextCssClass)
                 .data(pieData);
 
             labels.exit().remove();
@@ -186,7 +187,7 @@ dc.pieChart = function (parent, chartGroup) {
                 .enter()
                 .append('text')
                 .attr('class', function (d, i) {
-                    var classes = _sliceCssClass + ' _' + i;
+                    var classes = _sliceTextCssClass + ' _' + i;
                     if (_externalLabelRadius) {
                         classes += ' external';
                     }
@@ -252,7 +253,7 @@ dc.pieChart = function (parent, chartGroup) {
 
     function updateLabels (pieData, arc) {
         if (_chart.renderLabel()) {
-            var labels = _g.selectAll('text.' + _sliceCssClass)
+            var labels = _g.selectAll('text.' + _sliceTextCssClass)
                 .data(pieData);
             positionLabels(labels, arc);
             if (_externalLabelRadius && _drawPaths) {

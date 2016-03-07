@@ -41,7 +41,7 @@ div.dc-chart {
     cursor: pointer;
 }
 
-.dc-chart .pie-slice.external{
+.dc-chart .pie-slice.external {
     fill: black;
 }
 
@@ -54,10 +54,16 @@ div.dc-chart {
 }
 
 .dc-chart .pie-path {
-  fill:none;
-  stroke-width: 2px;
-  stroke: black;
-  opacity: 0.4;
+    fill:none;
+    stroke-width: 2px;
+    stroke: black;
+    opacity: 0.4;
+}
+
+.dc-chart .pie-slice-text {
+    fill: #FFFFFF;
+    font-size: 12px;
+    pointer-events: none;
 }
 
 .dc-chart .selected path {
