@@ -23,6 +23,9 @@
  */
 dc.rowChart = function (parent, chartGroup) {
 
+    var X_AXIS_LABEL_CLASS = 'x-axis-label';
+    var DEFAULT_AXIS_LABEL_PADDING = 12;
+
     var _g;
 
     var _labelOffsetX = 10;
@@ -43,6 +46,7 @@ dc.rowChart = function (parent, chartGroup) {
     var _x;
 
     var _elasticX;
+    var _xAxisLabel;
 
     var _xAxis = d3.svg.axis().orient('bottom');
 
@@ -72,6 +76,8 @@ dc.rowChart = function (parent, chartGroup) {
     function drawAxis () {
         var axisG = _g.select('g.axis');
 
+        renderXAxisLabel();
+
         calculateAxisScale();
 
         if (axisG.empty()) {
@@ -81,6 +87,35 @@ dc.rowChart = function (parent, chartGroup) {
 
         dc.transition(axisG, _chart.transitionDuration())
             .call(_xAxis);
+    }
+
+    function renderXAxisLabel () {
+        var text = _chart.xAxisLabel();
+
+        if (text) {
+            var axisXLab = _g.selectAll('text.' + X_AXIS_LABEL_CLASS);
+
+            if (axisXLab.empty()) {
+                axisXLab = _g.append('text')
+                    .attr('class', X_AXIS_LABEL_CLASS)
+                    .attr('text-anchor', 'middle');
+            }
+
+            if (axisXLab.text() !== text) {
+                axisXLab.text(text);
+            }
+            // calculate the height of the x axis label
+            _chart.xAxisLabelPadding = axisXLab.node().getBBox().height + 10;
+
+            axisXLab.attr('transform',
+                'translate(' + (_chart.effectiveWidth() / 2) +
+                ',' + (_chart.height() - _chart.xAxisLabelPadding + 10) + ')'
+            );
+
+            dc.transition(axisXLab, _chart.transitionDuration())
+                .attr('transform', 'translate(' + (_chart.effectiveWidth() / 2) + ',' +
+                    (_chart.height() - _chart.xAxisLabelPadding + 10) + ')');
+        }
     }
 
     _chart._doRender = function () {
@@ -333,6 +368,24 @@ dc.rowChart = function (parent, chartGroup) {
      */
     _chart.xAxis = function () {
         return _xAxis;
+    };
+
+    /**
+     * Set or get the x axis label. If setting the label, you may optionally include additional padding to
+     * the margin to make room for the label. By default the padded is set to 12 to accomodate the text height.
+     * @name xAxisLabel
+     * @memberof dc.coordinateGridMixin
+     * @instance
+     * @param {String} [labelText]
+     * @param {Number} [padding=12]
+     * @return {String}
+     */
+    _chart.xAxisLabel = function (labelText, padding) {
+        if (!arguments.length) {
+            return _xAxisLabel;
+        }
+        _xAxisLabel = labelText;
+        return _chart;
     };
 
     /**
