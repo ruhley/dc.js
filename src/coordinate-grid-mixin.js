@@ -68,6 +68,7 @@ dc.coordinateGridMixin = function (_chart) {
     var _xAxisLabel;
     var _xAxisLabelPadding = 0;
     var _lastXDomain;
+    var _xAxisTickLabelRotate = 0;
 
     var _y;
     var _yAxis = d3.svg.axis().orient('left');
@@ -75,6 +76,8 @@ dc.coordinateGridMixin = function (_chart) {
     var _yElasticity = false;
     var _yAxisLabel;
     var _yAxisLabelPadding = 0;
+    var _yAxisTickLabelRotate = 0;
+    var _yAxisTickIntegersOnly = false;
 
     var _brush = d3.svg.brush();
     var _brushOn = true;
@@ -508,6 +511,20 @@ dc.coordinateGridMixin = function (_chart) {
                       (_chart.height() - _xAxisLabelPadding) + ')')
                 .attr('text-anchor', 'middle');
         }
+
+        // rotate tick labels
+        var rotate = _chart.xAxisTickLabelRotate();
+        if (rotate) {
+          axisXG
+              .selectAll('.tick text')
+              .style('text-anchor', rotate < 0 ? 'end' : 'start')
+              .attr('transform',
+                  'rotate(' + rotate + ') ' +
+                  'translate(' + (10 * (rotate / MAX_TICK_LABEL_ROTATION)) +
+                  ', -' + Math.abs((13 * (rotate / MAX_TICK_LABEL_ROTATION))) + ')'
+              );
+        }
+
         if (_chart.xAxisLabel() && axisXLab.text() !== _chart.xAxisLabel()) {
             axisXLab.text(_chart.xAxisLabel());
         }
@@ -611,6 +628,10 @@ dc.coordinateGridMixin = function (_chart) {
         _y.range([_chart.yAxisHeight(), 0]);
         _yAxis = _yAxis.scale(_y);
 
+        if (_chart.yAxisTickIntegersOnly()) {
+            _yAxis.tickFormat(d3.format('d'));
+        }
+
         if (_useRightYAxis) {
             _yAxis.orient('right');
         }
@@ -656,6 +677,22 @@ dc.coordinateGridMixin = function (_chart) {
         var labelPosition = _useRightYAxis ? (_chart.width() - _yAxisLabelPadding) : _yAxisLabelPadding;
         var rotation = _useRightYAxis ? 90 : -90;
         _chart.renderYAxisLabel('y', _chart.yAxisLabel(), rotation, labelPosition);
+
+        // rotate the y axis tick labels
+        var rotate = _chart.yAxisTickLabelRotate();
+        if (rotate) {
+            var translateXRatio = rotate <= (MAX_TICK_LABEL_ROTATION / 2) ? 8 : 12;
+            var translateYRatio = rotate <= (MAX_TICK_LABEL_ROTATION / 2) ? 16 : 14;
+
+            axisYG
+                .selectAll('.tick text')
+                .style('text-anchor', 'end')
+                .attr('transform',
+                    'rotate(' + rotate + ') ' +
+                    'translate(' + (translateXRatio * (rotate / MAX_TICK_LABEL_ROTATION)) +
+                    ', ' + (translateYRatio * (rotate / MAX_TICK_LABEL_ROTATION)) + ')'
+                );
+        }
     };
 
     _chart._renderHorizontalGridLinesForAxis = function (g, scale, axis) {
@@ -730,6 +767,54 @@ dc.coordinateGridMixin = function (_chart) {
         _chart.margins().left -= _yAxisLabelPadding;
         _yAxisLabelPadding = (padding === undefined) ? DEFAULT_AXIS_LABEL_PADDING : padding;
         _chart.margins().left += _yAxisLabelPadding;
+        return _chart;
+    };
+
+    /**
+     * Get or set the x axis tick label rotation in degrees. Can be between -90 and 90.
+     * @name xAxisTickLabelRotate
+     * @memberof dc.coordinateGridMixin
+     * @instance
+     * @param {Number} [rotate]
+     * @return {Number}
+     */
+    _chart.xAxisTickLabelRotate = function (rotate) {
+        if (!arguments.length) {
+            return _xAxisTickLabelRotate;
+        }
+        _xAxisTickLabelRotate = rotate;
+        return _chart;
+    };
+
+    /**
+     * Get or set the y axis tick label rotation in degrees. Can be between -90 and 90.
+     * @name yAxisTickLabelRotate
+     * @memberof dc.coordinateGridMixin
+     * @instance
+     * @param {Number} [rotate]
+     * @return {Number}
+     */
+    _chart.yAxisTickLabelRotate = function (rotate) {
+        if (!arguments.length) {
+            return _yAxisTickLabelRotate;
+        }
+        _yAxisTickLabelRotate = rotate;
+        return _chart;
+    };
+
+    /**
+     * Get or set the y axis tick intergers only flag. Can be between true or false
+     * @name yAxisTickIntegersOnly
+     * @memberof dc.coordinateGridMixin
+     * @instance
+     * @param {Boolean} [flag]
+     * @return {Boolean}
+     */
+    _chart.yAxisTickIntegersOnly = function (flag) {
+        if (!arguments.length) {
+            return _yAxisTickIntegersOnly;
+        }
+        _yAxisTickIntegersOnly = flag;
         return _chart;
     };
 
