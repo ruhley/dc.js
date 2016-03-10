@@ -217,7 +217,7 @@ chart.width(300)
         * [.options(opts)](#dc.baseMixin+options) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
         * [.on(event, listener)](#dc.baseMixin+on) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
     * [.marginMixin](#dc.marginMixin) ⇒ <code>[marginMixin](#dc.marginMixin)</code>
-        * [.margins([margins])](#dc.marginMixin+margins) ⇒ <code>Object</code> &#124; <code>[marginMixin](#dc.marginMixin)</code>
+        * [.margins](#dc.marginMixin+margins) ⇒ <code>Object</code> &#124; <code>[marginMixin](#dc.marginMixin)</code>
     * [.colorMixin](#dc.colorMixin) ⇒ <code>[colorMixin](#dc.colorMixin)</code>
         * [.colors([colorScale])](#dc.colorMixin+colors) ⇒ <code>d3.scale</code> &#124; <code>[colorMixin](#dc.colorMixin)</code>
         * [.ordinalColors(r)](#dc.colorMixin+ordinalColors) ⇒ <code>[colorMixin](#dc.colorMixin)</code>
@@ -228,6 +228,7 @@ chart.width(300)
         * [.getColor(d, [i])](#dc.colorMixin+getColor) ⇒ <code>String</code>
         * [.colorCalculator([colorCalculator])](#dc.colorMixin+colorCalculator) ⇒ <code>\*</code>
     * [.coordinateGridMixin](#dc.coordinateGridMixin) ⇒ <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+        * [.g](#dc.coordinateGridMixin+g) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
         * [.xAxisTickLabelRotate](#dc.coordinateGridMixin+xAxisTickLabelRotate) ⇒ <code>Number</code>
         * [.yAxisTickLabelRotate](#dc.coordinateGridMixin+yAxisTickLabelRotate) ⇒ <code>Number</code>
         * [.yAxisTickIntegersOnly](#dc.coordinateGridMixin+yAxisTickIntegersOnly) ⇒ <code>Boolean</code>
@@ -236,7 +237,6 @@ chart.width(300)
         * [.rangeChart([rangeChart])](#dc.coordinateGridMixin+rangeChart) ⇒ <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
         * [.zoomScale([extent])](#dc.coordinateGridMixin+zoomScale) ⇒ <code>Array.&lt;(Number\|Date)&gt;</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
         * [.zoomOutRestrict([zoomOutRestrict])](#dc.coordinateGridMixin+zoomOutRestrict) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-        * [.g([gElement])](#dc.coordinateGridMixin+g) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
         * [.mouseZoomable([mouseZoomable])](#dc.coordinateGridMixin+mouseZoomable) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
         * [.chartBodyG([chartBodyG])](#dc.coordinateGridMixin+chartBodyG) ⇒ <code>SVGElement</code>
         * [.x([xScale])](#dc.coordinateGridMixin+x) ⇒ <code>d3.scale</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
@@ -263,8 +263,6 @@ chart.width(300)
         * [.clipPadding([padding])](#dc.coordinateGridMixin+clipPadding) ⇒ <code>Number</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
         * [.focus([range])](#dc.coordinateGridMixin+focus)
         * [.brushOn([brushOn])](#dc.coordinateGridMixin+brushOn) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-        * [.g([gElement])](#dc.coordinateGridMixin+g) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-        * [.g([gElement])](#dc.coordinateGridMixin+g) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
     * [.stackMixin](#dc.stackMixin) ⇒ <code>[stackMixin](#dc.stackMixin)</code>
         * [.stack(group, [name], [accessor])](#dc.stackMixin+stack) ⇒ <code>Array.&lt;{group: crossfilter.group, name: String, accessor: function()}&gt;</code> &#124; <code>[stackMixin](#dc.stackMixin)</code>
         * [.hidableStacks([hidableStacks])](#dc.stackMixin+hidableStacks) ⇒ <code>Boolean</code> &#124; <code>[stackMixin](#dc.stackMixin)</code>
@@ -3416,22 +3414,10 @@ Charts.
 | _chart | <code>Object</code> | 
 
 <a name="dc.marginMixin+margins"></a>
-#### marginMixin.margins([margins]) ⇒ <code>Object</code> &#124; <code>[marginMixin](#dc.marginMixin)</code>
-Get or set the margins for a particular coordinate grid chart instance. The margins is stored as
-an associative Javascript array.
+#### marginMixin.margins ⇒ <code>Object</code> &#124; <code>[marginMixin](#dc.marginMixin)</code>
+Get the margins for a particular coordinate grid chart instance.
 
-**Kind**: instance method of <code>[marginMixin](#dc.marginMixin)</code>  
-
-| Param | Type | Default |
-| --- | --- | --- |
-| [margins] | <code>Object</code> | <code>{top: 10, right: 50, bottom: 30, left: 30}</code> | 
-
-**Example**  
-```js
-var leftMargin = chart.margins().left; // 30 by default
-chart.margins().left = 50;
-leftMargin = chart.margins().left; // now 50
-```
+**Kind**: instance property of <code>[marginMixin](#dc.marginMixin)</code>  
 <a name="dc.colorMixin"></a>
 ### dc.colorMixin ⇒ <code>[colorMixin](#dc.colorMixin)</code>
 The Color Mixin is an abstract chart functional class providing universal coloring support
@@ -3573,6 +3559,7 @@ concrete chart types, e.g. bar chart, line chart, and bubble chart.
 
 
 * [.coordinateGridMixin](#dc.coordinateGridMixin) ⇒ <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+    * [.g](#dc.coordinateGridMixin+g) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
     * [.xAxisTickLabelRotate](#dc.coordinateGridMixin+xAxisTickLabelRotate) ⇒ <code>Number</code>
     * [.yAxisTickLabelRotate](#dc.coordinateGridMixin+yAxisTickLabelRotate) ⇒ <code>Number</code>
     * [.yAxisTickIntegersOnly](#dc.coordinateGridMixin+yAxisTickIntegersOnly) ⇒ <code>Boolean</code>
@@ -3581,7 +3568,6 @@ concrete chart types, e.g. bar chart, line chart, and bubble chart.
     * [.rangeChart([rangeChart])](#dc.coordinateGridMixin+rangeChart) ⇒ <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
     * [.zoomScale([extent])](#dc.coordinateGridMixin+zoomScale) ⇒ <code>Array.&lt;(Number\|Date)&gt;</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
     * [.zoomOutRestrict([zoomOutRestrict])](#dc.coordinateGridMixin+zoomOutRestrict) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.g([gElement])](#dc.coordinateGridMixin+g) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
     * [.mouseZoomable([mouseZoomable])](#dc.coordinateGridMixin+mouseZoomable) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
     * [.chartBodyG([chartBodyG])](#dc.coordinateGridMixin+chartBodyG) ⇒ <code>SVGElement</code>
     * [.x([xScale])](#dc.coordinateGridMixin+x) ⇒ <code>d3.scale</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
@@ -3608,8 +3594,18 @@ concrete chart types, e.g. bar chart, line chart, and bubble chart.
     * [.clipPadding([padding])](#dc.coordinateGridMixin+clipPadding) ⇒ <code>Number</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
     * [.focus([range])](#dc.coordinateGridMixin+focus)
     * [.brushOn([brushOn])](#dc.coordinateGridMixin+brushOn) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.g([gElement])](#dc.coordinateGridMixin+g) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-    * [.g([gElement])](#dc.coordinateGridMixin+g) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+
+<a name="dc.coordinateGridMixin+g"></a>
+#### coordinateGridMixin.g ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
+Get or set the root g element. This method is usually used to retrieve the g element in order to
+overlay custom svg drawing programatically. **Caution**: The root g element is usually generated
+by dc.js internals, and resetting it might produce unpredictable result.
+
+**Kind**: instance property of <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>  
+
+| Param | Type |
+| --- | --- |
+| [gElement] | <code>SVGElement</code> | 
 
 <a name="dc.coordinateGridMixin+xAxisTickLabelRotate"></a>
 #### coordinateGridMixin.xAxisTickLabelRotate ⇒ <code>Number</code>
@@ -3694,18 +3690,6 @@ Get or set the zoom restriction for the chart. If true limits the zoom to origio
 | Param | Type | Default |
 | --- | --- | --- |
 | [zoomOutRestrict] | <code>Boolean</code> | <code>true</code> | 
-
-<a name="dc.coordinateGridMixin+g"></a>
-#### coordinateGridMixin.g([gElement]) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-Get or set the root g element. This method is usually used to retrieve the g element in order to
-overlay custom svg drawing programatically. **Caution**: The root g element is usually generated
-by dc.js internals, and resetting it might produce unpredictable result.
-
-**Kind**: instance method of <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>  
-
-| Param | Type |
-| --- | --- |
-| [gElement] | <code>SVGElement</code> | 
 
 <a name="dc.coordinateGridMixin+mouseZoomable"></a>
 #### coordinateGridMixin.mouseZoomable([mouseZoomable]) ⇒ <code>Boolean</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
@@ -4053,30 +4037,6 @@ if enabled, but only via scrolling (panning will be disabled.)
 | Param | Type | Default |
 | --- | --- | --- |
 | [brushOn] | <code>Boolean</code> | <code>true</code> | 
-
-<a name="dc.coordinateGridMixin+g"></a>
-#### coordinateGridMixin.g([gElement]) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-Get or set the root g element. This method is usually used to retrieve the g element in order to
-overlay custom svg drawing programatically. **Caution**: The root g element is usually generated
-by dc.js internals, and resetting it might produce unpredictable result.
-
-**Kind**: instance method of <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>  
-
-| Param | Type |
-| --- | --- |
-| [gElement] | <code>SVGElement</code> | 
-
-<a name="dc.coordinateGridMixin+g"></a>
-#### coordinateGridMixin.g([gElement]) ⇒ <code>SVGElement</code> &#124; <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>
-Get or set the root g element. This method is usually used to retrieve the g element in order to
-overlay custom svg drawing programatically. **Caution**: The root g element is usually generated
-by dc.js internals, and resetting it might produce unpredictable result.
-
-**Kind**: instance method of <code>[coordinateGridMixin](#dc.coordinateGridMixin)</code>  
-
-| Param | Type |
-| --- | --- |
-| [gElement] | <code>SVGElement</code> | 
 
 <a name="dc.stackMixin"></a>
 ### dc.stackMixin ⇒ <code>[stackMixin](#dc.stackMixin)</code>
