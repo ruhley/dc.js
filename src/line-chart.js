@@ -48,7 +48,7 @@ dc.lineChart = function (parent, chartGroup) {
     _chart._rangeBandPadding(1);
 
     _chart.plotData = function () {
-        var chartBody = _chart.chartBodyG();
+        var chartBody = _chart._generateBody();
         var layersList = chartBody.selectAll('g.stack-list');
 
         if (layersList.empty()) {

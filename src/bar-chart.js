@@ -57,7 +57,7 @@ dc.barChart = function (parent, chartGroup) {
     }, false);
 
     _chart.plotData = function () {
-        var layers = _chart.chartBodyG().selectAll('g.stack')
+        var layers = _chart._generateBody().selectAll('g.stack')
             .data(_chart.data());
 
         calculateBarWidth();

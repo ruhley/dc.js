@@ -36,7 +36,6 @@ dc.pieChart = function (parent, chartGroup) {
         _innerRadius = 0,
         _externalRadiusPadding = 0;
 
-    var _g;
     var _cx;
     var _cy;
     var _minAngleForLabel = DEFAULT_MIN_ANGLE_FOR_LABEL;
@@ -70,9 +69,11 @@ dc.pieChart = function (parent, chartGroup) {
     _chart._doRender = function () {
         _chart.resetSvg();
 
-        _g = _chart.svg()
+        var _g = _chart.svg()
             .append('g')
             .attr('transform', 'translate(' + _chart.cx() + ',' + _chart.cy() + ')');
+
+        _chart.g(_g);
 
         drawChart();
 
@@ -90,16 +91,16 @@ dc.pieChart = function (parent, chartGroup) {
         // if we have data...
         if (d3.sum(_chart.data(), _chart.valueAccessor())) {
             pieData = pie(_chart.data());
-            _g.classed(_emptyCssClass, false);
+            _chart.g().classed(_emptyCssClass, false);
         } else {
             // otherwise we'd be getting NaNs, so override
             // note: abuse others for its ignoring the value accessor
             pieData = pie([{key: _emptyTitle, value: 1, others: [_emptyTitle]}]);
-            _g.classed(_emptyCssClass, true);
+            _chart.g().classed(_emptyCssClass, true);
         }
 
-        if (_g) {
-            var slices = _g.selectAll('g.' + _sliceCssClass)
+        if (_chart.g()) {
+            var slices = _chart.g().selectAll('g.' + _sliceCssClass)
                 .data(pieData);
 
             createElements(slices, arc, pieData);
@@ -110,7 +111,7 @@ dc.pieChart = function (parent, chartGroup) {
 
             highlightFilter();
 
-            dc.transition(_g, _chart.transitionDuration())
+            dc.transition(_chart.g(), _chart.transitionDuration())
                 .attr('transform', 'translate(' + _chart.cx() + ',' + _chart.cy() + ')');
         }
     }
@@ -170,7 +171,7 @@ dc.pieChart = function (parent, chartGroup) {
 
     function createLabels (pieData, arc) {
         if (_chart.renderLabel()) {
-            var labels = _g.selectAll('text.' + _sliceTextCssClass)
+            var labels = _chart.g().selectAll('text.' + _sliceTextCssClass)
                 .data(pieData);
 
             labels.exit().remove();
@@ -194,7 +195,7 @@ dc.pieChart = function (parent, chartGroup) {
     }
 
     function updateLabelPaths (pieData, arc) {
-        var polyline = _g.selectAll('polyline.' + _sliceCssClass)
+        var polyline = _chart.g().selectAll('polyline.' + _sliceCssClass)
                 .data(pieData);
 
         polyline
@@ -230,7 +231,7 @@ dc.pieChart = function (parent, chartGroup) {
     }
 
     function updateSlicePaths (pieData, arc) {
-        var slicePaths = _g.selectAll('g.' + _sliceCssClass)
+        var slicePaths = _chart.g().selectAll('g.' + _sliceCssClass)
             .data(pieData)
             .select('path')
             .attr('d', function (d, i) {
@@ -244,7 +245,7 @@ dc.pieChart = function (parent, chartGroup) {
 
     function updateLabels (pieData, arc) {
         if (_chart.renderLabel()) {
-            var labels = _g.selectAll('text.' + _sliceTextCssClass)
+            var labels = _chart.g().selectAll('text.' + _sliceTextCssClass)
                 .data(pieData);
             positionLabels(labels, arc);
             if (_externalLabelRadius && _drawPaths) {
@@ -272,25 +273,6 @@ dc.pieChart = function (parent, chartGroup) {
             });
         }
     }
-
-    /**
-     * Get or set the root g element. This method is usually used to retrieve the g element in order to
-     * overlay custom svg drawing programatically. **Caution**: The root g element is usually generated
-     * by dc.js internals, and resetting it might produce unpredictable result.
-     * @method g
-     * @memberof dc.coordinateGridMixin
-     * @instance
-     * @param {SVGElement} [gElement]
-     * @return {SVGElement}
-     * @return {dc.coordinateGridMixin}
-     */
-    _chart.g = function (gElement) {
-        if (!arguments.length) {
-            return _g;
-        }
-        _g = gElement;
-        return _chart;
-    };
 
     /**
      * Get or set the external radius padding of the pie chart. This will force the radius of the
@@ -448,7 +430,7 @@ dc.pieChart = function (parent, chartGroup) {
     }
 
     function onClick (d, i) {
-        if (_g.attr('class') !== _emptyCssClass) {
+        if (_chart.g().attr('class') !== _emptyCssClass) {
             _chart.onClick(d.data, i);
         }
     }

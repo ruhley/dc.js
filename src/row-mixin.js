@@ -12,15 +12,13 @@
  */
 dc.rowMixin = function (parent, chartGroup) {
     var X_AXIS_LABEL_CLASS = 'x-axis-label';
-    var DEFAULT_AXIS_LABEL_PADDING = 12;
+    var AXIS_LABEL_PADDING = 10;
 
     var _labelOffsetX = 10;
     var _labelOffsetY = 15;
     var _hasLabelOffsetY = false;
     var _dyOffset = '0.35em';  // this helps center labels https://github.com/mbostock/d3/wiki/SVG-Shapes#svg_text
     var _titleLabelOffsetX = 2;
-
-    var _g;
 
     var _gap = 5;
 
@@ -91,17 +89,21 @@ dc.rowMixin = function (parent, chartGroup) {
             if (axisXLab.text() !== text) {
                 axisXLab.text(text);
             }
+
+            // wrap the x axis label
+            _chart._wrapLabels(axisXLab, _chart.effectiveWidth());
+
             // calculate the height of the x axis label
-            _chart.xAxisLabelPadding = axisXLab.node().getBBox().height + 10;
+            _chart.xAxisLabelPadding = axisXLab.node().getBBox().height + AXIS_LABEL_PADDING + AXIS_LABEL_PADDING;
 
             axisXLab.attr('transform',
                 'translate(' + (_chart.axisWidth() / 2) +
-                ',' + (_chart.height() - _chart.xAxisLabelPadding + 10) + ')'
+                ',' + (_chart.height() - _chart.xAxisLabelPadding + AXIS_LABEL_PADDING) + ')'
             );
 
             dc.transition(axisXLab, _chart.transitionDuration())
                 .attr('transform', 'translate(' + (_chart.axisWidth() / 2) + ',' +
-                    (_chart.height() - _chart.xAxisLabelPadding + 10) + ')');
+                    (_chart.height() - _chart.xAxisLabelPadding + AXIS_LABEL_PADDING) + ')');
         }
     }
 
@@ -461,25 +463,6 @@ dc.rowMixin = function (parent, chartGroup) {
             return _useRightYAxis;
         }
         _useRightYAxis = _;
-        return _chart;
-    };
-
-    /**
-     * Get or set the root g element. This method is usually used to retrieve the g element in order to
-     * overlay custom svg drawing programatically. **Caution**: The root g element is usually generated
-     * by dc.js internals, and resetting it might produce unpredictable result.
-     * @method g
-     * @memberof dc.coordinateGridMixin
-     * @instance
-     * @param {SVGElement} [gElement]
-     * @return {SVGElement}
-     * @return {dc.coordinateGridMixin}
-     */
-    _chart.g = function (gElement) {
-        if (!arguments.length) {
-            return _g;
-        }
-        _g = gElement;
         return _chart;
     };
 

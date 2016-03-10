@@ -97,8 +97,8 @@ bar
   // .legend(dc.legend().position('left'));
 
 line
-  .width('50%')
-  .height('500px')
+  // .width('50%')
+  // .height('500px')
   .x(d3.scale.ordinal())
   .xUnits(dc.units.ordinal)
   .renderVerticalGridLines(true)
@@ -111,14 +111,14 @@ line
   // .legend(dc.legend().position('top'));
 
 pie
-  .width('50%')
-  .height('50%')
+  // .width('50%')
+  // .height('50%')
   .dimension(dimension)
   .group(groupSum)
   // .legend(dc.legend().position('right'));
 
 row
-  // .xAxisLabel('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam hendrerit lectus nisl, quis ultrices leo lobortis ut. Vivamus eleifend a metus eget gravida.')
+  .xAxisLabel('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam hendrerit lectus nisl, quis ultrices leo lobortis ut. Vivamus eleifend a metus eget gravida.')
   .dimension(dimension)
   .elasticX(true)
   .group(groupSum);
