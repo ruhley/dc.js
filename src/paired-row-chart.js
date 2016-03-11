@@ -131,6 +131,9 @@ dc.pairedRowChart = function (parent, chartGroup) {
             return _chart.rightKeyFilter()(d);
         });
 
+        dc.transition(_gRight, _chart.transitionDuration())
+            .attr('transform', 'translate(' + _chart.axisWidth() + ', 0)');
+
         _chart._drawAxis(_gRight);
 
         _chart._drawGridLines(_gRight);
