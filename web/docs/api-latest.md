@@ -79,7 +79,7 @@ chart.width(300)
         * [new compositeChart(parent, [chartGroup])](#new_dc.compositeChart_new)
         * [.useRightAxisGridLines([useRightAxisGridLines])](#dc.compositeChart+useRightAxisGridLines) ⇒ <code>Boolean</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
         * [.childOptions([childOptions])](#dc.compositeChart+childOptions) ⇒ <code>Object</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
-        * [.rightYAxisLabel([rightYAxisLabel], [padding])](#dc.compositeChart+rightYAxisLabel) ⇒ <code>String</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
+        * [.rightYAxisLabel([rightYAxisLabel])](#dc.compositeChart+rightYAxisLabel) ⇒ <code>String</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
         * [.compose([subChartArray])](#dc.compositeChart+compose) ⇒ <code>[compositeChart](#dc.compositeChart)</code>
         * [.children()](#dc.compositeChart+children) ⇒ <code>[Array.&lt;baseMixin&gt;](#dc.baseMixin)</code>
         * [.shareColors([shareColors])](#dc.compositeChart+shareColors) ⇒ <code>Boolean</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
@@ -1221,7 +1221,7 @@ bubbles will be sorted by their radius, with smaller bubbles in front.
     * [new compositeChart(parent, [chartGroup])](#new_dc.compositeChart_new)
     * [.useRightAxisGridLines([useRightAxisGridLines])](#dc.compositeChart+useRightAxisGridLines) ⇒ <code>Boolean</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
     * [.childOptions([childOptions])](#dc.compositeChart+childOptions) ⇒ <code>Object</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
-    * [.rightYAxisLabel([rightYAxisLabel], [padding])](#dc.compositeChart+rightYAxisLabel) ⇒ <code>String</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
+    * [.rightYAxisLabel([rightYAxisLabel])](#dc.compositeChart+rightYAxisLabel) ⇒ <code>String</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
     * [.compose([subChartArray])](#dc.compositeChart+compose) ⇒ <code>[compositeChart](#dc.compositeChart)</code>
     * [.children()](#dc.compositeChart+children) ⇒ <code>[Array.&lt;baseMixin&gt;](#dc.baseMixin)</code>
     * [.shareColors([shareColors])](#dc.compositeChart+shareColors) ⇒ <code>Boolean</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
@@ -1273,7 +1273,7 @@ Get or set chart-specific options for all child charts. This is equivalent to ca
 | [childOptions] | <code>Object</code> | 
 
 <a name="dc.compositeChart+rightYAxisLabel"></a>
-#### compositeChart.rightYAxisLabel([rightYAxisLabel], [padding]) ⇒ <code>String</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
+#### compositeChart.rightYAxisLabel([rightYAxisLabel]) ⇒ <code>String</code> &#124; <code>[compositeChart](#dc.compositeChart)</code>
 Set or get the right y axis label.
 
 **Kind**: instance method of <code>[compositeChart](#dc.compositeChart)</code>  
@@ -1281,7 +1281,6 @@ Set or get the right y axis label.
 | Param | Type |
 | --- | --- |
 | [rightYAxisLabel] | <code>String</code> | 
-| [padding] | <code>Number</code> | 
 
 <a name="dc.compositeChart+compose"></a>
 #### compositeChart.compose([subChartArray]) ⇒ <code>[compositeChart](#dc.compositeChart)</code>
