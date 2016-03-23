@@ -33,7 +33,6 @@ dc.compositeChart = function (parent, chartGroup) {
 
     var _rightYAxis = d3.svg.axis(),
         _rightYAxisLabel = 0,
-        _rightYAxisLabelPadding = DEFAULT_RIGHT_Y_AXIS_LABEL_PADDING,
         _rightY,
         _rightAxisGridLines = false;
 
@@ -96,13 +95,13 @@ dc.compositeChart = function (parent, chartGroup) {
 
     _chart.renderYAxis = function () {
         if (leftYAxisChildren().length !== 0) {
-            _chart.renderYAxisAt('y', _chart.yAxis(), _chart.margins().left);
-            _chart.renderYAxisLabel('y', _chart.yAxisLabel(), -90);
+            _chart.renderYAxisAt(false);
+            _chart.renderYAxisLabel(false);
         }
 
         if (rightYAxisChildren().length !== 0) {
-            _chart.renderYAxisAt('yr', _chart.rightYAxis(), _chart.width() - _chart.margins().right);
-            _chart.renderYAxisLabel('yr', _chart.rightYAxisLabel(), 90, _chart.width() - _rightYAxisLabelPadding);
+            _chart.renderYAxisAt(true);
+            _chart.renderYAxisLabel(true);
         }
     };
 
@@ -168,6 +167,8 @@ dc.compositeChart = function (parent, chartGroup) {
         _chart.rightYAxis(_chart.rightYAxis().scale(_chart.rightY()));
 
         _chart.rightYAxis().orient('right');
+
+        _chart._addYAxis(_chart.g(), _chart.rightYAxis(), true);
     }
 
     function prepareLeftYAxis (ranges) {
@@ -187,6 +188,8 @@ dc.compositeChart = function (parent, chartGroup) {
         _chart.yAxis(_chart.yAxis().scale(_chart.y()));
 
         _chart.yAxis().orient('left');
+
+        _chart._addYAxis(_chart.g(), _chart.yAxis(), false);
     }
 
     function generateChildG (child, i) {
@@ -279,18 +282,14 @@ dc.compositeChart = function (parent, chartGroup) {
      * @memberof dc.compositeChart
      * @instance
      * @param {String} [rightYAxisLabel]
-     * @param {Number} [padding]
      * @return {String}
      * @return {dc.compositeChart}
      */
-    _chart.rightYAxisLabel = function (rightYAxisLabel, padding) {
+    _chart.rightYAxisLabel = function (rightYAxisLabel) {
         if (!arguments.length) {
             return _rightYAxisLabel;
         }
         _rightYAxisLabel = rightYAxisLabel;
-        _chart.margins().right -= _rightYAxisLabelPadding;
-        _rightYAxisLabelPadding = (padding === undefined) ? DEFAULT_RIGHT_Y_AXIS_LABEL_PADDING : padding;
-        _chart.margins().right += _rightYAxisLabelPadding;
         return _chart;
     };
 

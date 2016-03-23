@@ -462,7 +462,13 @@ dc.coordinateGridMixin = function (_chart) {
 
     _chart.prepareAxisLabels = function (g) {
         _chart.prepareXAxisLabel(g);
-        _chart.prepareYAxisLabel(g, _useRightYAxis, _chart.yAxisLabel());
+
+        if (_chart.rightYAxisLabel) {
+            _chart.prepareYAxisLabel(g, false, _chart.yAxisLabel());
+            _chart.prepareYAxisLabel(g, true, _chart.rightYAxisLabel());
+        } else {
+            _chart.prepareYAxisLabel(g, _useRightYAxis, _chart.yAxisLabel());
+        }
     }
 
     _chart.prepareXAxisLabel = function(g) {
@@ -724,8 +730,12 @@ dc.coordinateGridMixin = function (_chart) {
             _yAxis.orient('right');
         }
 
-        var selector = _useRightYAxis ? 'g.' + Y_AXIS_CLASS + '.' + Y_RIGHT_AXIS_CLASS : 'g.' + Y_AXIS_CLASS + '.' + Y_LEFT_AXIS_CLASS;
-        var classes = _useRightYAxis ? Y_RIGHT_AXIS_CLASS : Y_LEFT_AXIS_CLASS;
+        _chart._addYAxis(g, _yAxis, _useRightYAxis);
+    };
+
+    _chart._addYAxis = function(g, yAxis, useRightYAxis) {
+        var selector = useRightYAxis ? 'g.' + Y_AXIS_CLASS + '.' + Y_RIGHT_AXIS_CLASS : 'g.' + Y_AXIS_CLASS + '.' + Y_LEFT_AXIS_CLASS;
+        var classes = useRightYAxis ? Y_RIGHT_AXIS_CLASS : Y_LEFT_AXIS_CLASS;
 
         // get the y axis group
         var axisYG = g.selectAll(selector);
@@ -737,14 +747,14 @@ dc.coordinateGridMixin = function (_chart) {
         }
 
         // set the x axis to the group
-        axisYG.call(_yAxis);
+        axisYG.call(yAxis);
 
-        if (_useRightYAxis) {
+        if (useRightYAxis) {
             _chart.rightYTickLabelPadding = axisYG.node().getBBox().width;
         } else {
             _chart.yTickLabelPadding = axisYG.node().getBBox().width;
         }
-    };
+    }
 
     _chart.renderYAxis = function (g) {
         _chart.renderYAxisAt(_useRightYAxis);
