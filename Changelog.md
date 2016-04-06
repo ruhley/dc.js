@@ -9,7 +9,8 @@
  * Fixing line charts ordering potentially creating skewed lines (a66be962d5908981d1cef05fabb1390496675aa7)
  * Changing deselected to a low opacity rather than changing to grey (d7d556c570b9d15bac9cac89718851419751fd93)
  * Tooltip redesign (a610159de2c7a3c062dfbadf9291238c6e699be2)
- * Implementing paired row chart (7dbb473b26b2b1906c945b6025eb93dbf33a30e4/f7c70b835fcce742d5d3d7ac11a119bf599336b6)
+ * Implementing paired row chart (7dbb473b26b2b1906c945b6025eb93dbf33a30e4/f7c70b835fcce742d5d3d7ac11a119bf599336b6/c632a04a6df7bf722ec74fd485a1ad313a3df485)
+ * Responsive Charts (bba80e8baefa92660f2e29502e64183f46eae078/c632a04a6df7bf722ec74fd485a1ad313a3df485/6b8ae2047f2733a6bc8a1b8eb74201269cd54912/c4485c62026d614a0103a92640e90849022b2173)
 
 
 ## 2.1.0

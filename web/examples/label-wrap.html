@@ -153,9 +153,12 @@ composite
   .yAxisTickIntegersOnly(true)
   .dimension(dimension)
   .group(groupCount)
+  ._rangeBandPadding(1)
   .compose([
     dc.barChart(composite)
       .group(groupSum)
+      .centerBar(true)
+      .gap(1)
     ,
     dc.lineChart(composite)
       .group(groupRandom)

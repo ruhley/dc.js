@@ -8121,6 +8121,7 @@ dc.compositeChart = function (parent, chartGroup) {
     _chart.plotData = function () {
         for (var i = 0; i < _children.length; ++i) {
             var child = _children[i];
+            child._parent = _chart;
 
             if (!child.g()) {
                 generateChildG(child, i);
