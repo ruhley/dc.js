@@ -267,6 +267,9 @@ dc.stackMixin = function (_chart) {
             return _stackLayout;
         }
         _stackLayout = stack;
+        if (_stackLayout.values() === d3.layout.stack().values()) {
+            _stackLayout.values(prepareValues);
+        }
         return _chart;
     };
 

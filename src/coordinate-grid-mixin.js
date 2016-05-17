@@ -141,8 +141,13 @@ dc.coordinateGridMixin = function (_chart) {
      * Get or set the range selection chart associated with this instance. Setting the range selection
      * chart using this function will automatically update its selection brush when the current chart
      * zooms in. In return the given range chart will also automatically attach this chart as its focus
-     * chart hence zoom in when range brush updates. See the [Nasdaq 100
-     * Index](http://dc-js.github.com/dc.js/) example for this effect in action.
+     * chart hence zoom in when range brush updates.
+     *
+     * Usually the range and focus charts will share a dimension. The range chart will set the zoom
+     * boundaries for the focus chart, so its dimension values must be compatible with the domain of
+     * the focus chart.
+     *
+     * See the [Nasdaq 100 Index](http://dc-js.github.com/dc.js/) example for this effect in action.
      * @method rangeChart
      * @memberof dc.coordinateGridMixin
      * @instance
@@ -211,7 +216,7 @@ dc.coordinateGridMixin = function (_chart) {
         if (_chartBodyG.empty()) {
             _chartBodyG = _chart.g().append('g')
                 .attr('class', CHART_BODY_CLASS)
-                .attr('clip-path', 'url(#' + getClipPathId() + ')');
+                .attr('clip-path', 'url(' + window.location.href + '#' + getClipPathId() + ')');
         }
 
         _chartBodyG
