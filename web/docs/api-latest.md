@@ -165,7 +165,8 @@ chart.width(300)
         * [.promptText](#dc.selectMenu+promptText)
         * [.filterDisplayed](#dc.selectMenu+filterDisplayed)
         * [.multiple](#dc.selectMenu+multiple)
-        * [.size](#dc.selectMenu+size)
+        * [.promptValue](#dc.selectMenu+promptValue)
+        * [.numberItems](#dc.selectMenu+numberItems)
     * [.baseMixin](#dc.baseMixin) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
         * [.clickOn](#dc.baseMixin+clickOn) ⇒ <code>Boolean</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
         * [.height([height])](#dc.baseMixin+height) ⇒ <code>Number</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
@@ -2422,7 +2423,8 @@ chart.tickFormat(d3.format('.2f'));
     * [.promptText](#dc.selectMenu+promptText)
     * [.filterDisplayed](#dc.selectMenu+filterDisplayed)
     * [.multiple](#dc.selectMenu+multiple)
-    * [.size](#dc.selectMenu+size)
+    * [.promptValue](#dc.selectMenu+promptValue)
+    * [.numberItems](#dc.selectMenu+numberItems)
 
 <a name="new_dc.selectMenu_new"></a>
 #### new selectMenu(parent, [chartGroup])
@@ -2513,20 +2515,34 @@ HTML tag into a multiple select.
 ```js
 chart.multiple(true);
 ```
-<a name="dc.selectMenu+size"></a>
-#### selectMenu.size
-Controls the height, in lines, of the select menu, when `.multiple()` is true. If `null` (the default),
-uses the browser's default height.
+<a name="dc.selectMenu+promptValue"></a>
+#### selectMenu.promptValue
+Controls the default value to be used for
+[dimension.filter](https://github.com/crossfilter/crossfilter/wiki/API-Reference#dimension_filter)
+when only the prompt value is selected. If `null` (the default), no filtering will occur when
+just the prompt is selected.
 
 **Kind**: instance property of <code>[selectMenu](#dc.selectMenu)</code>  
 
-| Param | Type |
-| --- | --- |
-| size | <code>number</code> | 
+| Param | Type | Default |
+| --- | --- | --- |
+| [promptValue] | <code>\*</code> | <code></code> | 
+
+<a name="dc.selectMenu+numberItems"></a>
+#### selectMenu.numberItems
+Controls the number of items to show in the select menu, when `.multiple()` is true. This
+controls the [`size` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#Attributes) of
+the `select` element. If `null` (the default), uses the browser's default height.
+
+**Kind**: instance property of <code>[selectMenu](#dc.selectMenu)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [numberVisible] | <code>number</code> | <code></code> | 
 
 **Example**  
 ```js
-chart.size(10);
+chart.numberVisible(10);
 ```
 <a name="dc.baseMixin"></a>
 ### dc.baseMixin ⇒ <code>[baseMixin](#dc.baseMixin)</code>
