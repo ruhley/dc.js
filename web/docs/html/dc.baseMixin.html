@@ -219,7 +219,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="base-mixin.js.html">base-mixin.js</a>,
-				 <a href="base-mixin.js.html#sunlight-1-line-1548">line 1548</a>
+				 <a href="base-mixin.js.html#sunlight-1-line-1582">line 1582</a>
 			</li>
 		</ul>
 	</dd>
@@ -909,7 +909,7 @@ chart.addFilterHandler(function(filters, filter) {
 		<ul class="dummy">
 			<li>
 				<a href="base-mixin.js.html">base-mixin.js</a>,
-				 <a href="base-mixin.js.html#sunlight-1-line-1413">line 1413</a>
+				 <a href="base-mixin.js.html#sunlight-1-line-1447">line 1447</a>
 			</li>
 		</ul>
 	</dd>
@@ -1035,7 +1035,7 @@ chart.addFilterHandler(function(filters, filter) {
 		<ul class="dummy">
 			<li>
 				<a href="base-mixin.js.html">base-mixin.js</a>,
-				 <a href="base-mixin.js.html#sunlight-1-line-1565">line 1565</a>
+				 <a href="base-mixin.js.html#sunlight-1-line-1599">line 1599</a>
 			</li>
 		</ul>
 	</dd>
@@ -1850,7 +1850,7 @@ chart.dimension(dimension);</pre>
 		<ul class="dummy">
 			<li>
 				<a href="base-mixin.js.html">base-mixin.js</a>,
-				 <a href="base-mixin.js.html#sunlight-1-line-1437">line 1437</a>
+				 <a href="base-mixin.js.html#sunlight-1-line-1471">line 1471</a>
 			</li>
 		</ul>
 	</dd>
@@ -1911,8 +1911,23 @@ chart.dimension(dimension);</pre>
 
     
     <div class="description">
-        <p>Filter the chart by the given value or return the current filter if the input parameter is missing.<br>If the passed filter is not currently in the chart's filters, it is added to the filters by the<br><a href="dc.baseMixin.html#addFilterHandler">addFilterHandler</a>.  If a filter exists already within the chart's<br>filters, it will be removed by the <a href="dc.baseMixin.html#removeFilterHandler">removeFilterHandler</a>.  If<br>a <code>null</code> value was passed at the filter, this denotes that the filters should be reset, and is performed<br>by the <a href="dc.baseMixin.html#resetFilterHandler">resetFilterHandler</a>.</p>
-<p>Once the filters array has been updated, the filters are applied to the crossfilter.dimension, using the<br><a href="dc.baseMixin.html#filterHandler">filterHandler</a>.</p>
+        <p>Filter the chart by the given parameter, or return the current filter if no input parameter<br>is given.</p>
+<p>The filter parameter can take one of these forms:</p>
+<ul>
+<li>A single value: the value will be toggled (added if it is not present in the current<br>filters, removed if it is present)</li>
+<li>An array containing a single array of values (<code>[[value,value,value]]</code>): each value is<br>toggled</li>
+<li>When appropriate for the chart, a <a href="dc.filters.html">dc filter object</a> such as<ul>
+<li><a href="dc.filters.RangedFilter.html"><code>dc.filters.RangedFilter</code></a> for the<br><a href="dc.coordinateGridMixin.html">dc.coordinateGridMixin</a> charts</li>
+<li><a href="dc.filters.TwoDimensionalFilter.html"><code>dc.filters.TwoDimensionalFilter</code></a> for the<br><a href="dc.heatMap.html">heat map</a></li>
+<li><a href="dc.filters.RangedTwoDimensionalFilter.html"><code>dc.filters.RangedTwoDimensionalFilter</code></a><br>for the <a href="dc.scatterPlot.html">scatter plot</a></li>
+</ul>
+</li>
+<li><code>null</code>: the filter will be reset using the<br><a href="dc.baseMixin.html#resetFilterHandler">resetFilterHandler</a></li>
+</ul>
+<p>Note that this is always a toggle (even when it doesn't make sense for the filter type). If<br>you wish to replace the current filter, either call <code>chart.filter(null)</code> first, or<br>equivalently, call <a href="dc.baseMixin.html#replaceFilter"><code>chart.replaceFilter(filter)</code></a> instead.</p>
+<p>Each toggle is executed by checking if the value is already present using the<br><a href="dc.baseMixin.html#hasFilterHandler">hasFilterHandler</a>; if it is not present, it is added<br>using the <a href="dc.baseMixin.html#addFilterHandler">addFilterHandler</a>; if it is already present,<br>it is removed using the <a href="dc.baseMixin.html#removeFilterHandler">removeFilterHandler</a>.</p>
+<p>Once the filters array has been updated, the filters are applied to the<br>crossfilter dimension, using the <a href="dc.baseMixin.html#filterHandler">filterHandler</a>.</p>
+<p>Once you have set the filters, call <a href="dc.baseMixin.html#redrawGroup"><code>chart.redrawGroup()</code></a><br>(or <a href="dc.html#.redrawAll"><code>dc.redrawAll()</code></a>) to redraw the chart's group.</p>
     </div>
     
 
@@ -2021,7 +2036,7 @@ chart.dimension(dimension);</pre>
 		<ul class="dummy">
 			<li>
 				<a href="base-mixin.js.html">base-mixin.js</a>,
-				 <a href="base-mixin.js.html#sunlight-1-line-975">line 975</a>
+				 <a href="base-mixin.js.html#sunlight-1-line-984">line 984</a>
 			</li>
 		</ul>
 	</dd>
@@ -2087,8 +2102,10 @@ chart.dimension(dimension);</pre>
 chart.filter(&#x27;Sunday&#x27;);
 // filter by a single age
 chart.filter(18);
-// filter by range -- note the use of dc.filters.RangedFilter
-// which is different from the regular crossfilter syntax, dimension.filter([15,20])
+// filter by a set of states
+chart.filter([[&#x27;MA&#x27;, &#x27;TX&#x27;, &#x27;ND&#x27;, &#x27;WA&#x27;]]);
+// filter by range -- note the use of dc.filters.RangedFilter, which is different
+// from the syntax for filtering a crossfilter dimension directly, dimension.filter([15,20])
 chart.filter(dc.filters.RangedFilter(15,20));</pre>
 
 
@@ -2325,7 +2342,7 @@ chart.filter(dc.filters.RangedFilter(15,20));</pre>
 		<ul class="dummy">
 			<li>
 				<a href="base-mixin.js.html">base-mixin.js</a>,
-				 <a href="base-mixin.js.html#sunlight-1-line-1158">line 1158</a>
+				 <a href="base-mixin.js.html#sunlight-1-line-1192">line 1192</a>
 			</li>
 		</ul>
 	</dd>
@@ -2686,7 +2703,7 @@ chart.filterHandler(function(dimension, filter){
 		<ul class="dummy">
 			<li>
 				<a href="base-mixin.js.html">base-mixin.js</a>,
-				 <a href="base-mixin.js.html#sunlight-1-line-1038">line 1038</a>
+				 <a href="base-mixin.js.html#sunlight-1-line-1072">line 1072</a>
 			</li>
 		</ul>
 	</dd>
@@ -3693,7 +3710,7 @@ chart.height(null); // reset the height to the default auto calculation</pre>
 		<ul class="dummy">
 			<li>
 				<a href="base-mixin.js.html">base-mixin.js</a>,
-				 <a href="base-mixin.js.html#sunlight-1-line-1239">line 1239</a>
+				 <a href="base-mixin.js.html#sunlight-1-line-1273">line 1273</a>
 			</li>
 		</ul>
 	</dd>
@@ -3936,7 +3953,7 @@ chart.keyAccessor(function(p) { return p.value.absGain; });</pre>
 		<ul class="dummy">
 			<li>
 				<a href="base-mixin.js.html">base-mixin.js</a>,
-				 <a href="base-mixin.js.html#sunlight-1-line-1288">line 1288</a>
+				 <a href="base-mixin.js.html#sunlight-1-line-1322">line 1322</a>
 			</li>
 		</ul>
 	</dd>
@@ -4133,7 +4150,7 @@ chart.label(function(d) { return d.data.key + &#x27;(&#x27; + Math.floor(d.data.
 		<ul class="dummy">
 			<li>
 				<a href="base-mixin.js.html">base-mixin.js</a>,
-				 <a href="base-mixin.js.html#sunlight-1-line-1454">line 1454</a>
+				 <a href="base-mixin.js.html#sunlight-1-line-1488">line 1488</a>
 			</li>
 		</ul>
 	</dd>
@@ -4755,7 +4772,7 @@ chart.label(function(d) { return d.data.key + &#x27;(&#x27; + Math.floor(d.data.
 		<ul class="dummy">
 			<li>
 				<a href="base-mixin.js.html">base-mixin.js</a>,
-				 <a href="base-mixin.js.html#sunlight-1-line-1614">line 1614</a>
+				 <a href="base-mixin.js.html#sunlight-1-line-1648">line 1648</a>
 			</li>
 		</ul>
 	</dd>
@@ -4933,7 +4950,7 @@ chart.label(function(d) { return d.data.key + &#x27;(&#x27; + Math.floor(d.data.
 		<ul class="dummy">
 			<li>
 				<a href="base-mixin.js.html">base-mixin.js</a>,
-				 <a href="base-mixin.js.html#sunlight-1-line-1140">line 1140</a>
+				 <a href="base-mixin.js.html#sunlight-1-line-1174">line 1174</a>
 			</li>
 		</ul>
 	</dd>
@@ -5071,7 +5088,7 @@ chart.label(function(d) { return d.data.key + &#x27;(&#x27; + Math.floor(d.data.
 		<ul class="dummy">
 			<li>
 				<a href="base-mixin.js.html">base-mixin.js</a>,
-				 <a href="base-mixin.js.html#sunlight-1-line-1576">line 1576</a>
+				 <a href="base-mixin.js.html#sunlight-1-line-1610">line 1610</a>
 			</li>
 		</ul>
 	</dd>
@@ -5138,7 +5155,7 @@ chart.label(function(d) { return d.data.key + &#x27;(&#x27; + Math.floor(d.data.
 
     
     <div class="description">
-        <p>Get or set an accessor to order ordinal dimensions.  This uses<br><a href="https://github.com/square/crossfilter/wiki/API-Reference#quicksort_by">crossfilter.quicksort.by</a> as the<br>sort.</p>
+        <p>Get or set an accessor to order ordinal dimensions.  The chart uses<br><a href="https://github.com/square/crossfilter/wiki/API-Reference#quicksort_by">crossfilter.quicksort.by</a><br>to sort elements; this accessor returns the value to order on.</p>
     </div>
     
 
@@ -5340,7 +5357,7 @@ _chart.ordering(dc.pluck(&#x27;key&#x27;));</pre>
 
     
     <div class="description">
-        <p>Calling redraw will cause the chart to re-render data changes incrementally. If there is no<br>change in the underlying data dimension then calling this method will have no effect on the<br>chart. Most chart interaction in dc will automatically trigger this method through internal<br>events (in particular <a href="dc.html#.redrawAll">dc.redrawAll</a>; therefore, you only need to<br>manually invoke this function if data is manipulated outside of dc's control (for example if<br>data is loaded in the background using<br><a href="https://github.com/square/crossfilter/wiki/API-Reference#crossfilter_add">crossfilter.add</a>.</p>
+        <p>Calling redraw will cause the chart to re-render data changes incrementally. If there is no<br>change in the underlying data dimension then calling this method will have no effect on the<br>chart. Most chart interaction in dc will automatically trigger this method through internal<br>events (in particular <a href="dc.html#.redrawAll">dc.redrawAll</a>); therefore, you only need to<br>manually invoke this function if data is manipulated outside of dc's control (for example if<br>data is loaded in the background using<br><a href="https://github.com/square/crossfilter/wiki/API-Reference#crossfilter_add">crossfilter.add</a>.</p>
     </div>
     
 
@@ -6098,7 +6115,7 @@ chart.removeFilterHandler(function(filters, filter) {
 		<ul class="dummy">
 			<li>
 				<a href="base-mixin.js.html">base-mixin.js</a>,
-				 <a href="base-mixin.js.html#sunlight-1-line-1317">line 1317</a>
+				 <a href="base-mixin.js.html#sunlight-1-line-1351">line 1351</a>
 			</li>
 		</ul>
 	</dd>
@@ -6284,7 +6301,7 @@ chart.removeFilterHandler(function(filters, filter) {
 		<ul class="dummy">
 			<li>
 				<a href="base-mixin.js.html">base-mixin.js</a>,
-				 <a href="base-mixin.js.html#sunlight-1-line-1384">line 1384</a>
+				 <a href="base-mixin.js.html#sunlight-1-line-1418">line 1418</a>
 			</li>
 		</ul>
 	</dd>
@@ -6474,7 +6491,7 @@ chart.on(&quot;renderlet&quot;, function(chart){
 		<ul class="dummy">
 			<li>
 				<a href="base-mixin.js.html">base-mixin.js</a>,
-				 <a href="base-mixin.js.html#sunlight-1-line-1366">line 1366</a>
+				 <a href="base-mixin.js.html#sunlight-1-line-1400">line 1400</a>
 			</li>
 		</ul>
 	</dd>
@@ -6537,6 +6554,176 @@ chart.on(&quot;renderlet&quot;, function(chart){
 
 </li>
         </ul>
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="replaceFilter"><span class="type-signature"></span>replaceFilter(<span class="optional">filter</span>)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Replace the chart filter. This is equivalent to calling <code>chart.filter(null).filter(filter)</code></p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>filter</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="base-mixin.js.html">base-mixin.js</a>,
+				 <a href="base-mixin.js.html#sunlight-1-line-970">line 970</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="dc.baseMixin.html">dc.baseMixin</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
 
     
 </dd>
@@ -7604,7 +7791,7 @@ d3.select(&#x27;#chart-id&#x27;).selectAll(selector);</pre>
 		<ul class="dummy">
 			<li>
 				<a href="base-mixin.js.html">base-mixin.js</a>,
-				 <a href="base-mixin.js.html#sunlight-1-line-1334">line 1334</a>
+				 <a href="base-mixin.js.html#sunlight-1-line-1368">line 1368</a>
 			</li>
 		</ul>
 	</dd>
@@ -7671,7 +7858,7 @@ d3.select(&#x27;#chart-id&#x27;).selectAll(selector);</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">// default title function just return the key
+    <pre class="sunlight-highlight-javascript">// default title function shows &quot;key: value&quot;
 chart.title(function(d) { return d.key + &#x27;: &#x27; + d.value; });
 // title function has access to the standard d3 data binding and can get quite complicated
 chart.title(function(p) {
@@ -8230,7 +8417,7 @@ chart.title(function(p) {
 		<ul class="dummy">
 			<li>
 				<a href="base-mixin.js.html">base-mixin.js</a>,
-				 <a href="base-mixin.js.html#sunlight-1-line-1263">line 1263</a>
+				 <a href="base-mixin.js.html#sunlight-1-line-1297">line 1297</a>
 			</li>
 		</ul>
 	</dd>
@@ -8568,7 +8755,7 @@ chart.width(function (element) {
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
 	
-		on Thu Apr 7th 2016
+		on Tue Jun 28th 2016
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

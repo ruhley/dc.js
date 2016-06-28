@@ -10,11 +10,7 @@ such as [.svg](#dc.baseMixin+svg) and [.xAxis](#dc.coordinateGridMixin+xAxis),
 return values that are themselves chainable d3 objects.
 
 **Kind**: global namespace  
-<<<<<<< HEAD
-**Version**: 2.1.0-dev  
-=======
-**Version**: 2.0.0-beta.29  
->>>>>>> ed1f8404d72c392ef6659c9495c105e80dffcc16
+**Version**: 2.0.0-beta.30  
 **Example**  
 ```js
 // Example chaining
@@ -203,6 +199,7 @@ chart.width(300)
         * [.removeFilterHandler([removeFilterHandler])](#dc.baseMixin+removeFilterHandler) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
         * [.addFilterHandler([addFilterHandler])](#dc.baseMixin+addFilterHandler) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
         * [.resetFilterHandler([resetFilterHandler])](#dc.baseMixin+resetFilterHandler) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+        * [.replaceFilter([filter])](#dc.baseMixin+replaceFilter) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
         * [.filter([filter])](#dc.baseMixin+filter) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
         * [.filters()](#dc.baseMixin+filters) ⇒ <code>Array.&lt;\*&gt;</code>
         * [.onClick(datum)](#dc.baseMixin+onClick)
@@ -2577,6 +2574,7 @@ and available on all chart implementations in the `dc` library.
     * [.removeFilterHandler([removeFilterHandler])](#dc.baseMixin+removeFilterHandler) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
     * [.addFilterHandler([addFilterHandler])](#dc.baseMixin+addFilterHandler) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
     * [.resetFilterHandler([resetFilterHandler])](#dc.baseMixin+resetFilterHandler) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+    * [.replaceFilter([filter])](#dc.baseMixin+replaceFilter) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
     * [.filter([filter])](#dc.baseMixin+filter) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
     * [.filters()](#dc.baseMixin+filters) ⇒ <code>Array.&lt;\*&gt;</code>
     * [.onClick(datum)](#dc.baseMixin+onClick)
@@ -2756,9 +2754,9 @@ chart.group(dimension.group(crossfilter.reduceSum()));
 ```
 <a name="dc.baseMixin+ordering"></a>
 #### baseMixin.ordering([orderFunction]) ⇒ <code>function</code> &#124; <code>[baseMixin](#dc.baseMixin)</code>
-Get or set an accessor to order ordinal dimensions.  This uses
-[crossfilter.quicksort.by](https://github.com/square/crossfilter/wiki/API-Reference#quicksort_by) as the
-sort.
+Get or set an accessor to order ordinal dimensions.  The chart uses
+[crossfilter.quicksort.by](https://github.com/square/crossfilter/wiki/API-Reference#quicksort_by)
+to sort elements; this accessor returns the value to order on.
 
 **Kind**: instance method of <code>[baseMixin](#dc.baseMixin)</code>  
 **See**: [crossfilter.quicksort.by](https://github.com/square/crossfilter/wiki/API-Reference#quicksort_by)  
@@ -2926,7 +2924,7 @@ behaviour.
 Calling redraw will cause the chart to re-render data changes incrementally. If there is no
 change in the underlying data dimension then calling this method will have no effect on the
 chart. Most chart interaction in dc will automatically trigger this method through internal
-events (in particular [redrawAll](#dc.redrawAll); therefore, you only need to
+events (in particular [redrawAll](#dc.redrawAll)); therefore, you only need to
 manually invoke this function if data is manipulated outside of dc's control (for example if
 data is loaded in the background using
 [crossfilter.add](https://github.com/square/crossfilter/wiki/API-Reference#crossfilter_add).
@@ -3085,17 +3083,50 @@ chart.resetFilterHandler(function(filters) {
     return filters;
 });
 ```
+<a name="dc.baseMixin+replaceFilter"></a>
+#### baseMixin.replaceFilter([filter]) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
+Replace the chart filter. This is equivalent to calling `chart.filter(null).filter(filter)`
+
+**Kind**: instance method of <code>[baseMixin](#dc.baseMixin)</code>  
+
+| Param | Type |
+| --- | --- |
+| [filter] | <code>\*</code> | 
+
 <a name="dc.baseMixin+filter"></a>
 #### baseMixin.filter([filter]) ⇒ <code>[baseMixin](#dc.baseMixin)</code>
-Filter the chart by the given value or return the current filter if the input parameter is missing.
-If the passed filter is not currently in the chart's filters, it is added to the filters by the
-[addFilterHandler](#dc.baseMixin+addFilterHandler).  If a filter exists already within the chart's
-filters, it will be removed by the [removeFilterHandler](#dc.baseMixin+removeFilterHandler).  If
-a `null` value was passed at the filter, this denotes that the filters should be reset, and is performed
-by the [resetFilterHandler](#dc.baseMixin+resetFilterHandler).
+Filter the chart by the given parameter, or return the current filter if no input parameter
+is given.
 
-Once the filters array has been updated, the filters are applied to the crossfilter.dimension, using the
-[filterHandler](#dc.baseMixin+filterHandler).
+The filter parameter can take one of these forms:
+* A single value: the value will be toggled (added if it is not present in the current
+filters, removed if it is present)
+* An array containing a single array of values (`[[value,value,value]]`): each value is
+toggled
+* When appropriate for the chart, a [dc filter object](#dc.filters) such as
+  * [`dc.filters.RangedFilter`](#dc.filters.RangedFilter) for the
+[coordinateGridMixin](#dc.coordinateGridMixin) charts
+  * [`dc.filters.TwoDimensionalFilter`](#dc.filters.TwoDimensionalFilter) for the
+[heat map](#dc.heatMap)
+  * [`dc.filters.RangedTwoDimensionalFilter`](#dc.filters.RangedTwoDimensionalFilter)
+for the [scatter plot](#dc.scatterPlot)
+* `null`: the filter will be reset using the
+[resetFilterHandler](#dc.baseMixin+resetFilterHandler)
+
+Note that this is always a toggle (even when it doesn't make sense for the filter type). If
+you wish to replace the current filter, either call `chart.filter(null)` first, or
+equivalently, call [`chart.replaceFilter(filter)`](#dc.baseMixin+replaceFilter) instead.
+
+Each toggle is executed by checking if the value is already present using the
+[hasFilterHandler](#dc.baseMixin+hasFilterHandler); if it is not present, it is added
+using the [addFilterHandler](#dc.baseMixin+addFilterHandler); if it is already present,
+it is removed using the [removeFilterHandler](#dc.baseMixin+removeFilterHandler).
+
+Once the filters array has been updated, the filters are applied to the
+crossfilter dimension, using the [filterHandler](#dc.baseMixin+filterHandler).
+
+Once you have set the filters, call [`chart.redrawGroup()`](#dc.baseMixin+redrawGroup)
+(or [`dc.redrawAll()`](#dc.redrawAll)) to redraw the chart's group.
 
 **Kind**: instance method of <code>[baseMixin](#dc.baseMixin)</code>  
 **See**
@@ -3116,8 +3147,10 @@ Once the filters array has been updated, the filters are applied to the crossfil
 chart.filter('Sunday');
 // filter by a single age
 chart.filter(18);
-// filter by range -- note the use of dc.filters.RangedFilter
-// which is different from the regular crossfilter syntax, dimension.filter([15,20])
+// filter by a set of states
+chart.filter([['MA', 'TX', 'ND', 'WA']]);
+// filter by range -- note the use of dc.filters.RangedFilter, which is different
+// from the syntax for filtering a crossfilter dimension directly, dimension.filter([15,20])
 chart.filter(dc.filters.RangedFilter(15,20));
 ```
 <a name="dc.baseMixin+filters"></a>
@@ -3267,7 +3300,7 @@ otherwise the brush layer will block tooltip triggering.
 
 **Example**  
 ```js
-// default title function just return the key
+// default title function shows "key: value"
 chart.title(function(d) { return d.key + ': ' + d.value; });
 // title function has access to the standard d3 data binding and can get quite complicated
 chart.title(function(p) {
