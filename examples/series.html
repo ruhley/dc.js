@@ -3,14 +3,17 @@
 <head>
     <title>dc.js - Series Example</title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../css/dc.css"/>
 </head>
 <body>
 
+<div class="container">
+<script type="text/javascript" src="header.js"></script>
 <div id="test"></div>
-<button onclick="button1()">1</button>
-<button onclick="button2()">2</button>
-<button onclick="button3()">3</button>
+<button class="btn" onclick="button1()">1</button>
+<button class="btn" onclick="button2()">2</button>
+<button class="btn" onclick="button3()">3</button>
 
 <script type="text/javascript" src="../js/d3.js"></script>
 <script type="text/javascript" src="../js/crossfilter.js"></script>
@@ -44,7 +47,6 @@ d3.csv("morley.csv", function(error, experiments) {
     .valueAccessor(function(d) {return +d.value - 500;})
     .legend(dc.legend().x(350).y(350).itemHeight(13).gap(5).horizontal(1).legendWidth(140).itemWidth(70));
   chart.yAxis().tickFormat(function(d) {return d3.format(',d')(d+299500);});
-  chart.margins().left += 40;
 
   dc.renderAll();
 
@@ -66,5 +68,6 @@ var button1 = load_button("morley.csv"),
 
 </script>
 
+</div>
 </body>
 </html>

@@ -94,11 +94,11 @@ bar
   .dimension(dimension)
   .useRightYAxis(false)
   .group(groupSum)
-  .legend(dc.legend().position('left'));
+  // .legend(dc.legend().position('left'));
 
 line
-  .width('50%')
-  .height('500px')
+  // .width('50%')
+  // .height('500px')
   .x(d3.scale.ordinal())
   .xUnits(dc.units.ordinal)
   .renderVerticalGridLines(true)
@@ -106,16 +106,17 @@ line
   .xAxisLabel('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam hendrerit lectus nisl, quis ultrices leo lobortis ut. Vivamus eleifend a metus eget gravida.')
   .yAxisLabel('Integer tempor efficitur metus. Etiam id enim lacinia.')
   .yAxisTickIntegersOnly(true)
+  .useRightYAxis(true)
   .dimension(dimension)
   .group(groupSum)
-  .legend(dc.legend().position('top'));
+  // .legend(dc.legend().position('top'));
 
 pie
-  .width('50%')
-  .height('50%')
+  // .width('50%')
+  // .height('50%')
   .dimension(dimension)
   .group(groupSum)
-  .legend(dc.legend().position('right'));
+  // .legend(dc.legend().position('right'));
 
 row
   .xAxisLabel('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam hendrerit lectus nisl, quis ultrices leo lobortis ut. Vivamus eleifend a metus eget gravida.')
@@ -139,7 +140,7 @@ series
   .keyAccessor(function(d) {
       return d.key[0];
   })
-  .legend(dc.legend().position('top'));
+  // .legend(dc.legend().position('top'));
 
 composite
   .x(d3.scale.ordinal())
@@ -152,15 +153,18 @@ composite
   .yAxisTickIntegersOnly(true)
   .dimension(dimension)
   .group(groupCount)
+  ._rangeBandPadding(1)
   .compose([
     dc.barChart(composite)
       .group(groupSum)
+      .centerBar(true)
+      .gap(1)
     ,
     dc.lineChart(composite)
       .group(groupRandom)
       .useRightYAxis(true)
   ])
-  .legend(dc.legend().position('bottom'));
+  // .legend(dc.legend().position('bottom'));
 
 bar.render();
 

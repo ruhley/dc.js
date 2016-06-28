@@ -3,10 +3,13 @@
 <head>
     <title>dc.js - Box-Plot Example</title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../css/dc.css"/>
 </head>
 <body>
 
+<div class="container">
+<script type="text/javascript" src="header.js"></script>
 <div id="box-test"></div>
 <div id="pie-chart"></div>
 
@@ -47,7 +50,6 @@ d3.csv("monthly-move.csv", function(error, data) {
   chart
     .width(768)
     .height(480)
-    .margins({top: 10, right: 50, bottom: 30, left: 50})
     .dimension(monthDimension)
     .group(closeGroup)
     .x(d3.time.scale().domain([new Date("11/01/1985"), new Date("6/01/1986")]))
@@ -67,5 +69,6 @@ d3.csv("monthly-move.csv", function(error, data) {
 
 </script>
 
+</div>
 </body>
 </html>

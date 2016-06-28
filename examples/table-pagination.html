@@ -3,23 +3,18 @@
 <head>
     <title>dc.js - Table of Aggregated Data</title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../css/dc.css"/>
 </head>
 <body>
 
-  <table id="test">
-    <thead>
-      <tr>
-        <th>Expt</th>
-        <th>#Run</th>
-        <th>Avg(Speed)</th>
-      </tr>
-    </thead>
-  </table>
+<div class="container">
+<script type="text/javascript" src="header.js"></script>
+  <table id="test"></table>
   <div id="paging">
     Showing <span id="begin"></span>-<span id="end"></span> of <span id="size"></span>.
-    <input id="last" type="Button" value="Last" onclick="javascript:last()" />
-    <input id="next" type="button" value="Next" onclick="javascript:next()"/>
+    <input id="last" class="btn" type="Button" value="Last" onclick="javascript:last()" />
+    <input id="next" class="btn" type="button" value="Next" onclick="javascript:next()"/>
   </div>
 
 <script type="text/javascript" src="../js/d3.js"></script>
@@ -79,5 +74,6 @@ d3.csv("morley.csv", function(error, experiments) {
 
 </script>
 
+</div>
 </body>
 </html>
