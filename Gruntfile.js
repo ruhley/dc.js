@@ -132,6 +132,9 @@ module.exports = function (grunt) {
                         '<%= conf.web %>/js/jasmine-jsreporter.js',
                         '<%= conf.spec %>/helpers/*.js'
                     ],
+                    styles: [
+                        '<%= conf.web %>/css/dc.css'
+                    ],
                     version: '2.0.0',
                     outfile: '<%= conf.spec %>/index.html',
                     keepRunner: true
@@ -206,7 +209,7 @@ module.exports = function (grunt) {
                         },
                         {
                             browserName: 'MicrosoftEdge',
-                            version: '20.10240',
+                            version: '14',
                             platform: 'Windows 10'
                         }
                     ],
