@@ -6995,6 +6995,13 @@ dc.lineChart = function (parent, chartGroup) {
         g.select('path.' + Y_AXIS_REF_LINE_CLASS).style('display', 'none');
         g.select('path.' + X_AXIS_REF_LINE_CLASS).style('display', 'none');
     }
+    
+    function renderTitle (dot, d) {
+        if (_chart.renderTitle()) {
+            dot.selectAll('title').remove();
+            dot.append('title').text(dc.pluck('data', _chart.title(d.name)));
+        }
+    }
 
     /**
      * Turn on/off the mouseover behavior of an individual data point which renders a circle and x/y axis
