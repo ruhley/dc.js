@@ -1,375 +1,289 @@
 /**
- * The pie chart implementation is usually used to visualize a small categorical distribution.  The pie
- * chart uses keyAccessor to determine the slices, and valueAccessor to calculate the size of each
- * slice relative to the sum of all values. Slices are ordered by {@link dc.baseMixin#ordering ordering}
- * which defaults to sorting by key.
+ * Concrete row chart implementation.
  *
  * Examples:
  * - {@link http://dc-js.github.com/dc.js/ Nasdaq 100 Index}
- * @class pieChart
+ * @class rowChart
  * @memberof dc
  * @mixes dc.capMixin
+ * @mixes dc.marginMixin
  * @mixes dc.colorMixin
  * @mixes dc.baseMixin
  * @example
- * // create a pie chart under #chart-container1 element using the default global chart group
- * var chart1 = dc.pieChart('#chart-container1');
- * // create a pie chart under #chart-container2 element using chart group A
- * var chart2 = dc.pieChart('#chart-container2', 'chartGroupA');
+ * // create a row chart under #chart-container1 element using the default global chart group
+ * var chart1 = dc.rowChart('#chart-container1');
+ * // create a row chart under #chart-container2 element using chart group A
+ * var chart2 = dc.rowChart('#chart-container2', 'chartGroupA');
  * @param {String|node|d3.selection} parent - Any valid
  * {@link https://github.com/mbostock/d3/wiki/Selections#selecting-elements d3 single selector} specifying
  * a dom block element such as a div; or a dom element or d3 selection.
  * @param {String} [chartGroup] - The name of the chart group this chart instance should be placed in.
  * Interaction with a chart will only trigger events and redraws within the chart's group.
- * @return {dc.pieChart}
+ * @return {dc.rowChart}
  */
-dc.pieChart = function (parent, chartGroup) {
-    var DEFAULT_MIN_ANGLE_FOR_LABEL = 0.5;
+dc.rowChart = function (parent, chartGroup) {
 
-    var _sliceCssClass = 'pie-slice';
-    var _sliceTextCssClass = 'pie-slice-text';
-    var _emptyCssClass = 'empty-chart';
-    var _emptyTitle = 'empty';
+    var _g;
 
-    var _radius,
-        _givenRadius, // specified radius, if any
-        _innerRadius = 0,
-        _externalRadiusPadding = 0;
+    var _labelOffsetX = 10;
+    var _labelOffsetY = 15;
+    var _hasLabelOffsetY = false;
+    var _dyOffset = '0.35em';  // this helps center labels https://github.com/mbostock/d3/wiki/SVG-Shapes#svg_text
+    var _titleLabelOffsetX = 2;
 
-    var _cx;
-    var _cy;
-    var _minAngleForLabel = DEFAULT_MIN_ANGLE_FOR_LABEL;
-    var _externalLabelRadius;
-    var _drawPaths = false;
-    var _chart = dc.capMixin(dc.colorMixin(dc.baseMixin({})));
+    var _gap = 5;
 
-    _chart.colorAccessor(_chart.cappedKeyAccessor);
+    var _fixedBarHeight = false;
+    var _rowCssClass = 'row';
+    var _titleRowCssClass = 'titlerow';
+    var _renderTitleLabel = false;
 
-    _chart.title(function (d) {
-        return _chart.cappedKeyAccessor(d) + ': ' + _chart.cappedValueAccessor(d);
-    });
+    var _chart = dc.capMixin(dc.marginMixin(dc.colorMixin(dc.baseMixin({}))));
 
-    /**
-     * Get or set the maximum number of slices the pie chart will generate. The top slices are determined by
-     * value from high to low. Other slices exeeding the cap will be rolled up into one single *Others* slice.
-     * @method slicesCap
-     * @memberof dc.pieChart
-     * @instance
-     * @param {Number} [cap]
-     * @return {Number}
-     * @return {dc.pieChart}
-     */
-    _chart.slicesCap = _chart.cap;
+    var _x;
 
-    _chart.label(_chart.cappedKeyAccessor);
-    _chart.renderLabel(true);
+    var _elasticX;
 
-    _chart.transitionDuration(350);
+    var _xAxis = d3.svg.axis().orient('bottom');
+
+    var _rowData;
+
+    _chart.rowsCap = _chart.cap;
+
+    function calculateAxisScale () {
+        if (!_x || _elasticX) {
+            var extent = d3.extent(_rowData, _chart.cappedValueAccessor);
+            if (extent[0] > 0) {
+                extent[0] = 0;
+            }
+            if (extent[1] < 0) {
+                extent[1] = 0;
+            }
+            _x = d3.scale.linear().domain(extent)
+                .range([0, _chart.effectiveWidth()]);
+        }
+        _xAxis.scale(_x);
+    }
+
+    function drawAxis () {
+        var axisG = _g.select('g.axis');
+
+        calculateAxisScale();
+
+        if (axisG.empty()) {
+            axisG = _g.append('g').attr('class', 'axis');
+        }
+        axisG.attr('transform', 'translate(0, ' + _chart.effectiveHeight() + ')');
+
+        dc.transition(axisG, _chart.transitionDuration())
+            .call(_xAxis);
+    }
 
     _chart._doRender = function () {
         _chart.resetSvg();
 
-        var _g = _chart.svg()
+        _g = _chart.svg()
             .append('g')
-            .attr('transform', 'translate(' + _chart.cx() + ',' + _chart.cy() + ')');
-
-        _chart.g(_g);
+            .attr('transform', 'translate(' + _chart.margins().left + ',' + _chart.margins().top + ')');
 
         drawChart();
 
         return _chart;
     };
 
+    _chart.title(function (d) {
+        return _chart.cappedKeyAccessor(d) + ': ' + _chart.cappedValueAccessor(d);
+    });
+
+    _chart.label(_chart.cappedKeyAccessor);
+
+    /**
+     * Gets or sets the x scale. The x scale can be any d3
+     * {@link https://github.com/mbostock/d3/wiki/Quantitative-Scales quantitive scale}
+     * @method x
+     * @memberof dc.rowChart
+     * @instance
+     * @see {@link https://github.com/mbostock/d3/wiki/Quantitative-Scales quantitive scale}
+     * @param {d3.scale} [scale]
+     * @return {d3.scale}
+     * @return {dc.rowChart}
+     */
+    _chart.x = function (scale) {
+        if (!arguments.length) {
+            return _x;
+        }
+        _x = scale;
+        return _chart;
+    };
+
+    function drawGridLines () {
+        _g.selectAll('g.tick')
+            .select('line.grid-line')
+            .remove();
+
+        _g.selectAll('g.tick')
+            .append('line')
+            .attr('class', 'grid-line')
+            .attr('x1', 0)
+            .attr('y1', 0)
+            .attr('x2', 0)
+            .attr('y2', function () {
+                return -_chart.effectiveHeight();
+            });
+    }
+
     function drawChart () {
-        // set radius on basis of chart dimension if missing
-        _radius = _givenRadius ? _givenRadius : d3.min([_chart.width(), _chart.height()]) / 2;
+        _rowData = _chart.data();
 
-        var arc = buildArcs();
+        drawAxis();
+        drawGridLines();
 
-        var pie = pieLayout();
-        var pieData;
-        // if we have data...
-        if (d3.sum(_chart.data(), _chart.valueAccessor())) {
-            pieData = pie(_chart.data());
-            _chart.g().classed(_emptyCssClass, false);
-        } else {
-            // otherwise we'd be getting NaNs, so override
-            // note: abuse others for its ignoring the value accessor
-            pieData = pie([{key: _emptyTitle, value: 1, others: [_emptyTitle]}]);
-            _chart.g().classed(_emptyCssClass, true);
-        }
+        var rows = _g.selectAll('g.' + _rowCssClass)
+            .data(_rowData);
 
-        if (_chart.g()) {
-            var slices = _chart.g().selectAll('g.' + _sliceCssClass)
-                .data(pieData);
-
-            createElements(slices, arc, pieData);
-
-            updateElements(pieData, arc);
-
-            removeElements(slices);
-
-            highlightFilter();
-
-            dc.transition(_chart.g(), _chart.transitionDuration())
-                .attr('transform', 'translate(' + _chart.cx() + ',' + _chart.cy() + ')');
-        }
+        createElements(rows);
+        removeElements(rows);
+        updateElements(rows);
     }
 
-    function createElements (slices, arc, pieData) {
-        var slicesEnter = createSliceNodes(slices);
-
-        createSlicePath(slicesEnter, arc);
-
-        _chart._attachTitle(slicesEnter, arc);
-
-        createLabels(pieData, arc);
-    }
-
-    function createSliceNodes (slices) {
-        var slicesEnter = slices
-            .enter()
+    function createElements (rows) {
+        var rowEnter = rows.enter()
             .append('g')
             .attr('class', function (d, i) {
-                return _sliceCssClass + ' _' + i;
-            });
-        return slicesEnter;
-    }
-
-    function createSlicePath (slicesEnter, arc) {
-        var slicePath = slicesEnter.append('path')
-            .attr('fill', fill)
-            .on('click', onClick)
-            .attr('d', function (d, i) {
-                return safeArc(d, i, arc);
+                return _rowCssClass + ' _' + i;
             });
 
-        dc.transition(slicePath, _chart.transitionDuration(), function (s) {
-            s.attrTween('d', tweenPie);
-        });
+        rowEnter.append('rect').attr('width', 0);
+
+        createLabels(rowEnter);
     }
 
-    _chart._applyLabelText = function (labels) {
-        labels
-            .text(function (d) {
-                var data = d.data;
-                if ((sliceHasNoData(data) || sliceTooSmall(d)) && !isSelectedSlice(d)) {
-                    return '';
-                }
-                return _chart.label()(d.data);
-            });
-    };
-
-    function positionLabels (labels, arc) {
-        _chart._applyLabelText(labels);
-        dc.transition(labels, _chart.transitionDuration())
-            .attr('transform', function (d) {
-                return labelPosition(d, arc);
-            })
-            .attr('text-anchor', 'middle');
+    function removeElements (rows) {
+        rows.exit().remove();
     }
 
-    function createLabels (pieData, arc) {
-        if (_chart.renderLabel()) {
-            var labels = _chart.g().selectAll('text.' + _sliceTextCssClass)
-                .data(pieData);
-
-            labels.exit().remove();
-
-            var labelsEnter = labels
-                .enter()
-                .append('text')
-                .attr('class', function (d, i) {
-                    var classes = _sliceTextCssClass + ' _' + i;
-                    if (_externalLabelRadius) {
-                        classes += ' external';
-                    }
-                    return classes;
-                })
-                .on('click', onClick);
-            positionLabels(labelsEnter, arc);
-            if (_externalLabelRadius && _drawPaths) {
-                updateLabelPaths(pieData, arc);
-            }
-        }
+    function rootValue () {
+        var root = _x(0);
+        return (root === -Infinity || root !== root) ? _x(1) : root;
     }
 
-    function updateLabelPaths (pieData, arc) {
-        var polyline = _chart.g().selectAll('polyline.' + _sliceCssClass)
-                .data(pieData);
+    function updateElements (rows) {
+        var n = _rowData.length;
 
-        polyline
-                .enter()
-                .append('polyline')
-                .attr('class', function (d, i) {
-                    return 'pie-path _' + i + ' ' + _sliceCssClass;
-                });
-
-        polyline.exit().remove();
-        dc.transition(polyline, _chart.transitionDuration())
-            .attrTween('points', function (d) {
-                this._current = this._current || d;
-                var interpolate = d3.interpolate(this._current, d);
-                this._current = interpolate(0);
-                return function (t) {
-                    var arc2 = d3.svg.arc()
-                            .outerRadius(_radius - _externalRadiusPadding + _externalLabelRadius)
-                            .innerRadius(_radius - _externalRadiusPadding);
-                    var d2 = interpolate(t);
-                    return [arc.centroid(d2), arc2.centroid(d2)];
-                };
-            })
-            .style('visibility', function (d) {
-                return d.endAngle - d.startAngle < 0.0001 ? 'hidden' : 'visible';
-            });
-
-    }
-
-    function updateElements (pieData, arc) {
-        updateSlicePaths(pieData, arc);
-        updateLabels(pieData, arc);
-    }
-
-    function updateSlicePaths (pieData, arc) {
-        var slicePaths = _chart.g().selectAll('g.' + _sliceCssClass)
-            .data(pieData)
-            .select('path')
-            .attr('d', function (d, i) {
-                return safeArc(d, i, arc);
-            });
-        dc.transition(slicePaths, _chart.transitionDuration(),
-            function (s) {
-                s.attrTween('d', tweenPie);
-            }).attr('fill', fill);
-    }
-
-    function updateLabels (pieData, arc) {
-        if (_chart.renderLabel()) {
-            var labels = _chart.g().selectAll('text.' + _sliceTextCssClass)
-                .data(pieData);
-            positionLabels(labels, arc);
-            if (_externalLabelRadius && _drawPaths) {
-                updateLabelPaths(pieData, arc);
-            }
-        }
-    }
-
-    function removeElements (slices) {
-        slices.exit().remove();
-    }
-
-    function highlightFilter () {
-        if (_chart.hasFilter()) {
-            _chart.selectAll('g.' + _sliceCssClass).each(function (d) {
-                if (isSelectedSlice(d)) {
-                    _chart.highlightSelected(this);
-                } else {
-                    _chart.fadeDeselected(this);
-                }
-            });
+        var height;
+        if (!_fixedBarHeight) {
+            height = (_chart.effectiveHeight() - (n + 1) * _gap) / n;
         } else {
-            _chart.selectAll('g.' + _sliceCssClass).each(function () {
-                _chart.resetHighlight(this);
+            height = _fixedBarHeight;
+        }
+
+        // vertically align label in center unless they override the value via property setter
+        if (!_hasLabelOffsetY) {
+            _labelOffsetY = height / 2;
+        }
+
+        var rect = rows.attr('transform', function (d, i) {
+                return 'translate(0,' + ((i + 1) * _gap + i * height) + ')';
+            }).select('rect')
+            .attr('height', height)
+            .attr('fill', _chart.getColor)
+            .on('click', onClick)
+            .classed('deselected', function (d) {
+                return (_chart.hasFilter()) ? !isSelectedRow(d) : false;
+            })
+            .classed('selected', function (d) {
+                return (_chart.hasFilter()) ? isSelectedRow(d) : false;
             });
+
+        dc.transition(rect, _chart.transitionDuration())
+            .attr('width', function (d) {
+                return Math.abs(rootValue() - _x(_chart.valueAccessor()(d)));
+            })
+            .attr('transform', translateX);
+
+        createTitles(rows);
+        updateLabels(rows);
+    }
+
+    function createTitles (rows) {
+        if (_chart.renderTitle()) {
+            rows.selectAll('title').remove();
+            rows.append('title').text(_chart.title());
+        }
+    }
+
+    function createLabels (rowEnter) {
+        if (_chart.renderLabel()) {
+            rowEnter.append('text')
+                .on('click', onClick);
+        }
+        if (_chart.renderTitleLabel()) {
+            rowEnter.append('text')
+                .attr('class', _titleRowCssClass)
+                .on('click', onClick);
+        }
+    }
+
+    function updateLabels (rows) {
+        if (_chart.renderLabel()) {
+            var lab = rows.select('text')
+                .attr('x', _labelOffsetX)
+                .attr('y', _labelOffsetY)
+                .attr('dy', _dyOffset)
+                .on('click', onClick)
+                .attr('class', function (d, i) {
+                    return _rowCssClass + ' _' + i;
+                })
+                .text(function (d) {
+                    return _chart.label()(d);
+                });
+            dc.transition(lab, _chart.transitionDuration())
+                .attr('transform', translateX);
+        }
+        if (_chart.renderTitleLabel()) {
+            var titlelab = rows.select('.' + _titleRowCssClass)
+                    .attr('x', _chart.effectiveWidth() - _titleLabelOffsetX)
+                    .attr('y', _labelOffsetY)
+                    .attr('dy', _dyOffset)
+                    .attr('text-anchor', 'end')
+                    .on('click', onClick)
+                    .attr('class', function (d, i) {
+                        return _titleRowCssClass + ' _' + i ;
+                    })
+                    .text(function (d) {
+                        return _chart.title()(d);
+                    });
+            dc.transition(titlelab, _chart.transitionDuration())
+                .attr('transform', translateX);
         }
     }
 
     /**
-     * Get or set the external radius padding of the pie chart. This will force the radius of the
-     * pie chart to become smaller or larger depending on the value.
-     * @method externalRadiusPadding
-     * @memberof dc.pieChart
+     * Turn on/off Title label rendering (values) using SVG style of text-anchor 'end'
+     * @method renderTitleLabel
+     * @memberof dc.rowChart
      * @instance
-     * @param {Number} [externalRadiusPadding=0]
-     * @return {Number}
-     * @return {dc.pieChart}
+     * @param {Boolean} [renderTitleLabel=false]
+     * @return {Boolean}
+     * @return {dc.rowChart}
      */
-    _chart.externalRadiusPadding = function (externalRadiusPadding) {
+    _chart.renderTitleLabel = function (renderTitleLabel) {
         if (!arguments.length) {
-            return _externalRadiusPadding;
+            return _renderTitleLabel;
         }
-        _externalRadiusPadding = externalRadiusPadding;
+        _renderTitleLabel = renderTitleLabel;
         return _chart;
     };
 
-    /**
-     * Get or set the inner radius of the pie chart. If the inner radius is greater than 0px then the
-     * pie chart will be rendered as a doughnut chart.
-     * @method innerRadius
-     * @memberof dc.pieChart
-     * @instance
-     * @param {Number} [innerRadius=0]
-     * @return {Number}
-     * @return {dc.pieChart}
-     */
-    _chart.innerRadius = function (innerRadius) {
-        if (!arguments.length) {
-            return _innerRadius;
-        }
-        _innerRadius = innerRadius;
-        return _chart;
-    };
-
-    /**
-     * Get or set the outer radius. If the radius is not set, it will be half of the minimum of the
-     * chart width and height.
-     * @method radius
-     * @memberof dc.pieChart
-     * @instance
-     * @param {Number} [radius]
-     * @return {Number}
-     * @return {dc.pieChart}
-     */
-    _chart.radius = function (radius) {
-        if (!arguments.length) {
-            return _givenRadius;
-        }
-        _givenRadius = radius;
-        return _chart;
-    };
-
-    /**
-     * Get or set center x coordinate position. Default is center of svg.
-     * @method cx
-     * @memberof dc.pieChart
-     * @instance
-     * @param {Number} [cx]
-     * @return {Number}
-     * @return {dc.pieChart}
-     */
-    _chart.cx = function (cx) {
-        if (!arguments.length) {
-            return (_cx ||  _chart.width() / 2);
-        }
-        _cx = cx;
-        return _chart;
-    };
-
-    /**
-     * Get or set center y coordinate position. Default is center of svg.
-     * @method cy
-     * @memberof dc.pieChart
-     * @instance
-     * @param {Number} [cy]
-     * @return {Number}
-     * @return {dc.pieChart}
-     */
-    _chart.cy = function (cy) {
-        if (!arguments.length) {
-            return (_cy ||  _chart.height() / 2);
-        }
-        _cy = cy;
-        return _chart;
-    };
-
-    function buildArcs () {
-        return d3.svg.arc()
-            .outerRadius(_radius - _externalRadiusPadding)
-            .innerRadius(_innerRadius);
+    function onClick (d) {
+        _chart.onClick(d);
     }
 
-    function isSelectedSlice (d) {
-        return _chart.hasFilter(_chart.cappedKeyAccessor(d.data));
+    function translateX (d) {
+        var x = _x(_chart.cappedValueAccessor(d)),
+            x0 = rootValue(),
+            s = x > x0 ? x0 : x;
+        return 'translate(' + s + ',0)';
     }
 
     _chart._doRedraw = function () {
@@ -378,175 +292,135 @@ dc.pieChart = function (parent, chartGroup) {
     };
 
     /**
-     * Get or set the minimal slice angle for label rendering. Any slice with a smaller angle will not
-     * display a slice label.
-     * @method minAngleForLabel
-     * @memberof dc.pieChart
+     * Get the x axis for the row chart instance.  Note: not settable for row charts.
+     * See the {@link https://github.com/mbostock/d3/wiki/SVG-Axes#wiki-axis d3 axis object}
+     * documention for more information.
+     * @method xAxis
+     * @memberof dc.rowChart
      * @instance
-     * @param {Number} [minAngleForLabel=0.5]
-     * @return {Number}
-     * @return {dc.pieChart}
+     * @see {@link https://github.com/mbostock/d3/wiki/SVG-Axes#wiki-axis d3.svg.axis}
+     * @example
+     * // customize x axis tick format
+     * chart.xAxis().tickFormat(function (v) {return v + '%';});
+     * // customize x axis tick values
+     * chart.xAxis().tickValues([0, 100, 200, 300]);
+     * @return {d3.svg.axis}
      */
-    _chart.minAngleForLabel = function (minAngleForLabel) {
+    _chart.xAxis = function () {
+        return _xAxis;
+    };
+
+    /**
+     * Get or set the fixed bar height. Default is [false] which will auto-scale bars.
+     * For example, if you want to fix the height for a specific number of bars (useful in TopN charts)
+     * you could fix height as follows (where count = total number of bars in your TopN and gap is
+     * your vertical gap space).
+     * @method fixedBarHeight
+     * @memberof dc.rowChart
+     * @instance
+     * @example
+     * chart.fixedBarHeight( chartheight - (count + 1) * gap / count);
+     * @param {Boolean|Number} [fixedBarHeight=false]
+     * @return {Boolean|Number}
+     * @return {dc.rowChart}
+     */
+    _chart.fixedBarHeight = function (fixedBarHeight) {
         if (!arguments.length) {
-            return _minAngleForLabel;
+            return _fixedBarHeight;
         }
-        _minAngleForLabel = minAngleForLabel;
-        return _chart;
-    };
-
-    function pieLayout () {
-        return d3.layout.pie().sort(null).value(_chart.cappedValueAccessor);
-    }
-
-    function sliceTooSmall (d) {
-        var angle = (d.endAngle - d.startAngle);
-        return isNaN(angle) || angle < _minAngleForLabel;
-    }
-
-    function sliceHasNoData (d) {
-        return _chart.cappedValueAccessor(d) === 0;
-    }
-
-    function tweenPie (b) {
-        b.innerRadius = _innerRadius;
-        var current = this._current;
-        if (isOffCanvas(current)) {
-            current = {startAngle: 0, endAngle: 0};
-        } else {
-            // only interpolate startAngle & endAngle, not the whole data object
-            current = {startAngle: current.startAngle, endAngle: current.endAngle};
-        }
-        var i = d3.interpolate(current, b);
-        this._current = i(0);
-        return function (t) {
-            return safeArc(i(t), 0, buildArcs());
-        };
-    }
-
-    function isOffCanvas (current) {
-        return !current || isNaN(current.startAngle) || isNaN(current.endAngle);
-    }
-
-    function fill (d, i) {
-        return _chart.getColor(d.data, i);
-    }
-
-    function onClick (d, i) {
-        if (_chart.g().attr('class') !== _emptyCssClass) {
-            _chart.onClick(d.data, i);
-        }
-    }
-
-    function safeArc (d, i, arc) {
-        var path = arc(d, i);
-        if (path.indexOf('NaN') >= 0) {
-            path = 'M0,0';
-        }
-        return path;
-    }
-
-    /**
-     * Title to use for the only slice when there is no data.
-     * @method emptyTitle
-     * @memberof dc.pieChart
-     * @instance
-     * @param {String} [title]
-     * @return {String}
-     * @return {dc.pieChart}
-     */
-    _chart.emptyTitle = function (title) {
-        if (arguments.length === 0) {
-            return _emptyTitle;
-        }
-        _emptyTitle = title;
+        _fixedBarHeight = fixedBarHeight;
         return _chart;
     };
 
     /**
-     * Position slice labels offset from the outer edge of the chart
-     *
-     * The given argument sets the radial offset.
-     * @method externalLabels
-     * @memberof dc.pieChart
+     * Get or set the vertical gap space between rows on a particular row chart instance
+     * @method gap
+     * @memberof dc.rowChart
      * @instance
-     * @param {Number} [externalLabelRadius]
+     * @param {Number} [gap=5]
      * @return {Number}
-     * @return {dc.pieChart}
+     * @return {dc.rowChart}
      */
-    _chart.externalLabels = function (externalLabelRadius) {
-        if (arguments.length === 0) {
-            return _externalLabelRadius;
-        } else if (externalLabelRadius) {
-            _externalLabelRadius = externalLabelRadius;
-        } else {
-            _externalLabelRadius = undefined;
+    _chart.gap = function (gap) {
+        if (!arguments.length) {
+            return _gap;
         }
-
+        _gap = gap;
         return _chart;
     };
 
     /**
-     * Get or set whether to draw lines from pie slices to their labels.
-     *
-     * @method drawPaths
-     * @memberof dc.pieChart
+     * Get or set the elasticity on x axis. If this attribute is set to true, then the x axis will rescle to auto-fit the
+     * data range when filtered.
+     * @method elasticX
+     * @memberof dc.rowChart
      * @instance
-     * @param {Boolean} [drawPaths]
+     * @param {Boolean} [elasticX]
      * @return {Boolean}
-     * @return {dc.pieChart}
+     * @return {dc.rowChart}
      */
-    _chart.drawPaths = function (drawPaths) {
-        if (arguments.length === 0) {
-            return _drawPaths;
+    _chart.elasticX = function (elasticX) {
+        if (!arguments.length) {
+            return _elasticX;
         }
-        _drawPaths = drawPaths;
+        _elasticX = elasticX;
         return _chart;
     };
 
-    function labelPosition (d, arc) {
-        var centroid;
-        if (_externalLabelRadius) {
-            centroid = d3.svg.arc()
-                .outerRadius(_radius - _externalRadiusPadding + _externalLabelRadius)
-                .innerRadius(_radius - _externalRadiusPadding + _externalLabelRadius)
-                .centroid(d);
-        } else {
-            centroid = arc.centroid(d);
+    /**
+     * Get or set the x offset (horizontal space to the top left corner of a row) for labels on a particular row chart.
+     * @method labelOffsetX
+     * @memberof dc.rowChart
+     * @instance
+     * @param {Number} [labelOffsetX=10]
+     * @return {Number}
+     * @return {dc.rowChart}
+     */
+    _chart.labelOffsetX = function (labelOffsetX) {
+        if (!arguments.length) {
+            return _labelOffsetX;
         }
-        if (isNaN(centroid[0]) || isNaN(centroid[1])) {
-            return 'translate(0,0)';
-        } else {
-            return 'translate(' + centroid + ')';
+        _labelOffsetX = labelOffsetX;
+        return _chart;
+    };
+
+    /**
+     * Get or set the y offset (vertical space to the top left corner of a row) for labels on a particular row chart.
+     * @method labelOffsetY
+     * @memberof dc.rowChart
+     * @instance
+     * @param {Number} [labelOffsety=15]
+     * @return {Number}
+     * @return {dc.rowChart}
+     */
+    _chart.labelOffsetY = function (labelOffsety) {
+        if (!arguments.length) {
+            return _labelOffsetY;
         }
-    }
-
-    _chart.legendables = function () {
-        return _chart.data().map(function (d, i) {
-            var legendable = {name: d.key, data: d.value, others: d.others, chart: _chart};
-            legendable.color = _chart.getColor(d, i);
-            return legendable;
-        });
+        _labelOffsetY = labelOffsety;
+        _hasLabelOffsetY = true;
+        return _chart;
     };
 
-    _chart.legendHighlight = function (d) {
-        highlightSliceFromLegendable(d, true);
+    /**
+     * Get of set the x offset (horizontal space between right edge of row and right edge or text.
+     * @method titleLabelOffsetX
+     * @memberof dc.rowChart
+     * @instance
+     * @param {Number} [titleLabelOffsetX=2]
+     * @return {Number}
+     * @return {dc.rowChart}
+     */
+    _chart.titleLabelOffsetX = function (titleLabelOffsetX) {
+        if (!arguments.length) {
+            return _titleLabelOffsetX;
+        }
+        _titleLabelOffsetX = titleLabelOffsetX;
+        return _chart;
     };
 
-    _chart.legendReset = function (d) {
-        highlightSliceFromLegendable(d, false);
-    };
-
-    _chart.legendToggle = function (d) {
-        _chart.onClick({key: d.name, others: d.others});
-    };
-
-    function highlightSliceFromLegendable (legendable, highlighted) {
-        _chart.selectAll('g.pie-slice').each(function (d) {
-            if (legendable.name === d.data.key) {
-                d3.select(this).classed('highlight', highlighted);
-            }
-        });
+    function isSelectedRow (d) {
+        return _chart.hasFilter(_chart.cappedKeyAccessor(d));
     }
 
     return _chart.anchor(parent, chartGroup);
